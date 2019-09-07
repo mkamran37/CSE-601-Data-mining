@@ -1,6 +1,6 @@
 import numpy as np
 def pca(matrix):
-    matrix = np.array([[19.0,63.0],[39.0,74.0],[30.0,87.0],[30.0,23.0],[15.0,35.0],[15.0,43.0],[15.0,32.0],[30.0,73.0]])
+    # matrix = np.array([[19.0,63.0],[39.0,74.0],[30.0,87.0],[30.0,23.0],[15.0,35.0],[15.0,43.0],[15.0,32.0],[30.0,73.0]])
     meanList = []
     n = matrix.shape[0]
     for col in range(matrix.shape[1]):
@@ -17,11 +17,11 @@ def pca(matrix):
 def reduceDimensions(PC1, PC2, n, matrix):
     w, h = 2, matrix.shape[0]
     result = [[0 for x in range(w)] for y in range(h)] 
+    print(PC1)
     for col in range(matrix.shape[0]):
-        result[col][0] = matrix[col][0]*PC1[0] + matrix[col][1]*PC1[1]
-    for col in range(matrix.shape[1]):
-        result[col][1] = matrix[col][0]*PC2[0] + matrix[col][1]*PC2[1]
-    print(result)
+        result[col][0] = np.dot(matrix[col],PC1)
+    for col in range(matrix.shape[0]):
+        result[col][1] = np.dot(matrix[col],PC2)
     return result
 
 def top2(eigenValues, eigenVectors):
@@ -38,9 +38,6 @@ def adjustment(matrix, meanList):
         tmp+=1
     return matrix
 
-if __name__ == "__main__":
-    pca()
-
 #Read files and get data points
 #input : .txt file with n rows and d columns
 #output : an n*d matrix
@@ -53,11 +50,10 @@ def read_data(filepath):
     diseases = np.genfromtxt(filepath, delimiter="\t", dtype=str, usecols=-1)
     return data, diseases
 
-#PCA Algorithm
-#input: n*d matrix
-#output: 2*2 matrix
 
+if __name__ == "__main__":
+    data, diseases = read_data("../../Data/pca_a.txt")
+    # data, diseases = read_data("CSE-601/project1/Data/pca_b.txt")
+    # data, diseases = read_data("CSE-601/project1/Data/pca_c.txt")
+    pca(data)
 
-data, diseases = read_data("CSE-601/project1/Data/pca_a.txt")
-data, diseases = read_data("CSE-601/project1/Data/pca_b.txt")
-data, diseases = read_data("CSE-601/project1/Data/pca_c.txt")
