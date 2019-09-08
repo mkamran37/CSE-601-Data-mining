@@ -11,24 +11,22 @@ def pca(matrix):
     matrix = adjustment(matrix, meanList)
     S = (1/(n-1))*np.matmul(matrix.T,matrix)
     eigenValues, eigenVectors = np.linalg.eig(S)
-    PC1, PC2 = top2(eigenValues, eigenVectors)
+    PC1, PC2 = topN(eigenValues, eigenVectors)
+    print(PC1, PC2)
     return reduceDimensions(PC1, PC2, PC1.shape[0], matrix)
 
 def reduceDimensions(PC1, PC2, n, matrix):
     w, h = 2, matrix.shape[0]
     result = [[0 for x in range(w)] for y in range(h)] 
-    print(PC1)
     for col in range(matrix.shape[0]):
         result[col][0] = np.dot(matrix[col],PC1)
     for col in range(matrix.shape[0]):
         result[col][1] = np.dot(matrix[col],PC2)
     return result
 
-def top2(eigenValues, eigenVectors):
-    result1 = np.where(eigenValues == np.amax(eigenValues))
-    eigenValues = np.delete(eigenValues, result1[0])
-    result2 = np.where(eigenValues == np.amax(eigenValues))
-    return eigenVectors[result1[0][0]],eigenVectors[result2[0][0]]
+def topN(eigenValues, eigenVectors,n = 2):
+    indices = eigenValues.argsort()[::-1][:n]
+    return eigenVectors[indices[0]],eigenVectors[indices[1]]
 
 def adjustment(matrix, meanList):
     tmp = 0
