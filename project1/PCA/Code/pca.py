@@ -25,9 +25,7 @@ def pca(matrix):
     matrix = adjustment(matrix, meanList)
     S = (1/(n-1))*np.matmul(matrix.T,matrix)
     eigenValues, eigenVectors = np.linalg.eig(S)
-    PC1, PC2 = top2(eigenValues, eigenVectors)
-    print(PC1)
-    print(PC2)
+    PC1, PC2 = topN(eigenValues, eigenVectors)
     return reduceDimensions(PC1, PC2, PC1.shape[0], matrix)
 
 def reduceDimensions(PC1, PC2, n, matrix):
@@ -39,13 +37,9 @@ def reduceDimensions(PC1, PC2, n, matrix):
         result[col][1] = np.dot(matrix[col],PC2)
     return result
 
-def top2(eigenValues, eigenVectors):
-    result1 = np.where(eigenValues == np.amax(eigenValues))
-    print(eigenValues)
-    eigenValues = np.delete(eigenValues, result1[0])
-    print(eigenValues)
-    result2 = np.where(eigenValues == np.amax(eigenValues))
-    return eigenVectors[result1[0][0]],eigenVectors[result2[0][0]]
+def topN(eigenValues, eigenVectors,n = 2):
+    indices = eigenValues.argsort()[::-1][:n]
+    return eigenVectors[indices[0]],eigenVectors[indices[1]]
 
 def adjustment(matrix, meanList):
     tmp = 0
@@ -64,9 +58,7 @@ def scatter_plot(matrix, diseases):
 if __name__ == "__main__":
     data, diseases = read_data("CSE-601/project1/Data/pca_a.txt")
     matrix = pca(data)
-    # print(matrix)
-    # print(np.array(matrix)[:,0])
-    # print(np.array(matrix)[:,1])
+    print(matrix)
     scatter_plot(matrix, diseases)
     data, diseases = read_data("CSE-601/project1/Data/pca_b.txt")
     data, diseases = read_data("CSE-601/project1/Data/pca_c.txt")
