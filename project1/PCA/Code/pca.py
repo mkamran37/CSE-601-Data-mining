@@ -1,9 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+import seaborn as sns
 
-#Read files and get data points
-#input : .txt file with n rows and d columns
-#output : an n*d matrix
+# Read files and get data points
+# input : .txt file with n rows and d columns
+# output : an n*d matrix
 def read_data(filepath):
     #Read data from text file as numpy ndarray
     data = np.genfromtxt(filepath, delimiter="\t")
@@ -14,7 +16,6 @@ def read_data(filepath):
     return data, diseases
 
 def pca(matrix):
-    # matrix = np.array([[19.0,63.0],[39.0,74.0],[30.0,87.0],[30.0,23.0],[15.0,35.0],[15.0,43.0],[15.0,32.0],[30.0,73.0]])
     meanList = []
     n = matrix.shape[0]
     for col in range(matrix.shape[1]):
@@ -28,6 +29,7 @@ def pca(matrix):
     PC1, PC2 = topN(eigenValues, eigenVectors)
     return reduceDimensions(PC1, PC2, PC1.shape[0], matrix)
 
+# Reducing d dimensions to 2 dimensions
 def reduceDimensions(PC1, PC2, n, matrix):
     w, h = 2, matrix.shape[0]
     result = [[0 for x in range(w)] for y in range(h)] 
@@ -49,16 +51,19 @@ def adjustment(matrix, meanList):
         tmp+=1
     return matrix
 
-#Scatter Plot
+# Data Visualization: Scatter Plot
 def scatter_plot(matrix, diseases):
-    plt.scatter(np.array(matrix)[:,0], np.array(matrix)[:,1])
-    # colorbar = plt.colorbar()
+    df = pd.DataFrame({'PC1':np.array(matrix)[:,0], 'PC2':np.array(matrix)[:,1], 'DISEASES': diseases})
+    sns.lmplot(x='PC1', y='PC2', data=df, fit_reg=False, hue='DISEASES')
     plt.show()
 
 if __name__ == "__main__":
     data, diseases = read_data("CSE-601/project1/Data/pca_a.txt")
     matrix = pca(data)
-    print(matrix)
     scatter_plot(matrix, diseases)
     data, diseases = read_data("CSE-601/project1/Data/pca_b.txt")
+    matrix = pca(data)
+    scatter_plot(matrix, diseases)
     data, diseases = read_data("CSE-601/project1/Data/pca_c.txt")
+    matrix = pca(data)
+    scatter_plot(matrix, diseases)
