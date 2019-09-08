@@ -1,9 +1,20 @@
-<<<<<<< HEAD
 import matplotlib.pyplot as plt
-=======
 import numpy as np
+
+#Read files and get data points
+#input : .txt file with n rows and d columns
+#output : an n*d matrix
+def read_data(filepath):
+    #Read data from text file as numpy ndarray
+    data = np.genfromtxt(filepath, delimiter="\t")
+    #Removed the last column(diseases) from data ndarray
+    data = np.delete(data, -1, axis=1)
+    #Read last column(diseases) into a seperate array
+    diseases = np.genfromtxt(filepath, delimiter="\t", dtype=str, usecols=-1)
+    return data, diseases
+
 def pca(matrix):
-    matrix = np.array([[19.0,63.0],[39.0,74.0],[30.0,87.0],[30.0,23.0],[15.0,35.0],[15.0,43.0],[15.0,32.0],[30.0,73.0]])
+    # matrix = np.array([[19.0,63.0],[39.0,74.0],[30.0,87.0],[30.0,23.0],[15.0,35.0],[15.0,43.0],[15.0,32.0],[30.0,73.0]])
     meanList = []
     n = matrix.shape[0]
     for col in range(matrix.shape[1]):
@@ -22,9 +33,8 @@ def reduceDimensions(PC1, PC2, n, matrix):
     result = [[0 for x in range(w)] for y in range(h)] 
     for col in range(matrix.shape[0]):
         result[col][0] = matrix[col][0]*PC1[0] + matrix[col][1]*PC1[1]
-    for col in range(matrix.shape[1]):
+    for col in range(matrix.shape[0]):
         result[col][1] = matrix[col][0]*PC2[0] + matrix[col][1]*PC2[1]
-    print(result)
     return result
 
 def top2(eigenValues, eigenVectors):
@@ -41,38 +51,17 @@ def adjustment(matrix, meanList):
         tmp+=1
     return matrix
 
-if __name__ == "__main__":
-    pca()
->>>>>>> 292f29aad523ff217467556750907368b6f3c1bd
-
-#Read files and get data points
-#input : .txt file with n rows and d columns
-#output : an n*d matrix
-def read_data(filepath):
-    #Read data from text file as numpy ndarray
-    data = np.genfromtxt(filepath, delimiter="\t")
-    #Removed the last column(diseases) from data ndarray
-    data = np.delete(data, -1, axis=1)
-    #Read last column(diseases) into a seperate array
-    diseases = np.genfromtxt(filepath, delimiter="\t", dtype=str, usecols=-1)
-    return data, diseases
-
-#PCA Algorithm
-#input: n*d matrix
-#output: 2*2 matrix
-<<<<<<< HEAD
-def pca(matrix):
-    #TODO
-
 #Scatter Plot
-def scatter_plot(data, diseases):
-    plt.scatter(data[:,0], data[:,1], c=diseases)
-    colorbar = plt.colorbar()
+def scatter_plot(matrix, diseases):
+    plt.scatter(np.array(matrix)[:,0], np.array(matrix)[:,1])
+    # colorbar = plt.colorbar()
     plt.show()
-=======
 
-
-data, diseases = read_data("CSE-601/project1/Data/pca_a.txt")
-data, diseases = read_data("CSE-601/project1/Data/pca_b.txt")
-data, diseases = read_data("CSE-601/project1/Data/pca_c.txt")
->>>>>>> 292f29aad523ff217467556750907368b6f3c1bd
+if __name__ == "__main__":
+    data, diseases = read_data("CSE-601/project1/Data/pca_a.txt")
+    matrix = pca(data)
+    print(np.array(matrix)[:,0])
+    print(np.array(matrix)[:,1])
+    scatter_plot(matrix, diseases)
+    data, diseases = read_data("CSE-601/project1/Data/pca_b.txt")
+    data, diseases = read_data("CSE-601/project1/Data/pca_c.txt")
