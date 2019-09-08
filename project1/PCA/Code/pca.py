@@ -1,7 +1,21 @@
+import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+import seaborn as sns
+
+# Read files and get data points
+# input : .txt file with n rows and d columns
+# output : an n*d matrix
+def read_data(filepath):
+    #Read data from text file as numpy ndarray
+    data = np.genfromtxt(filepath, delimiter="\t")
+    #Removed the last column(diseases) from data ndarray
+    data = np.delete(data, -1, axis=1)
+    #Read last column(diseases) into a seperate array
+    diseases = np.genfromtxt(filepath, delimiter="\t", dtype=str, usecols=-1)
+    return data, diseases
 
 def pca(matrix):
-    # matrix = np.array([[19.0,63.0],[39.0,74.0],[30.0,87.0],[30.0,23.0],[15.0,35.0],[15.0,43.0],[15.0,32.0],[30.0,73.0]])
     meanList = []
     n = matrix.shape[0]
     for col in range(matrix.shape[1]):
@@ -13,9 +27,9 @@ def pca(matrix):
     S = (1/(n-1))*np.matmul(matrix.T,matrix)
     eigenValues, eigenVectors = np.linalg.eig(S)
     PC1, PC2 = topN(eigenValues, eigenVectors)
-    print(PC1, PC2)
     return reduceDimensions(PC1, PC2, PC1.shape[0], matrix)
 
+# Reducing d dimensions to 2 dimensions
 def reduceDimensions(PC1, PC2, n, matrix):
     w, h = 2, matrix.shape[0]
     result = [[0 for x in range(w)] for y in range(h)] 
@@ -37,22 +51,19 @@ def adjustment(matrix, meanList):
         tmp+=1
     return matrix
 
-#Read files and get data points
-#input : .txt file with n rows and d columns
-#output : an n*d matrix
-def read_data(filepath):
-    #Read data from text file as numpy ndarray
-    data = np.genfromtxt(filepath, delimiter="\t")
-    #Removed the last column(diseases) from data ndarray
-    data = np.delete(data, -1, axis=1)
-    #Read last column(diseases) into a seperate array
-    diseases = np.genfromtxt(filepath, delimiter="\t", dtype=str, usecols=-1)
-    return data, diseases
-
+# Data Visualization: Scatter Plot
+def scatter_plot(matrix, diseases):
+    df = pd.DataFrame({'PC1':np.array(matrix)[:,0], 'PC2':np.array(matrix)[:,1], 'DISEASES': diseases})
+    sns.lmplot(x='PC1', y='PC2', data=df, fit_reg=False, hue='DISEASES')
+    plt.show()
 
 if __name__ == "__main__":
-    data, diseases = read_data("../../Data/pca_a.txt")
-    # data, diseases = read_data("CSE-601/project1/Data/pca_b.txt")
-    # data, diseases = read_data("CSE-601/project1/Data/pca_c.txt")
-    pca(data)
-
+    data, diseases = read_data("CSE-601/project1/Data/pca_a.txt")
+    matrix = pca(data)
+    scatter_plot(matrix, diseases)
+    data, diseases = read_data("CSE-601/project1/Data/pca_b.txt")
+    matrix = pca(data)
+    scatter_plot(matrix, diseases)
+    data, diseases = read_data("CSE-601/project1/Data/pca_c.txt")
+    matrix = pca(data)
+    scatter_plot(matrix, diseases)
