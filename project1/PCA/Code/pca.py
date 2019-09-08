@@ -31,10 +31,11 @@ def pca(matrix):
 def reduceDimensions(PC1, PC2, n, matrix):
     w, h = 2, matrix.shape[0]
     result = [[0 for x in range(w)] for y in range(h)] 
+    print(PC1)
     for col in range(matrix.shape[0]):
-        result[col][0] = matrix[col][0]*PC1[0] + matrix[col][1]*PC1[1]
+        result[col][0] = np.dot(matrix[col],PC1)
     for col in range(matrix.shape[0]):
-        result[col][1] = matrix[col][0]*PC2[0] + matrix[col][1]*PC2[1]
+        result[col][1] = np.dot(matrix[col],PC2)
     return result
 
 def top2(eigenValues, eigenVectors):
