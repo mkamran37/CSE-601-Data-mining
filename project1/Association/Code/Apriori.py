@@ -18,32 +18,72 @@ def read_data(filepath):
         for j in range(data.shape[1]):
             data[i][j] = 'G'+str(t)+'_'+data[i][j]
             t+=1
-    return data
-
+    return np.ndarray.tolist(data)
 def frequentSetGeneration(data, min_sup = 0.5):
     K = 1
-    C = {}
     L = []
-    size = data.shape[0]
-    for row in range(data.shape[0]):
-        for col in range(data.shape[1]):
+    prev = []
+    size = len(data)
+    L = generate1ItemSet(data)
+    prev = L
+    currL = len(L)
+    while True:
+        K += 1
+        l = set()
+        for a in L:
+            for b in L:
+                tmp = a | b
+                if len(tmp) == K:
+                    l.add(frozenset(tmp))
+        dataSet = convertToSet(data)
+        L = []
+        for a in l:
+            count = 0
+            for i in range(len(dataSet)):
+                if a.issubset(dataSet[i]):
+                    count+=1
+            if count/size >= min_sup:
+                L.append(a)
+        if len(L) == currL or len(L) == 0:
+            break
+        else:
+            printUtil(len(L),K)
+            prev = L
+    print(prev)
+
+
+def generate1ItemSet(data, min_sup = 0.5):
+    C = {}
+    size = len(data)
+    L = []
+    for row in range(len(data)):
+        for col in range(len(data[0])):
             if data[row][col] in C:
                 C[data[row][col]] += 1
             else:
                 C[data[row][col]] = 1
-    tmp = []
     count = 0
-    for i, item in enumerate(C):
+    for item in C:
         if C[item]/size > min_sup:
-            tmp[i] = item
+            tmp = set()
+            tmp.add(item)
+            L.append(tmp)
             count+=1
-    print("Number of length 1 frequent itemsets "+count)
-    L.append(tmp)
-    K += 1
-    C = {}
-    for i in range(len(tmp) - 1):
-        for j in range(i+1,len(tmp)):
-            
+    printUtil(len(L), 1)
+    return L
+
+def convertToSet(dataList):
+    dataSet = list()
+    for row in dataList:
+        tmp = set()
+        for col in row:
+            tmp.add(col)
+        dataSet.append(tmp)
+    return dataSet
+
+
+def printUtil(count, K):
+    print("Number of length {} frequent itemsets {}".format(K,count))
     
     
 
