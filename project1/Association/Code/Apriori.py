@@ -19,37 +19,34 @@ def read_data(filepath):
             data[i][j] = 'G'+str(t)+'_'+data[i][j]
             t+=1
     return np.ndarray.tolist(data)
+
 def frequentSetGeneration(data, min_sup = 0.5):
     K = 1
     L = []
-    prev = []
     size = len(data)
     L = generate1ItemSet(data)
-    prev = L
-    currL = len(L)
+    dataSet = convertToSet(data)
     while True:
         K += 1
         l = set()
         for a in L:
             for b in L:
                 tmp = a | b
+                tmp = sorted(tmp)
                 if len(tmp) == K:
                     l.add(frozenset(tmp))
-        dataSet = convertToSet(data)
         L = []
         for a in l:
             count = 0
-            for i in range(len(dataSet)):
-                if a.issubset(dataSet[i]):
+            for i in dataSet:
+                if a.issubset(i):
                     count+=1
             if count/size >= min_sup:
                 L.append(a)
-        if len(L) == currL or len(L) == 0:
+        if len(L) == 0:
             break
         else:
             printUtil(len(L),K)
-            prev = L
-    print(prev)
 
 
 def generate1ItemSet(data, min_sup = 0.5):
@@ -90,4 +87,3 @@ def printUtil(count, K):
 if __name__ == "__main__":
     data = read_data("../../Data/assrules.txt")
     frequentSetGeneration(data)
-    # print(data[0])
