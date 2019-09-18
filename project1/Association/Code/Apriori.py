@@ -23,8 +23,10 @@ def read_data(filepath):
 def frequentSetGeneration(data, min_sup = 0.5):
     K = 1
     L = []
+    result = dict()
     size = len(data)
-    L = generate1ItemSet(data)
+    L, dictionary = generate1ItemSet(data)
+    result = dictionary
     dataSet = convertToSet(data)
     while True:
         K += 1
@@ -43,16 +45,19 @@ def frequentSetGeneration(data, min_sup = 0.5):
                     count+=1
             if count/size >= min_sup:
                 L.append(a)
+                result[a] = count
         if len(L) == 0:
             break
         else:
             printUtil(len(L),K)
+    return result
 
 
 def generate1ItemSet(data, min_sup = 0.5):
     C = {}
     size = len(data)
     L = []
+    dictionary = dict()
     for row in range(len(data)):
         for col in range(len(data[0])):
             if data[row][col] in C:
@@ -64,10 +69,11 @@ def generate1ItemSet(data, min_sup = 0.5):
         if C[item]/size > min_sup:
             tmp = set()
             tmp.add(item)
+            dictionary[frozenset(tmp)] = C[item]
             L.append(tmp)
             count+=1
     printUtil(len(L), 1)
-    return L
+    return L, dictionary
 
 def convertToSet(dataList):
     dataSet = list()
