@@ -47,6 +47,7 @@ def frequentSetGeneration(data, min_sup = 0.5):
             break
         else:
             printUtil(len(L),K)
+        
 
 
 def generate1ItemSet(data, min_sup = 0.5):
@@ -86,4 +87,5 @@ def printUtil(count, K):
 
 if __name__ == "__main__":
     data = read_data("../../Data/assrules.txt")
-    frequentSetGeneration(data)
+    # data = read_data("CSE-601/project1/Data/associationruletestdata.txt")
+    frequentSetGeneration(data)     
