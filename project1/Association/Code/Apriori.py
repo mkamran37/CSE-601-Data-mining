@@ -12,10 +12,10 @@ import itertools as it
 def read_data(filepath):
     #Read data from text file as numpy ndarray
     data = np.genfromtxt(filepath, dtype='str', delimiter="\t")
-    data = np.delete(data, -1, axis=1)
+    # data = np.delete(data, -1, axis=1)
     for i in range(data.shape[0]):
         t = 0
-        for j in range(data.shape[1]):
+        for j in range(data.shape[1] - 1):
             data[i][j] = 'G'+str(t)+'_'+data[i][j]
             t+=1
     return np.ndarray.tolist(data)
@@ -83,7 +83,6 @@ def convertToSet(dataList):
             tmp.add(col)
         dataSet.append(tmp)
     return dataSet
-
 
 def printUtil(count, K):
     print("Number of length {} frequent itemsets {}".format(K,count))
