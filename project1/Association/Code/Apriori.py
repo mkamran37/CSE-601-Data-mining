@@ -50,11 +50,7 @@ def frequentSetGeneration(data, min_sup = 0.5):
             break
         else:
             printUtil(len(L),K)
-<<<<<<< HEAD
-        
-=======
     return result
->>>>>>> master
 
 
 def generate1ItemSet(data, min_sup = 0.5):
