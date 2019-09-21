@@ -8,9 +8,9 @@ class AssocRule:
     def __init__(self, min_sup, min_conf, filePath):
         self.min_sup = min_sup
         self.min_conf = min_conf
-        self.freqItemsets = frequentSetGeneration(read_data(filePath))
+        self.freqItemsets = frequentSetGeneration(read_data(filePath), min_sup = self.min_sup)
         self.rules = []
-        self.associationRules()
+        self.associationRules()        
 
     def associationRules(self):
         for freqItemset in self.freqItemsets:
@@ -137,7 +137,9 @@ def saveResultToFile(result, cnt):
 
 if __name__ == "__main__":
     filePath = "CSE-601/project1/Data/associationruletestdata.txt"
-    assoc_rule = AssocRule(0.5, 0.5, filePath)
+    min_sup = input("Enter minimum support (in %): ")
+    min_conf = input("Enter minimum confidence (in %): ")
+    assoc_rule = AssocRule(int(min_sup)/100, int(min_conf)/100, filePath)
     # result, cnt = assoc_rule.associationRules()
     # result, cnt = assoc_rule.template1("HEAD", 2, ['G58_Up', 'G71_Up'])
     # result, cnt = assoc_rule.template2("RULE", 1)

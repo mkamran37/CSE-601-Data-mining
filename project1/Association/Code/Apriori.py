@@ -20,12 +20,12 @@ def read_data(filepath):
             t+=1
     return np.ndarray.tolist(data)
 
-def frequentSetGeneration(data, min_sup = 0.5):
+def frequentSetGeneration(data, min_sup = 0.6):
     K = 1
     L = []
     result = dict()
     size = len(data)
-    L, dictionary = generate1ItemSet(data)
+    L, dictionary = generate1ItemSet(data, min_sup)
     result = dictionary
     dataSet = convertToSet(data)
     while True:
@@ -53,20 +53,20 @@ def frequentSetGeneration(data, min_sup = 0.5):
     return result
 
 
-def generate1ItemSet(data, min_sup = 0.5):
+def generate1ItemSet(data, min_sup):
     C = {}
     size = len(data)
     L = []
     dictionary = dict()
     for row in range(len(data)):
-        for col in range(len(data[0])):
+        for col in range(len(data[row])):
             if data[row][col] in C:
                 C[data[row][col]] += 1
             else:
                 C[data[row][col]] = 1
     count = 0
     for item in C:
-        if C[item]/size > min_sup:
+        if C[item]/size >= min_sup:
             tmp = set()
             tmp.add(item)
             dictionary[frozenset(tmp)] = C[item]
@@ -87,9 +87,8 @@ def convertToSet(dataList):
 def printUtil(count, K):
     print("Number of length {} frequent itemsets {}".format(K,count))
     
-    
 
 if __name__ == "__main__":
-    data = read_data("../../Data/assrules.txt")
-    # data = read_data("CSE-601/project1/Data/associationruletestdata.txt")
+    # data = read_data("../../Data/assrules.txt")
+    data = read_data("CSE-601/project1/Data/associationruletestdata.txt")
     frequentSetGeneration(data)     
