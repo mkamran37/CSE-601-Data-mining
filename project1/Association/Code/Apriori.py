@@ -5,14 +5,13 @@
 #Step1: Generate all the 1-itemset along with their support
 #Step2: Remove all itemsets whose support<min_sup
 #Step3: K=K+1
-#repeat the above steps till Lk-1 == Lk;
+#repeat the above steps till |Lk| == 0;
 import numpy as np
 import itertools as it
 
 def read_data(filepath):
     #Read data from text file as numpy ndarray
     data = np.genfromtxt(filepath, dtype='str', delimiter="\t")
-    # data = np.delete(data, -1, axis=1)
     for i in range(data.shape[0]):
         t = 0
         for j in range(data.shape[1] - 1):
@@ -20,7 +19,7 @@ def read_data(filepath):
             t+=1
     return np.ndarray.tolist(data)
 
-def frequentSetGeneration(data, min_sup = 0.6):
+def frequentSetGeneration(data, min_sup = 0.5):
     K = 1
     L = []
     result = dict()
@@ -89,6 +88,7 @@ def printUtil(count, K):
     
 
 if __name__ == "__main__":
-    # data = read_data("../../Data/assrules.txt")
-    data = read_data("CSE-601/project1/Data/associationruletestdata.txt")
+    data = read_data("../../Data/assrules.txt")
+    min_sup = input("Enter minimum support (in %): ")
+    # data = read_data("CSE-601/project1/Data/associationruletestdata.txt")
     frequentSetGeneration(data)     

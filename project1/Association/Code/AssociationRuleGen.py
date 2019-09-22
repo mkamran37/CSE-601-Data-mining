@@ -133,10 +133,11 @@ def saveResultToFile(result, cnt):
     f.write("Number of rules generated: " + str(cnt) + "\n\n")
     for rule in result:
         f.write(str(set(rule[0])) + " -> " + str(set(rule[1])) + "\n")
-    f.close();
+    f.close()
 
 if __name__ == "__main__":
-    filePath = "CSE-601/project1/Data/associationruletestdata.txt"
+    # filePath = "CSE-601/project1/Data/associationruletestdata.txt"
+    filePath = "../../Data/assrules.txt"
     min_sup = input("Enter minimum support (in %): ")
     min_conf = input("Enter minimum confidence (in %): ")
     assoc_rule = AssocRule(int(min_sup)/100, int(min_conf)/100, filePath)
