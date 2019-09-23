@@ -1,0 +1,10 @@
+Number of rules generated: 8
+
+{'G81_Down'} -> {'G58_Up'}
+{'G81_Down'} -> {'G71_Up'}
+{'G81_Down'} -> {'G12_Down'}
+{'G81_Down'} -> {'G96_Down'}
+{'G81_Down'} -> {'G95_Down'}
+{'G81_Down', 'G71_Up'} -> {'G58_Up'}
+{'G81_Down', 'G58_Up'} -> {'G71_Up'}
+{'G81_Down'} -> {'G58_Up', 'G71_Up'}
