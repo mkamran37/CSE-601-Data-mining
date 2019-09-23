@@ -91,4 +91,4 @@ if __name__ == "__main__":
     data = read_data("../../Data/assrules.txt")
     min_sup = input("Enter minimum support (in %): ")
     # data = read_data("CSE-601/project1/Data/associationruletestdata.txt")
-    frequentSetGeneration(data)     
+    frequentSetGeneration(data, min_sup)     

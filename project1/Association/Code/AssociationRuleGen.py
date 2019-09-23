@@ -128,21 +128,60 @@ class AssocRule:
             return res1 or res2
 
 # Saving query results to a file 
-def saveResultToFile(result, cnt):
-    f = open("results.txt", "w+")
+def saveResultToFile(result, cnt, templateNum, template):
+    f = open("results.txt", "a+")
+    f.write(templateNum + ": " + template + "\n")
     f.write("Number of rules generated: " + str(cnt) + "\n\n")
     for rule in result:
         f.write(str(set(rule[0])) + " -> " + str(set(rule[1])) + "\n")
+<<<<<<< HEAD
+    f.write("\n");
+    f.close();
+=======
     f.close()
+>>>>>>> master
 
 if __name__ == "__main__":
     # filePath = "CSE-601/project1/Data/associationruletestdata.txt"
     filePath = "../../Data/assrules.txt"
     min_sup = input("Enter minimum support (in %): ")
     min_conf = input("Enter minimum confidence (in %): ")
-    assoc_rule = AssocRule(int(min_sup)/100, int(min_conf)/100, filePath)
-    # result, cnt = assoc_rule.associationRules()
-    # result, cnt = assoc_rule.template1("HEAD", 2, ['G58_Up', 'G71_Up'])
-    # result, cnt = assoc_rule.template2("RULE", 1)
-    result, cnt = assoc_rule.template3("1or1", "HEAD", "ANY", ['G81_Down'], "BODY", 1, ['G59_Up'])
-    saveResultToFile(result, cnt)
+    asso_rule = AssocRule(int(min_sup)/100, int(min_conf)/100, filePath)
+    (result11, cnt) = asso_rule.template1("RULE", "ANY", ['G59_Up']) 
+    saveResultToFile(result11, cnt, "Template1", "RULE|ANY|['G59_Up']")
+    (result12, cnt) = asso_rule.template1("RULE", "NONE", ['G59_Up']) 
+    saveResultToFile(result12, cnt, "Template1", "RULE|NONE|['G59_Up']")
+    (result13, cnt) = asso_rule.template1("RULE", 1, ['G59_Up', 'G10_Down']) 
+    saveResultToFile(result13, cnt, "Template1", "RULE|1|['G59_Up']")
+    (result14, cnt) = asso_rule.template1("HEAD", "ANY", ['G59_Up'])
+    saveResultToFile(result14, cnt, "Template1", "HEAD|ANY|['G59_Up']")
+    (result15, cnt) = asso_rule.template1("HEAD", "NONE", ['G59_Up']) 
+    saveResultToFile(result15, cnt, "Template1", "HEAD|NONE|['G59_Up']")
+    (result16, cnt) = asso_rule.template1("HEAD", 1, ['G59_Up', 'G10_Down']) 
+    saveResultToFile(result16, cnt, "Template1", "HEAD|1|['G59_Up', 'G10_Down']")
+    (result17, cnt) = asso_rule.template1("BODY", "ANY", ['G59_Up']) 
+    saveResultToFile(result17, cnt, "Template1", "BODY|ANY|['G59_Up']")
+    (result18, cnt) = asso_rule.template1("BODY", "NONE", ['G59_Up']) 
+    saveResultToFile(result18, cnt, "Template1", "BODY|NONE|['G59_Up']")
+    (result19, cnt) = asso_rule.template1("BODY", 1, ['G59_UP', 'G10_Down']) 
+    saveResultToFile(result19, cnt, "Template1", "BODY|1|['G59_UP', 'G10_Down']")
+
+    (result21, cnt) = asso_rule.template2("RULE", 3) 
+    saveResultToFile(result21, cnt, "Template2", "RULE|3")
+    (result22, cnt) = asso_rule.template2("HEAD", 2) 
+    saveResultToFile(result22, cnt, "Template2", "HEAD|2")
+    (result23, cnt) = asso_rule.template2("BODY", 1)
+    saveResultToFile(result23, cnt, "Template2", "BODY|1") 
+
+    (result31, cnt) = asso_rule.template3("1or1", "HEAD", "ANY", ['G10_Down'], "BODY", 1, ['G59_Up']) 
+    saveResultToFile(result31, cnt, "Template3", "1or1|HEAD|ANY|['G10_Down']|BODY|1|['G59_UP']")
+    (result32, cnt) = asso_rule.template3("1and1", "HEAD", "ANY", ['G10_Down'], "BODY", 1, ['G59_Up']) 
+    saveResultToFile(result32, cnt, "Template3", "1and1|HEAD|ANY|['G10_Down']|BODY|1|['G59_Up']")
+    (result33, cnt) = asso_rule.template3("1or2", "HEAD", "ANY", ['G10_Down'], "BODY", 2) 
+    saveResultToFile(result33, cnt, "Template3", "1or2|HEAD|ANY|['G10_Down']|BODY|2")
+    (result34, cnt) = asso_rule.template3("1and2", "HEAD", "ANY", ['G10_Down'], "BODY", 2) 
+    saveResultToFile(result34, cnt, "Template3", "1and2|HEAD|ANY|['G10_Down']|BODY|2")
+    (result35, cnt) = asso_rule.template3("2or2", "HEAD", 1, "BODY", 2) 
+    saveResultToFile(result35, cnt, "Template3", "2or2|HEAD|1|BODY|2")
+    (result36, cnt) = asso_rule.template3("2and2", "HEAD", 1, "BODY", 2) 
+    saveResultToFile(result36, cnt, "Template3", "2and2|HEAD|1|BODY|2")
