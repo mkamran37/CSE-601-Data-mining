@@ -20,7 +20,7 @@ def read_data(filepath):
             t+=1
     return np.ndarray.tolist(data)
 
-def frequentSetGeneration(data, min_sup = 0.6):
+def frequentSetGeneration(data, min_sup = 0.5):
     K = 1
     L = []
     result = dict()
