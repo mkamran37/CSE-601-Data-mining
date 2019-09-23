@@ -41,6 +41,7 @@ class AssocRule:
 
             prev = temp
             self.rules += temp
+
             size -= 1
 
     def checkMinConfidence(self, rule):
@@ -55,6 +56,7 @@ class AssocRule:
         for rule in self.rules:
             if self.checkTemplate1(rule, cond, count, items):
                 result.append(rule)
+        result = self.removeDuplicates(result)
         return result, len(result)
 
     def checkTemplate1(self, rule, cond, count, items):
@@ -93,6 +95,7 @@ class AssocRule:
         for rule in self.rules:
             if self.checkTemplate2(rule, cond, count):
                 result.append(rule)
+        result = self.removeDuplicates(result)
         return result, len(result)
 
     def checkTemplate2(self, rule, cond, count):
@@ -109,23 +112,29 @@ class AssocRule:
         for rule in self.rules:
             if self.checkTemplate3(rule, args):
                 result.append(rule)
+        result = self.removeDuplicates(result)
         return result, len(result)
 
     def checkTemplate3(self, rule, args):
         condition = args[0]
-        if condition[0] == '1':
+        if condition[0] == '1' and condition[-1] == '1':
             res1 = self.checkTemplate1(rule, args[1], args[2], args[3])
-        elif condition[0] == '2':
-            res1 = self.checkTemplate2(rule, args[1], args[2])
-        if condition[-1] == '1':
             res2 = self.checkTemplate1(rule, args[4], args[5], args[6])
-        elif condition[-1] == '2':
+        elif condition[0] == '1' and condition[-1] == '2':
+            res1 = self.checkTemplate1(rule, args[1], args[2], args[3])
+            res2 = self.checkTemplate2(rule, args[4], args[5])
+        elif condition[0] == '2' and condition[-1] == '2':
+            res1 = self.checkTemplate2(rule, args[1], args[2])
             res2 = self.checkTemplate2(rule, args[3], args[4])
 
         if condition[1:-1] == 'and':
             return res1 and res2
         elif condition[1:-1] == 'or':
             return res1 or res2
+
+    def removeDuplicates(self, result):
+        resultList = set(tuple(x) for x in result)
+        return [list(x) for x in resultList]
 
 # Saving query results to a file 
 def saveResultToFile(result, cnt, templateNum, template):
@@ -138,14 +147,14 @@ def saveResultToFile(result, cnt, templateNum, template):
     f.close();
 
 if __name__ == "__main__":
-    # filePath = "CSE-601/project1/Data/associationruletestdata.txt"
-    filePath = "../../Data/assrules.txt"
+    filePath = "CSE-601/project1/Data/associationruletestdata.txt"
+    # filePath = "../../Data/assrules.txt"
     min_sup = input("Enter minimum support (in %): ")
     min_conf = input("Enter minimum confidence (in %): ")
     asso_rule = AssocRule(int(min_sup)/100, int(min_conf)/100, filePath)
     (result11, cnt) = asso_rule.template1("RULE", "ANY", ['G59_Up']) 
     saveResultToFile(result11, cnt, "Template1", "RULE|ANY|['G59_Up']")
-    (result12, cnt) = asso_rule.template1("RULE", "NONE", ['G59_Up']) 
+    (result12, cnt) = asso_rule.template1("RULE", "NONE", ['G59_Up'])
     saveResultToFile(result12, cnt, "Template1", "RULE|NONE|['G59_Up']")
     (result13, cnt) = asso_rule.template1("RULE", 1, ['G59_Up', 'G10_Down']) 
     saveResultToFile(result13, cnt, "Template1", "RULE|1|['G59_Up']")
