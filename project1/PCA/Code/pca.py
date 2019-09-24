@@ -52,18 +52,19 @@ def adjustment(matrix, meanList):
     return matrix
 
 # Data Visualization: Scatter Plot
-def scatter_plot(matrix, diseases):
+def scatter_plot(matrix, diseases, dataFIle, algorithm):
     df = pd.DataFrame({'PC1':np.array(matrix)[:,0], 'PC2':np.array(matrix)[:,1], 'DISEASES': diseases})
-    sns.lmplot(x='PC1', y='PC2', data=df, fit_reg=False, hue='DISEASES')
+    pt = sns.lmplot(x='PC1', y='PC2', data=df, fit_reg=False, hue='DISEASES')
+    pt.fig.suptitle("Algorithm: " + algorithm + "  " + "Dataset: " + dataFIle)
     plt.show()
 
 if __name__ == "__main__":
     data, diseases = read_data("CSE-601/project1/Data/pca_a.txt")
     matrix = pca(data)
-    scatter_plot(matrix, diseases)
+    scatter_plot(matrix, diseases, "pca_a", "PCA")
     data, diseases = read_data("CSE-601/project1/Data/pca_b.txt")
     matrix = pca(data)
-    scatter_plot(matrix, diseases)
+    scatter_plot(matrix, diseases, "pca_b", "PCA")
     data, diseases = read_data("CSE-601/project1/Data/pca_c.txt")
     matrix = pca(data)
-    scatter_plot(matrix, diseases)
+    scatter_plot(matrix, diseases, "pca_c", "PCA")

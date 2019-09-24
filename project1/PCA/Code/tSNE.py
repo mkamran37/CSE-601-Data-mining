@@ -7,7 +7,11 @@ def T_SNE(data):
 
 if __name__ == "__main__":
     data, diseases = read_data("CSE-601/project1/Data/pca_a.txt")
-    # data, diseases = read_data("CSE-601/project1/Data/pca_b.txt")
-    # data, diseases = read_data("CSE-601/project1/Data/pca_c.txt")
     tsne_result = T_SNE(data)
-    scatter_plot(tsne_result, diseases)
+    scatter_plot(tsne_result, diseases, "pca_a", "t-SNE")
+    data, diseases = read_data("CSE-601/project1/Data/pca_b.txt")
+    tsne_result = T_SNE(data)
+    scatter_plot(tsne_result, diseases, "pca_b", "t-SNE")
+    data, diseases = read_data("CSE-601/project1/Data/pca_c.txt")
+    tsne_result = T_SNE(data)
+    scatter_plot(tsne_result, diseases, "pca_c", "t-SNE")
