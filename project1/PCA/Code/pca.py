@@ -59,12 +59,12 @@ def scatter_plot(matrix, diseases, dataFIle, algorithm):
     plt.show()
 
 if __name__ == "__main__":
-    data, diseases = read_data("CSE-601/project1/Data/pca_a.txt")
+    data, diseases = read_data("../../Data/pca_a.txt")
     matrix = pca(data)
     scatter_plot(matrix, diseases, "pca_a", "PCA")
-    data, diseases = read_data("CSE-601/project1/Data/pca_b.txt")
+    data, diseases = read_data("../../Data/pca_b.txt")
     matrix = pca(data)
     scatter_plot(matrix, diseases, "pca_b", "PCA")
-    data, diseases = read_data("CSE-601/project1/Data/pca_c.txt")
+    data, diseases = read_data("../../Data/pca_c.txt")
     matrix = pca(data)
     scatter_plot(matrix, diseases, "pca_c", "PCA")
