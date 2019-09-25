@@ -19,7 +19,8 @@ def read_data(filepath):
             t+=1
     return np.ndarray.tolist(data)
 
-def frequentSetGeneration(data, min_sup = 0.5):
+def frequentSetGeneration(data, min_sup = 50):
+    min_sup /=100
     K = 1
     L = []
     result = dict()
@@ -48,7 +49,7 @@ def frequentSetGeneration(data, min_sup = 0.5):
         if len(L) == 0:
             break
         else:
-            printUtil(len(L),K)
+            printUtil(L,len(L),K)
     return result
 
 
@@ -71,7 +72,7 @@ def generate1ItemSet(data, min_sup):
             dictionary[frozenset(tmp)] = C[item]
             L.append(tmp)
             count+=1
-    printUtil(len(L), 1)
+    printUtil(L,len(L), 1)
     return L, dictionary
 
 def convertToSet(dataList):
@@ -83,12 +84,16 @@ def convertToSet(dataList):
         dataSet.append(tmp)
     return dataSet
 
-def printUtil(count, K):
+def printUtil(L, count, K):
     print("Number of length {} frequent itemsets {}".format(K,count))
+    f = open("length"+str(K)+"output.txt", "a+")
+    for i in L:
+        f.write(str(set(i))+'\n')
     
 
 if __name__ == "__main__":
-    data = read_data("../../Data/assrules.txt")
-    min_sup = input("Enter minimum support (in %): ")
+    filename = input("enter file name (without extension)")
+    data = read_data("../../Data/"+filename+".txt")
+    min_sup = float(input("Enter minimum support (in %): "))
     # data = read_data("CSE-601/project1/Data/associationruletestdata.txt")
     frequentSetGeneration(data, min_sup)     

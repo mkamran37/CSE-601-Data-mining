@@ -6,7 +6,8 @@ def T_SNE(data):
     return tsne.fit_transform(data)
 
 if __name__ == "__main__":
-    data, diseases = read_data("../../Data/pca_a.txt")
+    filename = input("enter file name (without extension)")
+    data, diseases = read_data("../../Data/"+filename+".txt")
     tsne_result = T_SNE(data)
     scatter_plot(tsne_result, diseases, "pca_a", "t-SNE")
     data, diseases = read_data("../../Data/pca_b.txt")

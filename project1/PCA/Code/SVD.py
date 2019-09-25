@@ -6,7 +6,8 @@ def svd(data):
     return U
 
 if __name__ == "__main__":
-    data, diseases = read_data("../../Data/pca_a.txt")
+    filename = input("enter file name (without extension)")
+    data, diseases = read_data("../../Data/"+filename+".txt")
     svd_result = svd(data)
     scatter_plot(svd_result, diseases, "pca_a", "SVD")
     data, diseases = read_data("../../Data/pca_b.txt")
