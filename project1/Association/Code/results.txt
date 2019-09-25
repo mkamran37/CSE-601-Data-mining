@@ -8,3 +8,911 @@ Number of rules generated: 8
 {'G81_Down', 'G71_Up'} -> {'G58_Up'}
 {'G81_Down', 'G58_Up'} -> {'G71_Up'}
 {'G81_Down'} -> {'G58_Up', 'G71_Up'}
+Template1: RULE|ANY|['G59_Up']
+Number of rules generated: 36
+
+{'G6_Up'} -> {'G59_Up'}
+{'G59_Up'} -> {'G82_Down', 'G72_Up'}
+{'G59_Up'} -> {'G82_Down'}
+{'G59_Up'} -> {'G6_Up'}
+{'G1_Up'} -> {'G59_Up'}
+{'G59_Up'} -> {'G87_Up'}
+{'G72_Up', 'G96_Down'} -> {'G59_Up'}
+{'G32_Down'} -> {'G59_Up'}
+{'G87_Up'} -> {'G59_Up'}
+{'G59_Up'} -> {'G32_Down'}
+{'G96_Down'} -> {'G59_Up'}
+{'G38_Down'} -> {'G59_Up'}
+{'G72_Up', 'G59_Up'} -> {'G96_Down'}
+{'G82_Down', 'G59_Up'} -> {'G72_Up'}
+{'G96_Down'} -> {'G72_Up', 'G59_Up'}
+{'G59_Up'} -> {'G96_Down'}
+{'G59_Up'} -> {'G38_Down'}
+{'G59_Up'} -> {'G13_Down'}
+{'G82_Down', 'G72_Up'} -> {'G59_Up'}
+{'G28_Down'} -> {'G59_Up'}
+{'G59_Up'} -> {'G72_Up'}
+{'G72_Up', 'G59_Up'} -> {'G82_Down'}
+{'G72_Up'} -> {'G82_Down', 'G59_Up'}
+{'G59_Up'} -> {'G1_Up'}
+{'G59_Up', 'G96_Down'} -> {'G72_Up'}
+{'G72_Up'} -> {'G59_Up', 'G96_Down'}
+{'G10_Down'} -> {'G59_Up'}
+{'G88_Down'} -> {'G59_Up'}
+{'G82_Down'} -> {'G59_Up'}
+{'G72_Up'} -> {'G59_Up'}
+{'G13_Down'} -> {'G59_Up'}
+{'G59_Up'} -> {'G88_Down'}
+{'G59_Up'} -> {'G72_Up', 'G96_Down'}
+{'G59_Up'} -> {'G28_Down'}
+{'G59_Up'} -> {'G10_Down'}
+{'G82_Down'} -> {'G72_Up', 'G59_Up'}
+
+Template1: RULE|NONE|['G59_Up']
+Number of rules generated: 102
+
+{'G94_Up'} -> {'G10_Down'}
+{'G88_Down'} -> {'G41_Down'}
+{'G6_Up'} -> {'G38_Down'}
+{'G1_Up'} -> {'G70_Down'}
+{'G1_Up'} -> {'G10_Down'}
+{'G38_Down'} -> {'G32_Down'}
+{'G47_Up'} -> {'G38_Down'}
+{'G8_Up'} -> {'G88_Down'}
+{'G38_Down'} -> {'G6_Up'}
+{'G38_Down'} -> {'G28_Down'}
+{'G10_Down'} -> {'G28_Down'}
+{'G87_Up'} -> {'G28_Down'}
+{'G28_Down'} -> {'G32_Down'}
+{'G70_Down'} -> {'G10_Down'}
+{'G52_Down'} -> {'G28_Down'}
+{'G72_Up'} -> {'G38_Down'}
+{'G28_Down'} -> {'G13_Down'}
+{'G38_Down'} -> {'G41_Down'}
+{'G28_Down'} -> {'G10_Down'}
+{'G54_Up'} -> {'G88_Down'}
+{'G88_Down'} -> {'G54_Up'}
+{'G38_Down'} -> {'G47_Up'}
+{'G82_Down'} -> {'G72_Up'}
+{'G88_Down'} -> {'G8_Up'}
+{'G47_Up'} -> {'G28_Down'}
+{'G32_Down'} -> {'G6_Up'}
+{'G54_Up'} -> {'G1_Up'}
+{'G28_Down'} -> {'G6_Up'}
+{'G38_Down'} -> {'G70_Down'}
+{'G24_Down'} -> {'G88_Down'}
+{'G28_Down'} -> {'G88_Down'}
+{'G38_Down'} -> {'G67_Up'}
+{'G72_Up'} -> {'G97_Down'}
+{'G41_Down'} -> {'G28_Down'}
+{'G91_Up'} -> {'G38_Down'}
+{'G32_Down'} -> {'G72_Up'}
+{'G2_Down'} -> {'G38_Down'}
+{'G41_Down'} -> {'G88_Down'}
+{'G24_Down'} -> {'G54_Up'}
+{'G72_Up'} -> {'G1_Up'}
+{'G38_Down'} -> {'G72_Up'}
+{'G13_Down'} -> {'G28_Down'}
+{'G88_Down'} -> {'G28_Down'}
+{'G28_Down'} -> {'G87_Up'}
+{'G32_Down'} -> {'G28_Down'}
+{'G70_Down'} -> {'G38_Down'}
+{'G6_Up'} -> {'G32_Down'}
+{'G72_Up'} -> {'G13_Down'}
+{'G94_Up'} -> {'G38_Down'}
+{'G67_Up'} -> {'G1_Up'}
+{'G28_Down'} -> {'G47_Up'}
+{'G54_Up'} -> {'G24_Down'}
+{'G97_Down'} -> {'G82_Down'}
+{'G28_Down'} -> {'G38_Down'}
+{'G10_Down'} -> {'G1_Up'}
+{'G13_Down'} -> {'G72_Up'}
+{'G38_Down'} -> {'G10_Down'}
+{'G47_Up'} -> {'G10_Down'}
+{'G28_Down'} -> {'G2_Down'}
+{'G1_Up'} -> {'G54_Up'}
+{'G6_Up'} -> {'G28_Down'}
+{'G72_Up'} -> {'G96_Down'}
+{'G88_Down'} -> {'G87_Up'}
+{'G38_Down'} -> {'G88_Down'}
+{'G10_Down'} -> {'G70_Down'}
+{'G38_Down'} -> {'G2_Down'}
+{'G38_Down'} -> {'G52_Down'}
+{'G1_Up'} -> {'G38_Down'}
+{'G72_Up'} -> {'G32_Down'}
+{'G52_Down'} -> {'G38_Down'}
+{'G28_Down'} -> {'G52_Down'}
+{'G72_Up'} -> {'G82_Down'}
+{'G13_Down'} -> {'G6_Up'}
+{'G10_Down'} -> {'G38_Down'}
+{'G88_Down'} -> {'G10_Down'}
+{'G38_Down'} -> {'G94_Up'}
+{'G38_Down'} -> {'G65_Down'}
+{'G10_Down'} -> {'G94_Up'}
+{'G67_Up'} -> {'G38_Down'}
+{'G82_Down'} -> {'G97_Down'}
+{'G38_Down'} -> {'G91_Up'}
+{'G97_Down'} -> {'G72_Up'}
+{'G32_Down'} -> {'G38_Down'}
+{'G88_Down'} -> {'G38_Down'}
+{'G87_Up'} -> {'G88_Down'}
+{'G65_Down'} -> {'G38_Down'}
+{'G10_Down'} -> {'G88_Down'}
+{'G28_Down'} -> {'G41_Down'}
+{'G1_Up'} -> {'G72_Up'}
+{'G13_Down'} -> {'G82_Down'}
+{'G96_Down'} -> {'G72_Up'}
+{'G2_Down'} -> {'G28_Down'}
+{'G70_Down'} -> {'G1_Up'}
+{'G38_Down'} -> {'G1_Up'}
+{'G6_Up'} -> {'G13_Down'}
+{'G88_Down'} -> {'G24_Down'}
+{'G41_Down'} -> {'G38_Down'}
+{'G82_Down'} -> {'G96_Down'}
+{'G10_Down'} -> {'G47_Up'}
+{'G82_Down'} -> {'G13_Down'}
+{'G1_Up'} -> {'G67_Up'}
+{'G96_Down'} -> {'G82_Down'}
+
+Template1: RULE|1|['G59_Up']
+Number of rules generated: 48
+
+{'G94_Up'} -> {'G10_Down'}
+{'G1_Up'} -> {'G10_Down'}
+{'G6_Up'} -> {'G59_Up'}
+{'G59_Up'} -> {'G82_Down', 'G72_Up'}
+{'G59_Up'} -> {'G82_Down'}
+{'G10_Down'} -> {'G1_Up'}
+{'G59_Up'} -> {'G6_Up'}
+{'G1_Up'} -> {'G59_Up'}
+{'G59_Up'} -> {'G87_Up'}
+{'G38_Down'} -> {'G10_Down'}
+{'G72_Up', 'G96_Down'} -> {'G59_Up'}
+{'G10_Down'} -> {'G28_Down'}
+{'G47_Up'} -> {'G10_Down'}
+{'G87_Up'} -> {'G59_Up'}
+{'G32_Down'} -> {'G59_Up'}
+{'G59_Up'} -> {'G32_Down'}
+{'G96_Down'} -> {'G59_Up'}
+{'G38_Down'} -> {'G59_Up'}
+{'G72_Up', 'G59_Up'} -> {'G96_Down'}
+{'G70_Down'} -> {'G10_Down'}
+{'G10_Down'} -> {'G88_Down'}
+{'G82_Down', 'G59_Up'} -> {'G72_Up'}
+{'G96_Down'} -> {'G72_Up', 'G59_Up'}
+{'G59_Up'} -> {'G96_Down'}
+{'G59_Up'} -> {'G38_Down'}
+{'G59_Up'} -> {'G13_Down'}
+{'G10_Down'} -> {'G70_Down'}
+{'G28_Down'} -> {'G59_Up'}
+{'G82_Down', 'G72_Up'} -> {'G59_Up'}
+{'G59_Up'} -> {'G72_Up'}
+{'G72_Up', 'G59_Up'} -> {'G82_Down'}
+{'G28_Down'} -> {'G10_Down'}
+{'G72_Up'} -> {'G82_Down', 'G59_Up'}
+{'G59_Up'} -> {'G1_Up'}
+{'G59_Up', 'G96_Down'} -> {'G72_Up'}
+{'G72_Up'} -> {'G59_Up', 'G96_Down'}
+{'G10_Down'} -> {'G47_Up'}
+{'G88_Down'} -> {'G59_Up'}
+{'G10_Down'} -> {'G38_Down'}
+{'G82_Down'} -> {'G59_Up'}
+{'G72_Up'} -> {'G59_Up'}
+{'G13_Down'} -> {'G59_Up'}
+{'G59_Up'} -> {'G88_Down'}
+{'G88_Down'} -> {'G10_Down'}
+{'G10_Down'} -> {'G94_Up'}
+{'G59_Up'} -> {'G72_Up', 'G96_Down'}
+{'G59_Up'} -> {'G28_Down'}
+{'G82_Down'} -> {'G72_Up', 'G59_Up'}
+
+Template1: HEAD|ANY|['G59_Up']
+Number of rules generated: 18
+
+{'G59_Up'} -> {'G32_Down'}
+{'G59_Up'} -> {'G72_Up'}
+{'G59_Up', 'G96_Down'} -> {'G72_Up'}
+{'G72_Up', 'G59_Up'} -> {'G82_Down'}
+{'G72_Up', 'G59_Up'} -> {'G96_Down'}
+{'G59_Up'} -> {'G82_Down', 'G72_Up'}
+{'G59_Up'} -> {'G88_Down'}
+{'G59_Up'} -> {'G82_Down'}
+{'G82_Down', 'G59_Up'} -> {'G72_Up'}
+{'G59_Up'} -> {'G6_Up'}
+{'G59_Up'} -> {'G1_Up'}
+{'G59_Up'} -> {'G72_Up', 'G96_Down'}
+{'G59_Up'} -> {'G87_Up'}
+{'G59_Up'} -> {'G10_Down'}
+{'G59_Up'} -> {'G96_Down'}
+{'G59_Up'} -> {'G28_Down'}
+{'G59_Up'} -> {'G13_Down'}
+{'G59_Up'} -> {'G38_Down'}
+
+Template1: HEAD|NONE|['G59_Up']
+Number of rules generated: 120
+
+{'G94_Up'} -> {'G10_Down'}
+{'G88_Down'} -> {'G41_Down'}
+{'G6_Up'} -> {'G38_Down'}
+{'G1_Up'} -> {'G70_Down'}
+{'G1_Up'} -> {'G10_Down'}
+{'G38_Down'} -> {'G32_Down'}
+{'G47_Up'} -> {'G38_Down'}
+{'G6_Up'} -> {'G59_Up'}
+{'G1_Up'} -> {'G59_Up'}
+{'G8_Up'} -> {'G88_Down'}
+{'G38_Down'} -> {'G6_Up'}
+{'G38_Down'} -> {'G28_Down'}
+{'G72_Up', 'G96_Down'} -> {'G59_Up'}
+{'G10_Down'} -> {'G28_Down'}
+{'G87_Up'} -> {'G59_Up'}
+{'G87_Up'} -> {'G28_Down'}
+{'G28_Down'} -> {'G32_Down'}
+{'G96_Down'} -> {'G59_Up'}
+{'G70_Down'} -> {'G10_Down'}
+{'G52_Down'} -> {'G28_Down'}
+{'G72_Up'} -> {'G38_Down'}
+{'G28_Down'} -> {'G13_Down'}
+{'G82_Down', 'G72_Up'} -> {'G59_Up'}
+{'G38_Down'} -> {'G41_Down'}
+{'G28_Down'} -> {'G10_Down'}
+{'G54_Up'} -> {'G88_Down'}
+{'G88_Down'} -> {'G54_Up'}
+{'G38_Down'} -> {'G47_Up'}
+{'G10_Down'} -> {'G59_Up'}
+{'G82_Down'} -> {'G72_Up'}
+{'G88_Down'} -> {'G8_Up'}
+{'G72_Up'} -> {'G59_Up'}
+{'G47_Up'} -> {'G28_Down'}
+{'G32_Down'} -> {'G6_Up'}
+{'G54_Up'} -> {'G1_Up'}
+{'G28_Down'} -> {'G6_Up'}
+{'G38_Down'} -> {'G70_Down'}
+{'G24_Down'} -> {'G88_Down'}
+{'G28_Down'} -> {'G88_Down'}
+{'G38_Down'} -> {'G67_Up'}
+{'G72_Up'} -> {'G97_Down'}
+{'G32_Down'} -> {'G59_Up'}
+{'G41_Down'} -> {'G28_Down'}
+{'G91_Up'} -> {'G38_Down'}
+{'G32_Down'} -> {'G72_Up'}
+{'G2_Down'} -> {'G38_Down'}
+{'G41_Down'} -> {'G88_Down'}
+{'G24_Down'} -> {'G54_Up'}
+{'G72_Up'} -> {'G1_Up'}
+{'G38_Down'} -> {'G72_Up'}
+{'G72_Up'} -> {'G82_Down', 'G59_Up'}
+{'G13_Down'} -> {'G28_Down'}
+{'G72_Up'} -> {'G59_Up', 'G96_Down'}
+{'G88_Down'} -> {'G28_Down'}
+{'G28_Down'} -> {'G87_Up'}
+{'G32_Down'} -> {'G28_Down'}
+{'G82_Down'} -> {'G59_Up'}
+{'G70_Down'} -> {'G38_Down'}
+{'G6_Up'} -> {'G32_Down'}
+{'G72_Up'} -> {'G13_Down'}
+{'G94_Up'} -> {'G38_Down'}
+{'G67_Up'} -> {'G1_Up'}
+{'G82_Down'} -> {'G72_Up', 'G59_Up'}
+{'G28_Down'} -> {'G47_Up'}
+{'G54_Up'} -> {'G24_Down'}
+{'G97_Down'} -> {'G82_Down'}
+{'G28_Down'} -> {'G38_Down'}
+{'G10_Down'} -> {'G1_Up'}
+{'G13_Down'} -> {'G72_Up'}
+{'G38_Down'} -> {'G10_Down'}
+{'G47_Up'} -> {'G10_Down'}
+{'G28_Down'} -> {'G2_Down'}
+{'G38_Down'} -> {'G59_Up'}
+{'G1_Up'} -> {'G54_Up'}
+{'G6_Up'} -> {'G28_Down'}
+{'G72_Up'} -> {'G96_Down'}
+{'G88_Down'} -> {'G87_Up'}
+{'G38_Down'} -> {'G88_Down'}
+{'G10_Down'} -> {'G70_Down'}
+{'G38_Down'} -> {'G2_Down'}
+{'G28_Down'} -> {'G59_Up'}
+{'G38_Down'} -> {'G52_Down'}
+{'G1_Up'} -> {'G38_Down'}
+{'G72_Up'} -> {'G32_Down'}
+{'G52_Down'} -> {'G38_Down'}
+{'G28_Down'} -> {'G52_Down'}
+{'G72_Up'} -> {'G82_Down'}
+{'G13_Down'} -> {'G6_Up'}
+{'G88_Down'} -> {'G59_Up'}
+{'G10_Down'} -> {'G38_Down'}
+{'G13_Down'} -> {'G59_Up'}
+{'G88_Down'} -> {'G10_Down'}
+{'G38_Down'} -> {'G94_Up'}
+{'G38_Down'} -> {'G65_Down'}
+{'G10_Down'} -> {'G94_Up'}
+{'G67_Up'} -> {'G38_Down'}
+{'G82_Down'} -> {'G97_Down'}
+{'G38_Down'} -> {'G91_Up'}
+{'G97_Down'} -> {'G72_Up'}
+{'G32_Down'} -> {'G38_Down'}
+{'G88_Down'} -> {'G38_Down'}
+{'G87_Up'} -> {'G88_Down'}
+{'G65_Down'} -> {'G38_Down'}
+{'G10_Down'} -> {'G88_Down'}
+{'G28_Down'} -> {'G41_Down'}
+{'G1_Up'} -> {'G72_Up'}
+{'G96_Down'} -> {'G72_Up', 'G59_Up'}
+{'G13_Down'} -> {'G82_Down'}
+{'G96_Down'} -> {'G72_Up'}
+{'G2_Down'} -> {'G28_Down'}
+{'G70_Down'} -> {'G1_Up'}
+{'G38_Down'} -> {'G1_Up'}
+{'G6_Up'} -> {'G13_Down'}
+{'G88_Down'} -> {'G24_Down'}
+{'G41_Down'} -> {'G38_Down'}
+{'G82_Down'} -> {'G96_Down'}
+{'G10_Down'} -> {'G47_Up'}
+{'G82_Down'} -> {'G13_Down'}
+{'G1_Up'} -> {'G67_Up'}
+{'G96_Down'} -> {'G82_Down'}
+
+Template1: HEAD|1|['G59_Up', 'G10_Down']
+Number of rules generated: 26
+
+{'G59_Up'} -> {'G82_Down', 'G72_Up'}
+{'G59_Up'} -> {'G82_Down'}
+{'G10_Down'} -> {'G1_Up'}
+{'G59_Up'} -> {'G6_Up'}
+{'G59_Up'} -> {'G87_Up'}
+{'G10_Down'} -> {'G28_Down'}
+{'G59_Up'} -> {'G32_Down'}
+{'G72_Up', 'G59_Up'} -> {'G96_Down'}
+{'G10_Down'} -> {'G88_Down'}
+{'G82_Down', 'G59_Up'} -> {'G72_Up'}
+{'G59_Up'} -> {'G96_Down'}
+{'G59_Up'} -> {'G38_Down'}
+{'G10_Down'} -> {'G70_Down'}
+{'G59_Up'} -> {'G13_Down'}
+{'G59_Up'} -> {'G72_Up'}
+{'G72_Up', 'G59_Up'} -> {'G82_Down'}
+{'G59_Up'} -> {'G1_Up'}
+{'G59_Up', 'G96_Down'} -> {'G72_Up'}
+{'G10_Down'} -> {'G59_Up'}
+{'G10_Down'} -> {'G47_Up'}
+{'G10_Down'} -> {'G38_Down'}
+{'G59_Up'} -> {'G88_Down'}
+{'G10_Down'} -> {'G94_Up'}
+{'G59_Up'} -> {'G72_Up', 'G96_Down'}
+{'G59_Up'} -> {'G28_Down'}
+{'G59_Up'} -> {'G10_Down'}
+
+Template1: BODY|ANY|['G59_Up']
+Number of rules generated: 18
+
+{'G88_Down'} -> {'G59_Up'}
+{'G96_Down'} -> {'G59_Up'}
+{'G38_Down'} -> {'G59_Up'}
+{'G82_Down'} -> {'G59_Up'}
+{'G72_Up'} -> {'G59_Up'}
+{'G13_Down'} -> {'G59_Up'}
+{'G6_Up'} -> {'G59_Up'}
+{'G72_Up'} -> {'G59_Up', 'G96_Down'}
+{'G72_Up'} -> {'G82_Down', 'G59_Up'}
+{'G1_Up'} -> {'G59_Up'}
+{'G82_Down'} -> {'G72_Up', 'G59_Up'}
+{'G28_Down'} -> {'G59_Up'}
+{'G96_Down'} -> {'G72_Up', 'G59_Up'}
+{'G72_Up', 'G96_Down'} -> {'G59_Up'}
+{'G32_Down'} -> {'G59_Up'}
+{'G82_Down', 'G72_Up'} -> {'G59_Up'}
+{'G87_Up'} -> {'G59_Up'}
+{'G10_Down'} -> {'G59_Up'}
+
+Template1: BODY|NONE|['G59_Up']
+Number of rules generated: 120
+
+{'G94_Up'} -> {'G10_Down'}
+{'G88_Down'} -> {'G41_Down'}
+{'G6_Up'} -> {'G38_Down'}
+{'G1_Up'} -> {'G70_Down'}
+{'G1_Up'} -> {'G10_Down'}
+{'G38_Down'} -> {'G32_Down'}
+{'G47_Up'} -> {'G38_Down'}
+{'G59_Up'} -> {'G82_Down'}
+{'G59_Up'} -> {'G6_Up'}
+{'G8_Up'} -> {'G88_Down'}
+{'G38_Down'} -> {'G6_Up'}
+{'G59_Up'} -> {'G87_Up'}
+{'G38_Down'} -> {'G28_Down'}
+{'G10_Down'} -> {'G28_Down'}
+{'G87_Up'} -> {'G28_Down'}
+{'G28_Down'} -> {'G32_Down'}
+{'G72_Up', 'G59_Up'} -> {'G96_Down'}
+{'G70_Down'} -> {'G10_Down'}
+{'G52_Down'} -> {'G28_Down'}
+{'G72_Up'} -> {'G38_Down'}
+{'G28_Down'} -> {'G13_Down'}
+{'G38_Down'} -> {'G41_Down'}
+{'G28_Down'} -> {'G10_Down'}
+{'G54_Up'} -> {'G88_Down'}
+{'G88_Down'} -> {'G54_Up'}
+{'G38_Down'} -> {'G47_Up'}
+{'G82_Down'} -> {'G72_Up'}
+{'G88_Down'} -> {'G8_Up'}
+{'G47_Up'} -> {'G28_Down'}
+{'G59_Up'} -> {'G88_Down'}
+{'G32_Down'} -> {'G6_Up'}
+{'G54_Up'} -> {'G1_Up'}
+{'G28_Down'} -> {'G6_Up'}
+{'G38_Down'} -> {'G70_Down'}
+{'G24_Down'} -> {'G88_Down'}
+{'G28_Down'} -> {'G88_Down'}
+{'G38_Down'} -> {'G67_Up'}
+{'G72_Up'} -> {'G97_Down'}
+{'G41_Down'} -> {'G28_Down'}
+{'G91_Up'} -> {'G38_Down'}
+{'G32_Down'} -> {'G72_Up'}
+{'G2_Down'} -> {'G38_Down'}
+{'G82_Down', 'G59_Up'} -> {'G72_Up'}
+{'G41_Down'} -> {'G88_Down'}
+{'G24_Down'} -> {'G54_Up'}
+{'G72_Up'} -> {'G1_Up'}
+{'G59_Up'} -> {'G38_Down'}
+{'G59_Up'} -> {'G13_Down'}
+{'G72_Up', 'G59_Up'} -> {'G82_Down'}
+{'G38_Down'} -> {'G72_Up'}
+{'G13_Down'} -> {'G28_Down'}
+{'G88_Down'} -> {'G28_Down'}
+{'G28_Down'} -> {'G87_Up'}
+{'G32_Down'} -> {'G28_Down'}
+{'G70_Down'} -> {'G38_Down'}
+{'G6_Up'} -> {'G32_Down'}
+{'G72_Up'} -> {'G13_Down'}
+{'G94_Up'} -> {'G38_Down'}
+{'G67_Up'} -> {'G1_Up'}
+{'G59_Up'} -> {'G28_Down'}
+{'G28_Down'} -> {'G47_Up'}
+{'G54_Up'} -> {'G24_Down'}
+{'G97_Down'} -> {'G82_Down'}
+{'G28_Down'} -> {'G38_Down'}
+{'G59_Up'} -> {'G82_Down', 'G72_Up'}
+{'G10_Down'} -> {'G1_Up'}
+{'G13_Down'} -> {'G72_Up'}
+{'G38_Down'} -> {'G10_Down'}
+{'G47_Up'} -> {'G10_Down'}
+{'G28_Down'} -> {'G2_Down'}
+{'G1_Up'} -> {'G54_Up'}
+{'G6_Up'} -> {'G28_Down'}
+{'G72_Up'} -> {'G96_Down'}
+{'G88_Down'} -> {'G87_Up'}
+{'G38_Down'} -> {'G88_Down'}
+{'G10_Down'} -> {'G70_Down'}
+{'G38_Down'} -> {'G2_Down'}
+{'G38_Down'} -> {'G52_Down'}
+{'G1_Up'} -> {'G38_Down'}
+{'G72_Up'} -> {'G32_Down'}
+{'G52_Down'} -> {'G38_Down'}
+{'G28_Down'} -> {'G52_Down'}
+{'G59_Up', 'G96_Down'} -> {'G72_Up'}
+{'G72_Up'} -> {'G82_Down'}
+{'G13_Down'} -> {'G6_Up'}
+{'G10_Down'} -> {'G38_Down'}
+{'G88_Down'} -> {'G10_Down'}
+{'G38_Down'} -> {'G94_Up'}
+{'G38_Down'} -> {'G65_Down'}
+{'G10_Down'} -> {'G94_Up'}
+{'G67_Up'} -> {'G38_Down'}
+{'G59_Up'} -> {'G10_Down'}
+{'G82_Down'} -> {'G97_Down'}
+{'G38_Down'} -> {'G91_Up'}
+{'G97_Down'} -> {'G72_Up'}
+{'G32_Down'} -> {'G38_Down'}
+{'G88_Down'} -> {'G38_Down'}
+{'G59_Up'} -> {'G32_Down'}
+{'G87_Up'} -> {'G88_Down'}
+{'G65_Down'} -> {'G38_Down'}
+{'G10_Down'} -> {'G88_Down'}
+{'G28_Down'} -> {'G41_Down'}
+{'G1_Up'} -> {'G72_Up'}
+{'G59_Up'} -> {'G96_Down'}
+{'G13_Down'} -> {'G82_Down'}
+{'G59_Up'} -> {'G72_Up'}
+{'G96_Down'} -> {'G72_Up'}
+{'G2_Down'} -> {'G28_Down'}
+{'G70_Down'} -> {'G1_Up'}
+{'G38_Down'} -> {'G1_Up'}
+{'G59_Up'} -> {'G1_Up'}
+{'G6_Up'} -> {'G13_Down'}
+{'G88_Down'} -> {'G24_Down'}
+{'G41_Down'} -> {'G38_Down'}
+{'G82_Down'} -> {'G96_Down'}
+{'G10_Down'} -> {'G47_Up'}
+{'G82_Down'} -> {'G13_Down'}
+{'G59_Up'} -> {'G72_Up', 'G96_Down'}
+{'G1_Up'} -> {'G67_Up'}
+{'G96_Down'} -> {'G82_Down'}
+
+Template1: BODY|1|['G59_UP', 'G10_Down']
+Number of rules generated: 8
+
+{'G94_Up'} -> {'G10_Down'}
+{'G1_Up'} -> {'G10_Down'}
+{'G28_Down'} -> {'G10_Down'}
+{'G70_Down'} -> {'G10_Down'}
+{'G88_Down'} -> {'G10_Down'}
+{'G38_Down'} -> {'G10_Down'}
+{'G59_Up'} -> {'G10_Down'}
+{'G47_Up'} -> {'G10_Down'}
+
+Template2: RULE|3
+Number of rules generated: 12
+
+{'G72_Up', 'G59_Up'} -> {'G82_Down'}
+{'G72_Up', 'G59_Up'} -> {'G96_Down'}
+{'G72_Up'} -> {'G59_Up', 'G96_Down'}
+{'G59_Up'} -> {'G82_Down', 'G72_Up'}
+{'G82_Down', 'G59_Up'} -> {'G72_Up'}
+{'G72_Up'} -> {'G82_Down', 'G59_Up'}
+{'G59_Up'} -> {'G72_Up', 'G96_Down'}
+{'G82_Down'} -> {'G72_Up', 'G59_Up'}
+{'G96_Down'} -> {'G72_Up', 'G59_Up'}
+{'G72_Up', 'G96_Down'} -> {'G59_Up'}
+{'G82_Down', 'G72_Up'} -> {'G59_Up'}
+{'G59_Up', 'G96_Down'} -> {'G72_Up'}
+
+Template2: HEAD|2
+Number of rules generated: 6
+
+{'G72_Up', 'G59_Up'} -> {'G82_Down'}
+{'G72_Up', 'G59_Up'} -> {'G96_Down'}
+{'G82_Down', 'G59_Up'} -> {'G72_Up'}
+{'G59_Up', 'G96_Down'} -> {'G72_Up'}
+{'G72_Up', 'G96_Down'} -> {'G59_Up'}
+{'G82_Down', 'G72_Up'} -> {'G59_Up'}
+
+Template2: BODY|1
+Number of rules generated: 138
+
+{'G94_Up'} -> {'G10_Down'}
+{'G88_Down'} -> {'G41_Down'}
+{'G6_Up'} -> {'G38_Down'}
+{'G1_Up'} -> {'G70_Down'}
+{'G1_Up'} -> {'G10_Down'}
+{'G38_Down'} -> {'G32_Down'}
+{'G47_Up'} -> {'G38_Down'}
+{'G6_Up'} -> {'G59_Up'}
+{'G59_Up'} -> {'G82_Down'}
+{'G59_Up'} -> {'G6_Up'}
+{'G1_Up'} -> {'G59_Up'}
+{'G8_Up'} -> {'G88_Down'}
+{'G38_Down'} -> {'G6_Up'}
+{'G59_Up'} -> {'G87_Up'}
+{'G38_Down'} -> {'G28_Down'}
+{'G72_Up', 'G96_Down'} -> {'G59_Up'}
+{'G10_Down'} -> {'G28_Down'}
+{'G87_Up'} -> {'G59_Up'}
+{'G87_Up'} -> {'G28_Down'}
+{'G28_Down'} -> {'G32_Down'}
+{'G96_Down'} -> {'G59_Up'}
+{'G72_Up', 'G59_Up'} -> {'G96_Down'}
+{'G70_Down'} -> {'G10_Down'}
+{'G52_Down'} -> {'G28_Down'}
+{'G72_Up'} -> {'G38_Down'}
+{'G28_Down'} -> {'G13_Down'}
+{'G82_Down', 'G72_Up'} -> {'G59_Up'}
+{'G38_Down'} -> {'G41_Down'}
+{'G28_Down'} -> {'G10_Down'}
+{'G54_Up'} -> {'G88_Down'}
+{'G88_Down'} -> {'G54_Up'}
+{'G38_Down'} -> {'G47_Up'}
+{'G10_Down'} -> {'G59_Up'}
+{'G82_Down'} -> {'G72_Up'}
+{'G88_Down'} -> {'G8_Up'}
+{'G72_Up'} -> {'G59_Up'}
+{'G47_Up'} -> {'G28_Down'}
+{'G59_Up'} -> {'G88_Down'}
+{'G32_Down'} -> {'G6_Up'}
+{'G54_Up'} -> {'G1_Up'}
+{'G28_Down'} -> {'G6_Up'}
+{'G38_Down'} -> {'G70_Down'}
+{'G24_Down'} -> {'G88_Down'}
+{'G28_Down'} -> {'G88_Down'}
+{'G38_Down'} -> {'G67_Up'}
+{'G72_Up'} -> {'G97_Down'}
+{'G32_Down'} -> {'G59_Up'}
+{'G41_Down'} -> {'G28_Down'}
+{'G91_Up'} -> {'G38_Down'}
+{'G32_Down'} -> {'G72_Up'}
+{'G2_Down'} -> {'G38_Down'}
+{'G82_Down', 'G59_Up'} -> {'G72_Up'}
+{'G41_Down'} -> {'G88_Down'}
+{'G24_Down'} -> {'G54_Up'}
+{'G72_Up'} -> {'G1_Up'}
+{'G59_Up'} -> {'G38_Down'}
+{'G59_Up'} -> {'G13_Down'}
+{'G72_Up', 'G59_Up'} -> {'G82_Down'}
+{'G38_Down'} -> {'G72_Up'}
+{'G72_Up'} -> {'G82_Down', 'G59_Up'}
+{'G13_Down'} -> {'G28_Down'}
+{'G72_Up'} -> {'G59_Up', 'G96_Down'}
+{'G88_Down'} -> {'G28_Down'}
+{'G28_Down'} -> {'G87_Up'}
+{'G32_Down'} -> {'G28_Down'}
+{'G82_Down'} -> {'G59_Up'}
+{'G70_Down'} -> {'G38_Down'}
+{'G6_Up'} -> {'G32_Down'}
+{'G72_Up'} -> {'G13_Down'}
+{'G94_Up'} -> {'G38_Down'}
+{'G67_Up'} -> {'G1_Up'}
+{'G82_Down'} -> {'G72_Up', 'G59_Up'}
+{'G59_Up'} -> {'G28_Down'}
+{'G28_Down'} -> {'G47_Up'}
+{'G54_Up'} -> {'G24_Down'}
+{'G97_Down'} -> {'G82_Down'}
+{'G28_Down'} -> {'G38_Down'}
+{'G59_Up'} -> {'G82_Down', 'G72_Up'}
+{'G10_Down'} -> {'G1_Up'}
+{'G13_Down'} -> {'G72_Up'}
+{'G38_Down'} -> {'G10_Down'}
+{'G47_Up'} -> {'G10_Down'}
+{'G28_Down'} -> {'G2_Down'}
+{'G38_Down'} -> {'G59_Up'}
+{'G1_Up'} -> {'G54_Up'}
+{'G6_Up'} -> {'G28_Down'}
+{'G72_Up'} -> {'G96_Down'}
+{'G88_Down'} -> {'G87_Up'}
+{'G38_Down'} -> {'G88_Down'}
+{'G10_Down'} -> {'G70_Down'}
+{'G38_Down'} -> {'G2_Down'}
+{'G28_Down'} -> {'G59_Up'}
+{'G38_Down'} -> {'G52_Down'}
+{'G1_Up'} -> {'G38_Down'}
+{'G72_Up'} -> {'G32_Down'}
+{'G52_Down'} -> {'G38_Down'}
+{'G28_Down'} -> {'G52_Down'}
+{'G59_Up', 'G96_Down'} -> {'G72_Up'}
+{'G72_Up'} -> {'G82_Down'}
+{'G13_Down'} -> {'G6_Up'}
+{'G88_Down'} -> {'G59_Up'}
+{'G10_Down'} -> {'G38_Down'}
+{'G13_Down'} -> {'G59_Up'}
+{'G88_Down'} -> {'G10_Down'}
+{'G38_Down'} -> {'G94_Up'}
+{'G38_Down'} -> {'G65_Down'}
+{'G10_Down'} -> {'G94_Up'}
+{'G67_Up'} -> {'G38_Down'}
+{'G59_Up'} -> {'G10_Down'}
+{'G82_Down'} -> {'G97_Down'}
+{'G38_Down'} -> {'G91_Up'}
+{'G97_Down'} -> {'G72_Up'}
+{'G32_Down'} -> {'G38_Down'}
+{'G88_Down'} -> {'G38_Down'}
+{'G59_Up'} -> {'G32_Down'}
+{'G87_Up'} -> {'G88_Down'}
+{'G65_Down'} -> {'G38_Down'}
+{'G10_Down'} -> {'G88_Down'}
+{'G28_Down'} -> {'G41_Down'}
+{'G1_Up'} -> {'G72_Up'}
+{'G96_Down'} -> {'G72_Up', 'G59_Up'}
+{'G59_Up'} -> {'G96_Down'}
+{'G13_Down'} -> {'G82_Down'}
+{'G59_Up'} -> {'G72_Up'}
+{'G96_Down'} -> {'G72_Up'}
+{'G2_Down'} -> {'G28_Down'}
+{'G70_Down'} -> {'G1_Up'}
+{'G38_Down'} -> {'G1_Up'}
+{'G59_Up'} -> {'G1_Up'}
+{'G6_Up'} -> {'G13_Down'}
+{'G88_Down'} -> {'G24_Down'}
+{'G41_Down'} -> {'G38_Down'}
+{'G82_Down'} -> {'G96_Down'}
+{'G10_Down'} -> {'G47_Up'}
+{'G82_Down'} -> {'G13_Down'}
+{'G59_Up'} -> {'G72_Up', 'G96_Down'}
+{'G1_Up'} -> {'G67_Up'}
+{'G96_Down'} -> {'G82_Down'}
+
+Template3: 1or1|HEAD|ANY|['G10_Down']|BODY|1|['G59_UP']
+Number of rules generated: 25
+
+{'G6_Up'} -> {'G59_Up'}
+{'G10_Down'} -> {'G1_Up'}
+{'G1_Up'} -> {'G59_Up'}
+{'G72_Up', 'G96_Down'} -> {'G59_Up'}
+{'G32_Down'} -> {'G59_Up'}
+{'G10_Down'} -> {'G28_Down'}
+{'G87_Up'} -> {'G59_Up'}
+{'G96_Down'} -> {'G59_Up'}
+{'G38_Down'} -> {'G59_Up'}
+{'G10_Down'} -> {'G88_Down'}
+{'G96_Down'} -> {'G72_Up', 'G59_Up'}
+{'G10_Down'} -> {'G70_Down'}
+{'G82_Down', 'G72_Up'} -> {'G59_Up'}
+{'G28_Down'} -> {'G59_Up'}
+{'G72_Up'} -> {'G82_Down', 'G59_Up'}
+{'G72_Up'} -> {'G59_Up', 'G96_Down'}
+{'G10_Down'} -> {'G59_Up'}
+{'G10_Down'} -> {'G47_Up'}
+{'G88_Down'} -> {'G59_Up'}
+{'G10_Down'} -> {'G38_Down'}
+{'G82_Down'} -> {'G59_Up'}
+{'G72_Up'} -> {'G59_Up'}
+{'G13_Down'} -> {'G59_Up'}
+{'G10_Down'} -> {'G94_Up'}
+{'G82_Down'} -> {'G72_Up', 'G59_Up'}
+
+Template3: 1and1|HEAD|ANY|['G10_Down']|BODY|1|['G59_Up']
+Number of rules generated: 1
+
+{'G10_Down'} -> {'G59_Up'}
+
+Template3: 1or2|HEAD|ANY|['G10_Down']|BODY|2
+Number of rules generated: 14
+
+{'G10_Down'} -> {'G47_Up'}
+{'G10_Down'} -> {'G38_Down'}
+{'G10_Down'} -> {'G88_Down'}
+{'G72_Up'} -> {'G59_Up', 'G96_Down'}
+{'G59_Up'} -> {'G82_Down', 'G72_Up'}
+{'G10_Down'} -> {'G70_Down'}
+{'G72_Up'} -> {'G82_Down', 'G59_Up'}
+{'G10_Down'} -> {'G1_Up'}
+{'G10_Down'} -> {'G94_Up'}
+{'G59_Up'} -> {'G72_Up', 'G96_Down'}
+{'G82_Down'} -> {'G72_Up', 'G59_Up'}
+{'G96_Down'} -> {'G72_Up', 'G59_Up'}
+{'G10_Down'} -> {'G28_Down'}
+{'G10_Down'} -> {'G59_Up'}
+
+Template3: 1and2|HEAD|ANY|['G10_Down']|BODY|2
+Number of rules generated: 0
+
+
+Template3: 2or2|HEAD|1|BODY|2
+Number of rules generated: 138
+
+{'G94_Up'} -> {'G10_Down'}
+{'G88_Down'} -> {'G41_Down'}
+{'G6_Up'} -> {'G38_Down'}
+{'G1_Up'} -> {'G70_Down'}
+{'G1_Up'} -> {'G10_Down'}
+{'G38_Down'} -> {'G32_Down'}
+{'G47_Up'} -> {'G38_Down'}
+{'G6_Up'} -> {'G59_Up'}
+{'G59_Up'} -> {'G82_Down'}
+{'G59_Up'} -> {'G6_Up'}
+{'G1_Up'} -> {'G59_Up'}
+{'G8_Up'} -> {'G88_Down'}
+{'G38_Down'} -> {'G6_Up'}
+{'G59_Up'} -> {'G87_Up'}
+{'G38_Down'} -> {'G28_Down'}
+{'G72_Up', 'G96_Down'} -> {'G59_Up'}
+{'G10_Down'} -> {'G28_Down'}
+{'G87_Up'} -> {'G59_Up'}
+{'G87_Up'} -> {'G28_Down'}
+{'G28_Down'} -> {'G32_Down'}
+{'G96_Down'} -> {'G59_Up'}
+{'G72_Up', 'G59_Up'} -> {'G96_Down'}
+{'G70_Down'} -> {'G10_Down'}
+{'G52_Down'} -> {'G28_Down'}
+{'G72_Up'} -> {'G38_Down'}
+{'G28_Down'} -> {'G13_Down'}
+{'G82_Down', 'G72_Up'} -> {'G59_Up'}
+{'G38_Down'} -> {'G41_Down'}
+{'G28_Down'} -> {'G10_Down'}
+{'G54_Up'} -> {'G88_Down'}
+{'G88_Down'} -> {'G54_Up'}
+{'G38_Down'} -> {'G47_Up'}
+{'G10_Down'} -> {'G59_Up'}
+{'G82_Down'} -> {'G72_Up'}
+{'G88_Down'} -> {'G8_Up'}
+{'G72_Up'} -> {'G59_Up'}
+{'G47_Up'} -> {'G28_Down'}
+{'G59_Up'} -> {'G88_Down'}
+{'G32_Down'} -> {'G6_Up'}
+{'G54_Up'} -> {'G1_Up'}
+{'G28_Down'} -> {'G6_Up'}
+{'G38_Down'} -> {'G70_Down'}
+{'G24_Down'} -> {'G88_Down'}
+{'G28_Down'} -> {'G88_Down'}
+{'G38_Down'} -> {'G67_Up'}
+{'G72_Up'} -> {'G97_Down'}
+{'G32_Down'} -> {'G59_Up'}
+{'G41_Down'} -> {'G28_Down'}
+{'G91_Up'} -> {'G38_Down'}
+{'G32_Down'} -> {'G72_Up'}
+{'G2_Down'} -> {'G38_Down'}
+{'G82_Down', 'G59_Up'} -> {'G72_Up'}
+{'G41_Down'} -> {'G88_Down'}
+{'G24_Down'} -> {'G54_Up'}
+{'G72_Up'} -> {'G1_Up'}
+{'G59_Up'} -> {'G38_Down'}
+{'G59_Up'} -> {'G13_Down'}
+{'G72_Up', 'G59_Up'} -> {'G82_Down'}
+{'G38_Down'} -> {'G72_Up'}
+{'G72_Up'} -> {'G82_Down', 'G59_Up'}
+{'G13_Down'} -> {'G28_Down'}
+{'G72_Up'} -> {'G59_Up', 'G96_Down'}
+{'G88_Down'} -> {'G28_Down'}
+{'G28_Down'} -> {'G87_Up'}
+{'G32_Down'} -> {'G28_Down'}
+{'G82_Down'} -> {'G59_Up'}
+{'G70_Down'} -> {'G38_Down'}
+{'G6_Up'} -> {'G32_Down'}
+{'G72_Up'} -> {'G13_Down'}
+{'G94_Up'} -> {'G38_Down'}
+{'G67_Up'} -> {'G1_Up'}
+{'G82_Down'} -> {'G72_Up', 'G59_Up'}
+{'G59_Up'} -> {'G28_Down'}
+{'G28_Down'} -> {'G47_Up'}
+{'G54_Up'} -> {'G24_Down'}
+{'G97_Down'} -> {'G82_Down'}
+{'G28_Down'} -> {'G38_Down'}
+{'G59_Up'} -> {'G82_Down', 'G72_Up'}
+{'G10_Down'} -> {'G1_Up'}
+{'G13_Down'} -> {'G72_Up'}
+{'G38_Down'} -> {'G10_Down'}
+{'G47_Up'} -> {'G10_Down'}
+{'G28_Down'} -> {'G2_Down'}
+{'G38_Down'} -> {'G59_Up'}
+{'G1_Up'} -> {'G54_Up'}
+{'G6_Up'} -> {'G28_Down'}
+{'G72_Up'} -> {'G96_Down'}
+{'G88_Down'} -> {'G87_Up'}
+{'G38_Down'} -> {'G88_Down'}
+{'G10_Down'} -> {'G70_Down'}
+{'G38_Down'} -> {'G2_Down'}
+{'G28_Down'} -> {'G59_Up'}
+{'G38_Down'} -> {'G52_Down'}
+{'G1_Up'} -> {'G38_Down'}
+{'G72_Up'} -> {'G32_Down'}
+{'G52_Down'} -> {'G38_Down'}
+{'G28_Down'} -> {'G52_Down'}
+{'G59_Up', 'G96_Down'} -> {'G72_Up'}
+{'G72_Up'} -> {'G82_Down'}
+{'G13_Down'} -> {'G6_Up'}
+{'G88_Down'} -> {'G59_Up'}
+{'G10_Down'} -> {'G38_Down'}
+{'G13_Down'} -> {'G59_Up'}
+{'G88_Down'} -> {'G10_Down'}
+{'G38_Down'} -> {'G94_Up'}
+{'G38_Down'} -> {'G65_Down'}
+{'G10_Down'} -> {'G94_Up'}
+{'G67_Up'} -> {'G38_Down'}
+{'G59_Up'} -> {'G10_Down'}
+{'G82_Down'} -> {'G97_Down'}
+{'G38_Down'} -> {'G91_Up'}
+{'G97_Down'} -> {'G72_Up'}
+{'G32_Down'} -> {'G38_Down'}
+{'G88_Down'} -> {'G38_Down'}
+{'G59_Up'} -> {'G32_Down'}
+{'G87_Up'} -> {'G88_Down'}
+{'G65_Down'} -> {'G38_Down'}
+{'G10_Down'} -> {'G88_Down'}
+{'G28_Down'} -> {'G41_Down'}
+{'G1_Up'} -> {'G72_Up'}
+{'G96_Down'} -> {'G72_Up', 'G59_Up'}
+{'G59_Up'} -> {'G96_Down'}
+{'G13_Down'} -> {'G82_Down'}
+{'G59_Up'} -> {'G72_Up'}
+{'G96_Down'} -> {'G72_Up'}
+{'G2_Down'} -> {'G28_Down'}
+{'G70_Down'} -> {'G1_Up'}
+{'G38_Down'} -> {'G1_Up'}
+{'G59_Up'} -> {'G1_Up'}
+{'G6_Up'} -> {'G13_Down'}
+{'G88_Down'} -> {'G24_Down'}
+{'G41_Down'} -> {'G38_Down'}
+{'G82_Down'} -> {'G96_Down'}
+{'G10_Down'} -> {'G47_Up'}
+{'G82_Down'} -> {'G13_Down'}
+{'G59_Up'} -> {'G72_Up', 'G96_Down'}
+{'G1_Up'} -> {'G67_Up'}
+{'G96_Down'} -> {'G82_Down'}
+
+Template3: 2and2|HEAD|1|BODY|2
+Number of rules generated: 6
+
+{'G96_Down'} -> {'G72_Up', 'G59_Up'}
+{'G59_Up'} -> {'G82_Down', 'G72_Up'}
+{'G72_Up'} -> {'G82_Down', 'G59_Up'}
+{'G59_Up'} -> {'G72_Up', 'G96_Down'}
+{'G82_Down'} -> {'G72_Up', 'G59_Up'}
+{'G72_Up'} -> {'G59_Up', 'G96_Down'}
+
