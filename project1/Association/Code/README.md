@@ -14,3 +14,4 @@ Principal Component Analysis and Frequent itemsets generation using Apriori algo
 1. Follow the above steps by replacing Apriori.py with AssociationRuleGen.py
 2. Additional input: minimum confidence
 3. For output, check results.txt
+    3.1 For each run of the program, make sure to delete results.txt file as the result is appended to the file.
