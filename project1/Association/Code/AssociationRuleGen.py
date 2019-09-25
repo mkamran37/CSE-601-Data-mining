@@ -147,20 +147,12 @@ def saveResultToFile(result, cnt, templateNum, template):
     f.close()
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     filename = input("enter file name (without extension): ")
     filePath = "CSE-601/project1/Data/"+filename+".txt"
     # filePath = "../../Data/"+filename+".txt"
     min_sup = input("Enter minimum support (in %): ")
     min_conf = input("Enter minimum confidence (in %): ")
     asso_rule = AssocRule(float(min_sup), float(min_conf)/100, filePath)
-=======
-    # filePath = "CSE-601/project1/Data/associationruletestdata.txt"
-    filePath = "../../Data/assrules.txt"
-    min_sup = input("Enter minimum support (in %): ")
-    min_conf = input("Enter minimum confidence (in %): ")
-    asso_rule = AssocRule(int(min_sup), int(min_conf)/100, filePath)
->>>>>>> master
     (result11, cnt) = asso_rule.template1("RULE", "ANY", ['G59_Up']) 
     saveResultToFile(result11, cnt, "Template1", "RULE|ANY|['G59_Up']")
     (result12, cnt) = asso_rule.template1("RULE", "NONE", ['G59_Up'])
