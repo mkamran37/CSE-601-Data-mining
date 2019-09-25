@@ -143,8 +143,8 @@ def saveResultToFile(result, cnt, templateNum, template):
     f.write("Number of rules generated: " + str(cnt) + "\n\n")
     for rule in result:
         f.write(str(set(rule[0])) + " -> " + str(set(rule[1])) + "\n")
-    f.write("\n");
-    f.close();
+    f.write("\n")
+    f.close()
 
 if __name__ == "__main__":
     filePath = "CSE-601/project1/Data/associationruletestdata.txt"
