@@ -46,8 +46,8 @@ class AssocRule:
 
     def checkMinConfidence(self, rule):
         union = rule[0] | rule[1]
-        supCount = int(self.freqItemsets[union])
-        if (supCount / int(self.freqItemsets[rule[0]])) >= self.min_conf:
+        supCount = float(self.freqItemsets[union])
+        if (supCount / float(self.freqItemsets[rule[0]])) >= self.min_conf:
             return True   
         return False
 
@@ -148,8 +148,8 @@ def saveResultToFile(result, cnt, templateNum, template):
 
 if __name__ == "__main__":
     filename = input("enter file name (without extension): ")
-    filePath = "CSE-601/project1/Data/"+filename+".txt"
-    # filePath = "../../Data/"+filename+".txt"
+    # filePath = "CSE-601/project1/Data/"+filename+".txt"
+    filePath = "../../Data/"+filename+".txt"
     min_sup = input("Enter minimum support (in %): ")
     min_conf = input("Enter minimum confidence (in %): ")
     asso_rule = AssocRule(float(min_sup), float(min_conf)/100, filePath)
