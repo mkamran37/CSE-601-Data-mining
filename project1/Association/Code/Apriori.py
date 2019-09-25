@@ -13,7 +13,7 @@ def read_data(filepath):
     #Read data from text file as numpy ndarray
     data = np.genfromtxt(filepath, dtype='str', delimiter="\t")
     for i in range(data.shape[0]):
-        t = 0
+        t = 1
         for j in range(data.shape[1] - 1):
             data[i][j] = 'G'+str(t)+'_'+data[i][j]
             t+=1
