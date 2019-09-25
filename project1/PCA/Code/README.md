@@ -8,8 +8,8 @@ Principal Component Analysis and Frequent itemsets generation using Apriori algo
 4. Make sure to keep the input file in the "Data" folder
 5. For output of sample input files, check the corresponding folders i.e., Results_PCA/SVD/TSNE
 
-To run SVD.py
+# To run SVD.py
 1. Follow the above steps by replacing pca.py as SVD.py
 
-To run tSNE.py
+# To run tSNE.py
 1. Follow the above steps by replacing pca.py as tSNE.py
