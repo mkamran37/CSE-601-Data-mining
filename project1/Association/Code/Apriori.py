@@ -95,5 +95,4 @@ if __name__ == "__main__":
     filename = input("enter file name (without extension)")
     data = read_data("../../Data/"+filename+".txt")
     min_sup = float(input("Enter minimum support (in %): "))
-    # data = read_data("CSE-601/project1/Data/associationruletestdata.txt")
     frequentSetGeneration(data, min_sup)     
