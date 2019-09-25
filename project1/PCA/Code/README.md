@@ -12,4 +12,4 @@ To run SVD.py
 # Follow the above steps by replacing pca.py as SVD.py
 
 To run tSNE.py
-# Follow the above steps by replacing pca.py as TSNE.py
+# Follow the above steps by replacing pca.py as tSNE.py

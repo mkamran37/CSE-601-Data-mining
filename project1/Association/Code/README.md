@@ -13,6 +13,3 @@ To generate rules from frequent itemsets (AssociationRuleGen.py)
 # Follow the above steps by replacing Apriori.py with AssociationRuleGen.py
 # Additional input: minimum confidence
 # For output, check results.txt
-
-To run tSNE.py
-# Follow the above steps by replacing pca.py as TSNE.py

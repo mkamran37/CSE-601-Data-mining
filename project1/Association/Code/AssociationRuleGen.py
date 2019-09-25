@@ -46,8 +46,8 @@ class AssocRule:
 
     def checkMinConfidence(self, rule):
         union = rule[0] | rule[1]
-        supCount = int(self.freqItemsets[union])
-        if (supCount / int(self.freqItemsets[rule[0]])) >= self.min_conf:
+        supCount = float(self.freqItemsets[union])
+        if (supCount / float(self.freqItemsets[rule[0]])) >= self.min_conf:
             return True   
         return False
 
@@ -147,17 +147,18 @@ def saveResultToFile(result, cnt, templateNum, template):
     f.close()
 
 if __name__ == "__main__":
-    # filePath = "CSE-601/project1/Data/associationruletestdata.txt"
-    filePath = "../../Data/assrules.txt"
+    filename = input("enter file name (without extension): ")
+    # filePath = "CSE-601/project1/Data/"+filename+".txt"
+    filePath = "../../Data/"+filename+".txt"
     min_sup = input("Enter minimum support (in %): ")
     min_conf = input("Enter minimum confidence (in %): ")
-    asso_rule = AssocRule(int(min_sup), int(min_conf)/100, filePath)
+    asso_rule = AssocRule(float(min_sup), float(min_conf)/100, filePath)
     (result11, cnt) = asso_rule.template1("RULE", "ANY", ['G59_Up']) 
     saveResultToFile(result11, cnt, "Template1", "RULE|ANY|['G59_Up']")
     (result12, cnt) = asso_rule.template1("RULE", "NONE", ['G59_Up'])
     saveResultToFile(result12, cnt, "Template1", "RULE|NONE|['G59_Up']")
     (result13, cnt) = asso_rule.template1("RULE", 1, ['G59_Up', 'G10_Down']) 
-    saveResultToFile(result13, cnt, "Template1", "RULE|1|['G59_Up']")
+    saveResultToFile(result13, cnt, "Template1", "RULE|1|['G59_Up', 'G10_Down]")
     (result14, cnt) = asso_rule.template1("HEAD", "ANY", ['G59_Up'])
     saveResultToFile(result14, cnt, "Template1", "HEAD|ANY|['G59_Up']")
     (result15, cnt) = asso_rule.template1("HEAD", "NONE", ['G59_Up']) 
