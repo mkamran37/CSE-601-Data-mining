@@ -5,6 +5,7 @@ Principal Component Analysis and Frequent itemsets generation using Apriori algo
 1. First install all the packages from requirements.txt
 2. Run the program as "python Apriori.py"
 3. At the input prompt, first enter the filename without the extension.
+    3.1 REQUIRES A MAC FOR THE FILEPATH TO BE VALID!! FOR WINDOWS, NEED TO CHANGE THE ENTIRE FILEPATH VARIABLE IN main()
 4. Make sure to keep the input file in the "Data" folder
 5. Next, input the minimum support (default = 50%)
 6. For the output of each length frequent itemset, check the corresponding .txt file (e.g., "length1output.txt")
