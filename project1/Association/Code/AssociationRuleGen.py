@@ -123,6 +123,9 @@ class AssocRule:
         elif condition[0] == '1' and condition[-1] == '2':
             res1 = self.checkTemplate1(rule, args[1], args[2], args[3])
             res2 = self.checkTemplate2(rule, args[4], args[5])
+        elif condition[0] == '2' and condition[-1] == '1':
+            res1 = self.checkTemplate2(rule, args[1], args[2])
+            res2 = self.checkTemplate1(rule, args[3], args[4], args[5])
         elif condition[0] == '2' and condition[-1] == '2':
             res1 = self.checkTemplate2(rule, args[1], args[2])
             res2 = self.checkTemplate2(rule, args[3], args[4])
