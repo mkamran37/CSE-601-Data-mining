@@ -41,7 +41,7 @@ def reduceDimensions(PC1, PC2, n, matrix):
 
 def topN(eigenValues, eigenVectors,n = 2):
     indices = eigenValues.argsort()[::-1][:n]
-    return eigenVectors[indices[0]],eigenVectors[indices[1]]
+    return eigenVectors[:,indices[0]],eigenVectors[:,indices[1]]
 
 def adjustment(matrix, meanList):
     tmp = 0
