@@ -23,8 +23,8 @@ class k_means:
         centroids = np.array(self.initializeCentroids(dataset))
         self.assignClusters(dataset, centroids)
         result = self.sort_result(dataset)
-        self.pca(dataset, result)
-        # truth = self.groundtruth("../Data/"+filename+".txt")
+        # self.pca(dataset, result)
+        truth = self.groundtruth("../Data/"+filename+".txt")
         # self.findJaccard(predicted, truth)
     
     def sort_result(self, datasets):
@@ -37,13 +37,14 @@ class k_means:
             dictlist.append(temp)
         dictlist.sort(key= lambda x:x[0])
         return dictlist
+    
     def findJaccard(self, predicted, truth):
         for key in predicted:
             l1=truth[key]
             l2=predicted[key]
             intersection = [list(x) for x in set(tuple(x) for x in l1).intersection(set(tuple(x) for x in l2))]
-            # print(intersection)
-            union = len(predicted[key]) + len(truth[key]) - len(intersection)
+            # union = len(predicted[key]) + len(truth[key]) - len(intersection)
+            union = len(predicted[key]) + len(truth[key])
             print(len(intersection)/union)
 
     def groundtruth(self, filepath):
@@ -65,15 +66,18 @@ class k_means:
         # print(dataset)
         # self.pca(dataset)
 
-    def assignClusters(self, dataset, centroids):
-        prevCentroids = np.empty_like(centroids)
+    def assignClusters(self, dataset, centroids, iterations = 200):
+        # prevCentroids = np.empty_like(centroids)
         clusters = defaultdict(list)
-        while not np.array_equal(prevCentroids, centroids):
-            prevCentroids = centroids
+        j = 0
+        # while not np.equals(prevCentroids, centroids)
+        while j < iterations:
+            # prevCentroids = centroids
             clusters = defaultdict(list)
             for i in range(len(dataset)):
                clusters = self.find_cluster(centroids, dataset[i], clusters)
             centroids = self.findClusterCentroid(centroids, clusters)
+            j+=1
 
     def read_data(self, filepath):
         #Read data from text file as numpy ndarray
@@ -99,7 +103,6 @@ class k_means:
         pca.fit(dataset)
         r = np.array(result)
         pca_matrix = pca.transform(dataset)
-        # print(pca_matrix.shape, r.shape)
         df = pd.DataFrame(data = np.concatenate((pca_matrix, r[:,1:2]), axis = 1), columns=['PC1','PC2','Cluster'])
         lm = sns.lmplot(x='PC1', y='PC2', data=df, fit_reg=False, hue='Cluster')
         plt.show()

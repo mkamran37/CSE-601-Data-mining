@@ -12,6 +12,7 @@ class Point:
         self.point = point
         self.cluster = cluster
         self.id = id
+
 class DensityBasedClustering:
     def __init__(self):
         filename = input("enter file name (without extension)")
@@ -20,15 +21,14 @@ class DensityBasedClustering:
         self.dbScan(dataset, distance=distance)
         result = self.sort_result(dataset)
         self.pca(dataset, result)
-
-        
+       
     def findDistanceMatrix(self, dataset):
-        print(len(dataset))
         distanceMatrix = [[0 for x in range(len(dataset))] for y in range(len(dataset))]
         for point in dataset:
             for p in dataset:
                 distanceMatrix[point.id-1][p.id-1] = distance.euclidean(point.point, p.point)
         return distanceMatrix
+
     def read_data(self, filepath):
         data = np.genfromtxt(filepath, dtype='double', delimiter="\t")
         dataset = list()
@@ -45,7 +45,8 @@ class DensityBasedClustering:
             gene.point = tmp
             dataset.append(gene)
         return dataset
-    def dbScan(self, dataset, eps=3.5, minpts=4, distance=None, points=None):
+    
+    def dbScan(self, dataset, eps=1.1, minpts=3, distance=None, points=None):
         clusterNumber = 0
         cluster = defaultdict(list)
         visited = set()
@@ -89,8 +90,7 @@ class DensityBasedClustering:
             dictlist.append(temp)
         dictlist.sort(key= lambda x:x[0])
         return dictlist
-
-
+    
     def pca(self, datasett, result):
         pca = PCA(n_components=2, svd_solver='full')
         dataset = [data.point for data in datasett]
