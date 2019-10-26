@@ -8,7 +8,6 @@ class externalIndex:
         self.groundTruth = self.getGroundTruthIncidenceMatrix(groundTruthMatrix)
         self.predicted = self.getPredictedIncidenceMatrix(predictedMatrix)
         
-
     def getGroundTruthIncidenceMatrix(self, groundTruthMatrix):
         incidenceMatrix = np.zeros(shape=(len(groundTruthMatrix), len(groundTruthMatrix)))
         for i in range(0, len(groundTruthMatrix)):

@@ -12,14 +12,17 @@ class DensityBasedClustering:
         filename = input("enter file name (without extension)")
         dataset = hp.read_data(self, "../Data/"+filename+".txt")
         distance = self.findDistanceMatrix(dataset)
-        self.dbScan(dataset, distance=distance)
+        eps = int(input("Enter the value for epsilon prameter: "))
+        minpts = int(input("Enter the minimum number of pts for a core point: "))
+        self.dbScan(dataset, eps=eps, minpts=minpts, distance=distance)
         result = hp.sort_result(self, dataset)
-        vs.pca(self,dataset, result)
+        # vs.pca(self,dataset, result)
         ids, predicted = hp.create_pd(self, dataset)
         groundTruth = np.genfromtxt("../Data/"+filename+".txt", delimiter="\t", dtype=str, usecols=1)
         coeff = externalIndex(predicted, groundTruth, ids)
         rand, jaccard = coeff.getExternalIndex()
-        print(rand, jaccard)
+        print("RAND COEFFICIENT: {}".format(rand))
+        print("JACCARD COEFFICIENT: {}".format(jaccard))
        
     def findDistanceMatrix(self, dataset):
         distanceMatrix = [[0 for x in range(len(dataset))] for y in range(len(dataset))]

@@ -94,4 +94,5 @@ if __name__ == "__main__":
     hr.agglomerative()
     extIndex = externalIndex(hr.predictedMatrix, hr.groundTruth, hr.geneIds)
     rand, jaccard = extIndex.getExternalIndex()
-    print(rand, jaccard)
+    print("RAND COEFFICIENT: {}".format(rand))
+    print("JACCARD COEFFICIENT: {}".format(jaccard))
