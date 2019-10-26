@@ -33,8 +33,11 @@ class gmm:
 
     def emAlgorithm(self):
         for i in range(self.maxIterations):
-            probMatrix = self.eStep()
-            self.mStep(probMatrix)
+            self.probMatrix = self.eStep()
+            self.log_likelihood = self.mStep()
+            print(self.log_likelihood)
+
+        self.getClusters()
 
     def eStep(self):
         # probMatrix (rik) = n x k where n = number of data points, k = number of clusters
@@ -57,26 +60,31 @@ class gmm:
         return (1. / (np.sqrt((2 * np.pi)**sigma.shape[0] * np.linalg.det(sigma))) * 
             np.exp(-(xMean.T @ sigma_inv @ xMean) / 2))
 
-    def mStep(self, probMatrix):
+    def mStep(self):
         self.mu = []
         self.sigma = []
         self.pi = []
-        for k in range(len(probMatrix[0])):
-            sigma_rik = np.sum(probMatrix[:,k], axis=0)
-            x = probMatrix[:,k].reshape(1, len(probMatrix))
-            new_mu = (1/sigma_rik)*np.sum(probMatrix[:,k].reshape(len(probMatrix), 1)*self.dataMatrix, axis=0)
+        for k in range(len(self.probMatrix[0])):
+            sigma_rik = np.sum(self.probMatrix[:,k], axis=0)
+            x = self.probMatrix[:,k].reshape(1, len(self.probMatrix))
+            new_mu = (1/sigma_rik)*np.sum(self.probMatrix[:,k].reshape(len(self.probMatrix), 1)*self.dataMatrix, axis=0)
             self.mu.append(new_mu)
             new_pi = sigma_rik / len(self.dataMatrix)
             self.pi.append(new_pi)
-            new_sigma = (np.dot((np.array(probMatrix[:,k]).reshape(len(self.dataMatrix), 1)
+            new_sigma = (np.dot((np.array(self.probMatrix[:,k]).reshape(len(self.dataMatrix), 1)
                             *(self.dataMatrix - new_mu)).T, (self.dataMatrix - new_mu))) / sigma_rik
             self.sigma.append(new_sigma + self.reg_sigma)
 
-        log_likelihood = np.sum([np.sum([probMatrix[i][k]*(np.log(p) + 
+        log_likelihood = np.sum([np.sum([self.probMatrix[i][k]*(np.log(p) + 
                             np.log(self.multivariateGaussian(self.dataMatrix[i], m, s))) for p, m, s, k in 
                             zip(self.pi, self.mu, self.sigma, range(self.numClusters))])
                             for i in range(self.numClusters)])
-        print(log_likelihood)
+        return log_likelihood
+
+    def getClusters(self):
+        self.probMatrix
+        maxIndices = np.argmax(self.probMatrix, axis=1) + 1
+        print(maxIndices)
 
 if __name__ == "__main__":
     filename = input("enter file name (without extension): ")
