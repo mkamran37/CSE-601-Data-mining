@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from scipy import spatial
+from External_Index import externalIndex
 
 class hierarchical:
 
@@ -8,7 +9,7 @@ class hierarchical:
         self.numClusters = numClusters
         dataMatrix, self.geneIds, self.groundTruth = self.readData(filePath)
         self.gt_incidenceMatrix = self.getGroundTruthIncidenceMatrix()
-        self.distanceMatrix = self.distanceMatrix(dataMatrix)
+        self.distanceMatrix = self.getDistanceMatrix(dataMatrix)
 
     def readData(self, filePath):
         #Read data from text file as numpy ndarray
@@ -29,7 +30,7 @@ class hierarchical:
         incidenceMatrix = pd.DataFrame(incidenceMatrix, index=self.geneIds, columns=self.geneIds)
         return incidenceMatrix
 
-    def distanceMatrix(self, dataMatrix):
+    def getDistanceMatrix(self, dataMatrix):
         distanceMatrix = spatial.distance.cdist(dataMatrix, dataMatrix, metric='euclidean')
         distanceMatrix = pd.DataFrame(distanceMatrix, index=self.geneIds, columns=self.geneIds)
         return distanceMatrix
@@ -72,63 +73,25 @@ class hierarchical:
             clusterMatrix[newClusterIndex][newClusterIndex] = np.inf
             
         self.clusters = list(clusterMatrix.index.values)
-        print(self.clusters)
-        # return self.clusters
-        self.pr_incidenceMatrix = self.getPredictedIncidenceMatrix()
-        return self.externalIndex(self.pr_incidenceMatrix, self.gt_incidenceMatrix)
+        # print(self.clusters)
+        self.predictedMatrix = self.getPredictedMatrix()
 
-    def getPredictedIncidenceMatrix(self):
+    def getPredictedMatrix(self):
         predictedMatrix = np.zeros(shape=(len(self.distanceMatrix), 1))
-        predictedClusters = pd.DataFrame(predictedMatrix, index=self.geneIds, columns=['clusterNum'])
+        predictedMatrix = pd.DataFrame(predictedMatrix, index=self.geneIds, columns=['clusterNum'])
 
         for i in range(0, self.numClusters):
             for data in self.clusters[i].split('-'):
-                predictedClusters.at[data, 'clusterNum'] = i+1
+                predictedMatrix.at[data, 'clusterNum'] = i+1
 
-        print("predicted Cluster")
-
-        incidenceMatrix = np.zeros(shape=(len(predictedMatrix), len(predictedMatrix)))
-        incidenceMatrix = pd.DataFrame(incidenceMatrix, index=self.geneIds, columns=self.geneIds)
-
-        for i in range(0, len(self.geneIds)):
-            for j in range(i, len(self.geneIds)):
-                index1 = self.geneIds[i]
-                index2 = self.geneIds[j]
-                if predictedClusters.at[index1, 'clusterNum'] == predictedClusters.at[index2, 'clusterNum']:
-                    incidenceMatrix.at[index1, index2] = 1
-                    incidenceMatrix.at[index2, index1] = 1
-
-        print("Incidence Matrix")
-        return incidenceMatrix
-
-    def externalIndex(self, predicted, groundTruth):
-        m11 = 0
-        m00 = 0
-        m10 = 0
-        m01 = 0
-
-        # print(predicted, groundTruth)
-        print("start Index")
-        for index1 in self.geneIds:
-            for index2 in self.geneIds:
-                if predicted.at[index1, index2] == 1 and groundTruth.at[index1, index2] == 1:
-                    m11 += 1
-                elif predicted.at[index1, index2] == 0 and groundTruth.at[index1, index2] == 0:
-                    m00 += 1
-                elif predicted.at[index1, index2] == 1 and groundTruth.at[index1, index2] == 0:
-                    m10 += 1
-                elif predicted.at[index1, index2] == 0 and groundTruth.at[index1, index2] == 1:
-                    m01 += 1
-
-        rand = (m11 + m00) / (m11 + m00 + m10 + m01)
-        jaccard = (m11) / (m11 + m10 + m01)
-        print(m11, m00, m10, m01)
-        return rand, jaccard
+        return predictedMatrix
 
 if __name__ == "__main__":
     fileName = input("Enter data file name (without extension): ")
     filePath = "CSE-601/project2/Data/"+ fileName + ".txt"
     numClusters = int(input("Enter the number of clusters: "))
     hr = hierarchical(filePath, numClusters)
-    print(hr.agglomerative())
-    # hr.jaccardCoefficient()
+    hr.agglomerative()
+    extIndex = externalIndex(hr.predictedMatrix, hr.groundTruth, hr.geneIds)
+    rand, jaccard = extIndex.getExternalIndex()
+    print(rand, jaccard)
