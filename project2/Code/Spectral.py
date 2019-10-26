@@ -1,36 +1,25 @@
 import numpy as np
-from scipy.spatial import distance
-import random
-from sklearn.decomposition import PCA
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 from collections import defaultdict
 from math import e
-
-class Point:
-    def __init__(self, point=None, id=-1, cluster=-1):
-        self.point = point
-        self.cluster = cluster
-        self.id = id
-
+from point import Point
+from visualization import visualization as vs
+from helpers import helpers as hp
+from K_means import k_means as km
 
 class Spectral:
     def __init__(self):
         filename = input("enter file name (without extension)")
-        dataset = self.read_data("../Data/"+filename+".txt")
+        dataset = hp.read_data(self, "../Data/"+filename+".txt")
         W = self.computeSimilarityMatrix(dataset)
         D = self.computeDegreeMatrix(W)
         L = self.computeLaplaciaMatrix(D, W)
         eVal, eVector = self.findEigens(L)
         embeddedSpace = self.sort(eVal, eVector)
-        # embeddedSpace = self.extract(eVector)
         data = self.simulateDataset(embeddedSpace)
         centroids = np.array(self.initializeCentroids(data))
         clusters = self.assignClusters(data, centroids)
-        result = self.sort_result(data)
-        # print(result)
-        self.pca(dataset, result)
+        result = hp.sort_result(self, data)
+        vs.pca(self, dataset, result)
 
     def simulateDataset(self, dataset):
         '''
@@ -44,27 +33,6 @@ class Spectral:
             pt.point = dataset[i]
             data[i] = pt
         return data
-
-    def read_data(self, filepath):
-        '''
-            input: filepath
-            output: dataset - a list of Point objects
-        '''
-        data = np.genfromtxt(filepath, dtype='double', delimiter="\t")
-        dataset = list()
-        for i in range(data.shape[0]):
-            tmp = list()
-            gene = Point()
-            for j in range(data.shape[1]):
-                if j == 0:
-                    gene.id = int(data[i][0])
-                elif j == 1:
-                    continue
-                else:
-                    tmp.append(data[i][j])
-            gene.point = np.array(tmp)
-            dataset.append(gene)
-        return dataset
 
     def computeSimilarityMatrix(self, dataset, sigma=5):
         '''
@@ -114,9 +82,8 @@ class Spectral:
         output: eigen vectors corresponding to the sorted eigen values in ascending order
         '''
         idx = eigenValues.argsort()[:k]
-        # eigenValues = eigenValues[idx]
+        eigenValues = eigenValues[idx]
         eigenVectors = eigenVectors[:,idx]
-        # print(eigenVectors, eigenValues)
         return eigenVectors
 
     def extract(self, eVector, k = 5):
@@ -153,17 +120,6 @@ class Spectral:
             centroids = self.findClusterCentroid(centroids, clusters)
             j+=1
         return clusters
-
-    def sort_result(self, datasets):
-        cluster = defaultdict(list)
-        dictlist = []
-        for i in datasets.keys():
-            cluster[int(datasets[i].id)].append(int(datasets[i].cluster))
-        for key, value in cluster.items():
-            temp = [key,value[0]]
-            dictlist.append(temp)
-        dictlist.sort(key= lambda x:x[0])
-        return dictlist
         
     def find_cluster(self, centroids, gene, clusters):
         min_dist = float('inf')
@@ -181,17 +137,3 @@ class Spectral:
         for i,key in enumerate(clusters):
             centroids[i] = np.array(clusters[key], dtype=np.float64).mean(axis=0)
         return centroids
-
-    def pca(self, datasett, result):
-        pca = PCA(n_components=2, svd_solver='full')
-        dataset = [data.point for data in datasett]
-        pca.fit(dataset)
-        r = np.array(result)
-        pca_matrix = pca.transform(dataset)
-        # print(pca_matrix.shape, r.shape)
-        df = pd.DataFrame(data = np.concatenate((pca_matrix, r[:,1:2]), axis = 1), columns=['PC1','PC2','Cluster'])
-        lm = sns.lmplot(x='PC1', y='PC2', data=df, fit_reg=False, hue='Cluster')
-        plt.show()
-
-if __name__ == "__main__":
-    s = Spectral()
