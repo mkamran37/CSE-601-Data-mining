@@ -5,6 +5,7 @@ from point import Point
 from visualization import visualization as vs
 from helpers import helpers as hp
 from K_means import k_means as km
+from External_Index import externalIndex
 
 class Spectral:
     def __init__(self):
@@ -20,6 +21,11 @@ class Spectral:
         clusters = self.assignClusters(data, centroids)
         result = hp.sort_result(self, data)
         vs.pca(self, dataset, result)
+        ids, predicted = hp.create_pd(self, dataset)
+        groundTruth = np.genfromtxt("../Data/"+filename+".txt", delimiter="\t", dtype=str, usecols=1)
+        coeff = externalIndex(predicted, groundTruth, ids)
+        rand, jaccard = coeff.getExternalIndex()
+        print(rand, jaccard)
 
     def simulateDataset(self, dataset):
         '''

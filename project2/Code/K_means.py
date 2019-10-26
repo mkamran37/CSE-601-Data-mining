@@ -5,7 +5,10 @@ from collections import defaultdict
 from point import Point
 from visualization import visualization as vs
 from helpers import helpers as hp
+from External_Index import externalIndex
 
+#pd geneID vs cluster
+#column name: clusterNum
 class k_means:
     
     def __init__(self):
@@ -14,37 +17,13 @@ class k_means:
         centroids = np.array(self.initializeCentroids(dataset))
         self.assignClusters(dataset, centroids)
         result = hp.sort_result(self, dataset)
-        vs.pca(self, dataset, result)
-        # truth = self.groundtruth("../Data/"+filename+".txt")
-        # self.findJaccard(predicted, truth)
-    
-    def findJaccard(self, predicted, truth):
-        for key in predicted:
-            l1=truth[key]
-            l2=predicted[key]
-            intersection = [list(x) for x in set(tuple(x) for x in l1).intersection(set(tuple(x) for x in l2))]
-            # union = len(predicted[key]) + len(truth[key]) - len(intersection)
-            union = len(predicted[key]) + len(truth[key])
-            print(len(intersection)/union)
+        # vs.pca(self, dataset, result)
+        ids, predicted = hp.create_pd(self, dataset)
+        groundTruth = np.genfromtxt("../Data/"+filename+".txt", delimiter="\t", dtype=str, usecols=1)
+        coeff = externalIndex(predicted, groundTruth, ids)
+        rand, jaccard = coeff.getExternalIndex()
+        print(rand, jaccard)
 
-    def groundtruth(self, filepath):
-        data = np.genfromtxt(filepath, dtype='double', delimiter="\t")
-        dataset = dict()
-        for i in range(data.shape[0]):
-            tmp = list()
-            for j in range(data.shape[1]):
-                if j==0:
-                    continue
-                elif j==1:
-                    if data[i][j] not in dataset and data[i][j] != -1:
-                        dataset[int(data[i][j])] = list()
-                else:
-                    tmp.append(data[i][j])
-            if data[i][1] != -1:
-                dataset.get(int(data[i][1])).append(tmp)
-        return dataset
-        # print(dataset)
-        # self.pca(dataset)
 
     def assignClusters(self, dataset, centroids, iterations = 200):
         # prevCentroids = np.empty_like(centroids)

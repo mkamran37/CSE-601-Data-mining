@@ -4,6 +4,7 @@ from collections import defaultdict
 from point import Point
 from visualization import visualization as vs
 from helpers import helpers as hp
+from External_Index import externalIndex
 
 
 class DensityBasedClustering:
@@ -14,6 +15,11 @@ class DensityBasedClustering:
         self.dbScan(dataset, distance=distance)
         result = hp.sort_result(self, dataset)
         vs.pca(self,dataset, result)
+        ids, predicted = hp.create_pd(self, dataset)
+        groundTruth = np.genfromtxt("../Data/"+filename+".txt", delimiter="\t", dtype=str, usecols=1)
+        coeff = externalIndex(predicted, groundTruth, ids)
+        rand, jaccard = coeff.getExternalIndex()
+        print(rand, jaccard)
        
     def findDistanceMatrix(self, dataset):
         distanceMatrix = [[0 for x in range(len(dataset))] for y in range(len(dataset))]
@@ -58,6 +64,3 @@ class DensityBasedClustering:
             if distance[neighbor.id-1][point.id-1] < eps:
                 result.append(point)
         return result
-
-
-DensityBasedClustering()
