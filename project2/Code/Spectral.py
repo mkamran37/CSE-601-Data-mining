@@ -14,7 +14,7 @@ class Spectral:
         sigma = int(input("Enter the value for sigma: "))
         W = self.computeSimilarityMatrix(dataset, sigma)
         D = self.computeDegreeMatrix(W)
-        L = self.computeLaplaciaMatrix(D, W)
+        L = self.computeLaplacianMatrix(D, W)
         eVal, eVector = self.findEigens(L)
         k = int(input("Enter the number of required clusters: "))
         embeddedSpace = self.sort(eVal, eVector, k)
@@ -24,7 +24,7 @@ class Spectral:
         clusters = self.assignClusters(data, centroids, max_iterations)
         dd = self.convertData(data, dataset)
         result = hp.sort_result(self, dd)
-        # vs.pca(self, dd, result)
+        vs.pca(self, dd, result)
         ids, predicted = hp.create_pd(self, dd)
         groundTruth = np.genfromtxt("../Data/"+filename+".txt", delimiter="\t", dtype=str, usecols=1)
         coeff = externalIndex(predicted, groundTruth, ids)
@@ -45,7 +45,7 @@ class Spectral:
             data[i+1] = pt
         return data
 
-    def computeSimilarityMatrix(self, dataset, sigma=5):
+    def computeSimilarityMatrix(self, dataset, sigma=3):
         '''
             input:  dataset - a list of Point objects
                     sigma - parameter of calculating gaussian kernel
@@ -56,7 +56,6 @@ class Spectral:
             for p in dataset:
                 dist = np.linalg.norm(point.point - p.point)
                 similarityMatrix[point.id-1][p.id-1] = np.exp(-dist**2/(2.*(sigma**2.)))
-                # similarityMatrix[point.id-1][p.id-1] = distance.euclidean(point.point, p.point)
         return similarityMatrix
 
     def computeDegreeMatrix(self, W):
@@ -70,7 +69,7 @@ class Spectral:
             D[i][i] = res[i]
         return D
 
-    def computeLaplaciaMatrix(self, D, W):
+    def computeLaplacianMatrix(self, D, W):
         '''
         input:  D, W - NxN matrices
         output: L   -  NxN laplacian matrix
@@ -109,7 +108,7 @@ class Spectral:
             k-=1
         return centroids
 
-    def assignClusters(self, dataset, centroids, iterations = 200):
+    def assignClusters(self, dataset, centroids, iterations = 20):
         # prevCentroids = np.empty_like(centroids)
         clusters = defaultdict(list)
         j = 0

@@ -12,8 +12,9 @@ class k_means:
     def __init__(self):
         filename = input("enter file name (without extension)")
         dataset = hp.read_data(self, "../Data/"+filename+".txt")
+        datadict = self.convertToDict(dataset)
         k = int(input("Enter number of required clusters: "))
-        centroids = np.array(self.initializeCentroids(dataset, k))
+        centroids = np.array(self.initializeCentroids(datadict, k))
         iterations = int(input("Enter number of max iterations: "))
         self.assignClusters(dataset, centroids, iterations)
         result = hp.sort_result(self, dataset)
@@ -25,7 +26,13 @@ class k_means:
         print("RAND COEFFICIENT: {}".format(rand))
         print("JACCARD COEFFICIENT: {}".format(jaccard))
 
-    def assignClusters(self, dataset, centroids, iterations = 200):
+    def convertToDict(self, dataset):
+        dataDict = dict()
+        for i in range(len(dataset)):
+            dataDict[i+1] = dataset[i]
+        return dataDict
+   
+    def assignClusters(self, dataset, centroids, iterations = 10):
         # prevCentroids = np.empty_like(centroids)
         clusters = defaultdict(list)
         j = 0
@@ -43,8 +50,8 @@ class k_means:
         cluster = 0
         print("Enter {} number of initial centroids: ".format(k))
         while cluster < k:
-            inputs = list(map(float,input().split()))
-            centroids.append(inputs)
+            point = dataset[int(input("Enter id: "))]
+            centroids.append(point.point)
             cluster+=1
         return centroids
     
