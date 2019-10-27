@@ -1,6 +1,7 @@
 from collections import defaultdict
 from point import Point
 import numpy as np
+import pandas as pd
 
 class helpers:
     def sort_result(self, datasets):
@@ -34,3 +35,11 @@ class helpers:
             gene.point = np.array(tmp)
             dataset.append(gene)
         return dataset
+    
+    def create_pd(self, dataset):
+        geneID = [data.id for data in dataset]
+        geneCluster = [data.cluster for data in dataset]
+        points = np.array(geneCluster)
+        ids = np.array(geneID)
+        predicted = pd.DataFrame(data=points, index=ids, columns=["clusterNum"])
+        return ids, predicted
