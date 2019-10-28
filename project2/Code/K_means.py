@@ -8,23 +8,6 @@ from helpers import helpers as hp
 from External_Index import externalIndex
 
 class k_means:
-    
-    def __init__(self):
-        filename = input("enter file name (without extension)")
-        dataset = hp.read_data(self, "../Data/"+filename+".txt")
-        datadict = self.convertToDict(dataset)
-        k = int(input("Enter number of required clusters: "))
-        centroids = np.array(self.initializeCentroids(datadict, k))
-        iterations = int(input("Enter number of max iterations: "))
-        self.assignClusters(dataset, centroids, iterations)
-        result = hp.sort_result(self, dataset)
-        # vs.pca(self, dataset, result)
-        ids, predicted = hp.create_pd(self, dataset)
-        groundTruth = np.genfromtxt("../Data/"+filename+".txt", delimiter="\t", dtype=str, usecols=1)
-        coeff = externalIndex(predicted, groundTruth, ids)
-        rand, jaccard = coeff.getExternalIndex()
-        print("RAND COEFFICIENT: {}".format(rand))
-        print("JACCARD COEFFICIENT: {}".format(jaccard))
 
     def convertToDict(self, dataset):
         dataDict = dict()
@@ -44,6 +27,7 @@ class k_means:
                clusters = self.find_cluster(centroids, dataset[i], clusters)
             centroids = self.findClusterCentroid(centroids, clusters)
             j+=1
+        return centroids
 
     def initializeCentroids(self, dataset, k):
         centroids = list()
