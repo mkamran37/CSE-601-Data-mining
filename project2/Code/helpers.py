@@ -2,8 +2,14 @@ from collections import defaultdict
 from point import Point
 import numpy as np
 import pandas as pd
+from External_Index import externalIndex
 
 class helpers:
+    def get_file(self):
+        filename = input("enter file name (without extension)")
+        dataset = self.read_data(self, "../Data/"+filename+".txt")
+        return dataset, filename
+
     def sort_result(self, datasets):
         cluster = defaultdict(list)
         dictlist = []
@@ -43,3 +49,11 @@ class helpers:
         ids = np.array(geneID)
         predicted = pd.DataFrame(data=points, index=ids, columns=["clusterNum"])
         return ids, predicted
+    
+    def calculateCoeff(self, dataset, filename):
+        ids, predicted = self.create_pd(self, dataset)
+        groundTruth = np.genfromtxt("../Data/"+filename+".txt", delimiter="\t", dtype=str, usecols=1)
+        coeff = externalIndex(predicted, groundTruth, ids)
+        rand, jaccard = coeff.getExternalIndex()
+        print("RAND COEFFICIENT: {}".format(rand))
+        print("JACCARD COEFFICIENT: {}".format(jaccard))

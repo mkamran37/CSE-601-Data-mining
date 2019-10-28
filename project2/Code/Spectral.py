@@ -8,29 +8,6 @@ from K_means import k_means as km
 from External_Index import externalIndex
 
 class Spectral:
-    def __init__(self):
-        filename = input("enter file name (without extension)")
-        dataset = hp.read_data(self, "../Data/"+filename+".txt")
-        sigma = int(input("Enter the value for sigma: "))
-        W = self.computeSimilarityMatrix(dataset, sigma)
-        D = self.computeDegreeMatrix(W)
-        L = self.computeLaplacianMatrix(D, W)
-        eVal, eVector = self.findEigens(L)
-        k = int(input("Enter the number of required clusters: "))
-        embeddedSpace = self.sort(eVal, eVector, k)
-        data = self.simulateDataset(embeddedSpace)
-        centroids = np.array(self.initializeCentroids(data, k))
-        max_iterations = int(input("Enter maximum number of iterations: "))
-        clusters = self.assignClusters(data, centroids, max_iterations)
-        dd = self.convertData(data, dataset)
-        result = hp.sort_result(self, dd)
-        vs.pca(self, dd, result)
-        ids, predicted = hp.create_pd(self, dd)
-        groundTruth = np.genfromtxt("../Data/"+filename+".txt", delimiter="\t", dtype=str, usecols=1)
-        coeff = externalIndex(predicted, groundTruth, ids)
-        rand, jaccard = coeff.getExternalIndex()
-        print("RAND COEFFICIENT: {}".format(rand))
-        print("JACCARD COEFFICIENT: {}".format(jaccard))
 
     def simulateDataset(self, dataset):
         '''
