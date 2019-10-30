@@ -87,6 +87,9 @@ if __name__ == "__main__":
     else:
         dataset, filename = hp.get_file()
         dataset, result = m.spectral(dataset)
-        dataset, ids, predicted = hp.create_pd(dataset)
+        newdataset, ids, predicted = hp.create_pd(dataset)
     hp.calculateCoeff(predicted, filename, ids)
-    vs().pca(dataset, predicted, ids)
+    if dataset[0].shape[0] == 2:
+        vs().visualize(dataset, predicted, ids)
+    else:
+        vs().pca(dataset, predicted, ids)

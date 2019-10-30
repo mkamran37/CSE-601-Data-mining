@@ -83,7 +83,7 @@ class Spectral:
             if tmp > delta:
                 k = i
                 delta = tmp
-        return k
+        return k+1
 
     def initializeCentroids(self, dataset, k=5):
         '''
