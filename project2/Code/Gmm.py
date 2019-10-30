@@ -9,7 +9,7 @@ class gmm:
         self.mu = centroids
         self.pi = None
         self.sigma = None
-        self.dataMatrix, self.geneIds = self.readData(filePath)
+        self.dataMatrix, self.dataIds = self.readData(filePath)
         self.reg_sigma = 1e-6*np.identity(len(self.dataMatrix[0]))
         self.readParams()
 
@@ -26,8 +26,8 @@ class gmm:
         #Read data from text file as numpy ndarray
         data = np.genfromtxt(filePath, dtype='float', delimiter="\t")
         data = np.delete(data, [0,1], axis=1)
-        geneIds = np.genfromtxt(filePath, delimiter="\t", dtype=str, usecols=0)
-        return data, geneIds
+        dataIds = np.genfromtxt(filePath, delimiter="\t", dtype=str, usecols=0)
+        return data, dataIds
 
     def emAlgorithm(self):
         for i in range(self.maxIterations):
@@ -36,7 +36,7 @@ class gmm:
             print("Log Likelihood (Iteration: " + (i+1) + "): " + str(self.log_likelihood))
 
         predictedMatrix = self.getClusters()
-        return self.dataMatrix, predictedMatrix, self.geneIds
+        return self.dataMatrix, predictedMatrix, self.dataIds
 
     def eStep(self):
         # probMatrix (rik) = n x k where n = number of data points, k = number of clusters
@@ -72,5 +72,5 @@ class gmm:
 
     def getClusters(self):
         maxIndices = np.argmax(self.probMatrix, axis=1) + 1
-        predictedMatrix = pd.DataFrame(maxIndices, index=self.geneIds, columns=['Cluster'])
+        predictedMatrix = pd.DataFrame(maxIndices, index=self.dataIds, columns=['Cluster'])
         return predictedMatrix

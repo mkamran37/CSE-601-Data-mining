@@ -7,21 +7,21 @@ class hierarchical:
 
     def __init__(self, filePath, numClusters):
         self.numClusters = numClusters
-        self.dataMatrix, self.geneIds = self.readData(filePath)
+        self.dataMatrix, self.dataIds = self.readData(filePath)
         self.distanceMatrix = self.getDistanceMatrix()
 
     def readData(self, filePath):
         #Read data from text file as numpy ndarray
         data = np.genfromtxt(filePath, dtype='float', delimiter="\t")
         data = np.delete(data, [0,1], axis=1)
-        geneIds = np.genfromtxt(filePath, delimiter="\t", dtype=str, usecols=0)
+        dataIds = np.genfromtxt(filePath, delimiter="\t", dtype=str, usecols=0)
         # groundTruth = np.genfromtxt(filePath, delimiter="\t", dtype=str, usecols=1)
         dataDf = pd.DataFrame(data)
-        return dataDf, geneIds
+        return dataDf, dataIds
 
     def getDistanceMatrix(self):
         distanceMatrix = spatial.distance.cdist(self.dataMatrix, self.dataMatrix, metric='euclidean')
-        distanceMatrix = pd.DataFrame(distanceMatrix, index=self.geneIds, columns=self.geneIds)
+        distanceMatrix = pd.DataFrame(distanceMatrix, index=self.dataIds, columns=self.dataIds)
         return distanceMatrix
 
     def agglomerative(self):
@@ -64,11 +64,11 @@ class hierarchical:
             
         self.clusters = list(clusterMatrix.index.values)
         # print(self.clusters)
-        return self.dataMatrix, self.getPredictedMatrix(), self.geneIds
+        return self.dataMatrix, self.getPredictedMatrix(), self.dataIds
 
     def getPredictedMatrix(self):
         predictedMatrix = np.zeros(shape=(len(self.distanceMatrix), 1))
-        predictedMatrix = pd.DataFrame(predictedMatrix, index=self.geneIds, columns=['Cluster'])
+        predictedMatrix = pd.DataFrame(predictedMatrix, index=self.dataIds, columns=['Cluster'])
 
         for i in range(0, self.numClusters):
             for data in self.clusters[i].split('-'):
@@ -80,7 +80,7 @@ class hierarchical:
     
 #     hr = hierarchical(filePath, numClusters)
 #     hr.agglomerative()
-#     extIndex = externalIndex(hr.predictedMatrix, hr.groundTruth, hr.geneIds)
+#     extIndex = externalIndex(hr.predictedMatrix, hr.groundTruth, hr.dataIds)
 #     rand, jaccard = extIndex.getExternalIndex()
 #     print("RAND COEFFICIENT: {}".format(rand))
 #     print("JACCARD COEFFICIENT: {}".format(jaccard))

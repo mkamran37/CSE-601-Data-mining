@@ -12,7 +12,7 @@ class Spectral:
     def simulateDataset(self, dataset):
         '''
             input: dataset - top k eigen vectors
-            output: data - a dictionary containing key as gene ID and value as the corresponding Point object
+            output: data - a dictionary containing key as data ID and value as the corresponding Point object
         '''
         data = dict()
         for i in range(len(dataset)):
@@ -26,7 +26,8 @@ class Spectral:
         '''
             input:  dataset - a list of Point objects
                     sigma - parameter of calculating gaussian kernel
-            output: similarityMatrix - a NxN matrix, where N is the size of dataset,                                    consisting of gaussian weights between genes
+            output: similarityMatrix - a NxN matrix, where N is the size of dataset, 
+            consisting of gaussian weights between data points
         '''
         similarityMatrix = [[0 for x in range(len(dataset))] for y in range(len(dataset))]
         for point in dataset:
@@ -67,8 +68,6 @@ class Spectral:
         input:  eigenValues, eigenVectors
         output: eigen vectors corresponding to the sorted eigen values in ascending order
         '''
-        
-        # idx = eigenValues.argsort()[:k]
         eigenValues = eigenValues.argsort()
         k = self.findEigenGap(eigenValues)
         idx = eigenValues[:k]
@@ -87,7 +86,7 @@ class Spectral:
 
     def initializeCentroids(self, dataset, k=5):
         '''
-        input:  dataset - a dictionary containing key as gene ID and value as the corresponding Point object
+        input:  dataset - a dictionary containing key as data point ID and value as the corresponding Point object
                 k - number of desired clusters
         output: centroids - k number of initial random centroids
         '''
@@ -111,16 +110,16 @@ class Spectral:
             j+=1
         return clusters
         
-    def find_cluster(self, centroids, gene, clusters):
+    def find_cluster(self, centroids, data, clusters):
         min_dist = float('inf')
         cluster = 0
         for i,centroid in enumerate(centroids):
-            dist = np.linalg.norm(gene.point - centroid)
+            dist = np.linalg.norm(data.point - centroid)
             if dist <= min_dist:
                 min_dist = dist
                 cluster = i+1
-        gene.cluster = int(cluster)
-        clusters[cluster].append(gene)
+        data.cluster = int(cluster)
+        clusters[cluster].append(data)
         return clusters
 
     def findClusterCentroid(self, centroids, clusters):
@@ -132,7 +131,7 @@ class Spectral:
     
     def convertData(self, data, dataset):
         '''
-        input: data- (eigenvector) a dictionary of gene ID vs. list of Point objects
+        input: data- (eigenvector) a dictionary of data ID vs. list of Point objects
             dataset- (original points) the original data containing point objects
         output: dd- a list containing only of Point objects
         '''

@@ -30,24 +30,24 @@ class helpers:
         dataset = list()
         for i in range(data.shape[0]):
             tmp = list()
-            gene = Point()
+            data = Point()
             for j in range(data.shape[1]):
                 if j == 0:
-                    gene.id = int(data[i][0])
+                    data.id = int(data[i][0])
                 elif j == 1:
                     continue
                 else:
                     tmp.append(data[i][j])
-            gene.point = np.array(tmp)
-            dataset.append(gene)
+            data.point = np.array(tmp)
+            dataset.append(data)
         return dataset
     
     def create_pd(self, datasett):
-        geneID = [data.id for data in datasett]
-        geneCluster = [data.cluster for data in datasett]
+        dataID = [data.id for data in datasett]
+        dataCluster = [data.cluster for data in datasett]
         dataset = [data.point for data in datasett]
-        points = np.array(geneCluster)
-        ids = np.array(geneID)
+        points = np.array(dataCluster)
+        ids = np.array(dataID)
         predicted = pd.DataFrame(data=points, index=ids, columns=["Cluster"])
         return dataset, ids, predicted
     

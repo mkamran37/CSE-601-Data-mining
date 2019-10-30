@@ -3,9 +3,9 @@ import pandas as pd
 
 class externalIndex:
 
-    def __init__(self, predictedMatrix, groundTruthMatrix, geneIds):
+    def __init__(self, predictedMatrix, groundTruthMatrix, dataIds):
         print("Finding Rand and Jaccard Coefficient ....................")
-        self.geneIds = geneIds
+        self.dataIds = dataIds
         self.groundTruth = self.getGroundTruthIncidenceMatrix(groundTruthMatrix)
         self.predicted = self.getPredictedIncidenceMatrix(predictedMatrix)
         
@@ -16,17 +16,17 @@ class externalIndex:
                 if groundTruthMatrix[i] == groundTruthMatrix[j]:
                     incidenceMatrix[i][j] = 1
 
-        incidenceMatrix = pd.DataFrame(incidenceMatrix, index=self.geneIds, columns=self.geneIds)
+        incidenceMatrix = pd.DataFrame(incidenceMatrix, index=self.dataIds, columns=self.dataIds)
         return incidenceMatrix
 
     def getPredictedIncidenceMatrix(self, predictedMatrix):
         incidenceMatrix = np.zeros(shape=(len(predictedMatrix), len(predictedMatrix)))
-        incidenceMatrix = pd.DataFrame(incidenceMatrix, index=self.geneIds, columns=self.geneIds)
+        incidenceMatrix = pd.DataFrame(incidenceMatrix, index=self.dataIds, columns=self.dataIds)
 
-        for i in range(0, len(self.geneIds)):
-            for j in range(i, len(self.geneIds)):
-                index1 = self.geneIds[i]
-                index2 = self.geneIds[j]
+        for i in range(0, len(self.dataIds)):
+            for j in range(i, len(self.dataIds)):
+                index1 = self.dataIds[i]
+                index2 = self.dataIds[j]
                 if predictedMatrix.at[index1, 'Cluster'] == predictedMatrix.at[index2, 'Cluster']:
                     incidenceMatrix.at[index1, index2] = 1
                     incidenceMatrix.at[index2, index1] = 1
@@ -40,8 +40,8 @@ class externalIndex:
         m01 = 0
 
         # print(predicted, groundTruth)
-        for index1 in self.geneIds:
-            for index2 in self.geneIds:
+        for index1 in self.dataIds:
+            for index2 in self.dataIds:
                 if self.predicted.at[index1, index2] == 1 and self.groundTruth.at[index1, index2] == 1:
                     m11 += 1
                 elif self.predicted.at[index1, index2] == 0 and self.groundTruth.at[index1, index2] == 0:

@@ -7,7 +7,6 @@ from visualization import visualization as vs
 from Hierarchical import hierarchical 
 from Gmm import gmm
 import numpy as np
-
 class main:
     
     def kmeans(self, dataset):
@@ -62,7 +61,7 @@ class main:
         hp = helpers()
         db = DensityBasedClustering()
         distance = db.findDistanceMatrix(dataset)
-        eps = float(input("Enter the value for epsilon prameter: "))
+        eps = float(input("Enter the value for epsilon parameter: "))
         minpts = int(input("Enter the minimum number of pts for a core point: "))
         db.dbScan(dataset, eps=eps, minpts=minpts, distance=distance)
         result = hp.sort_result(dataset)
