@@ -4,7 +4,7 @@ import pandas as pd
 class externalIndex:
 
     def __init__(self, predictedMatrix, groundTruthMatrix, geneIds):
-        print("Finding Rand and Jaccard Coefficient ....................")
+        print("\nFinding Rand and Jaccard Coefficient ....................")
         self.geneIds = geneIds
         self.groundTruth = self.getGroundTruthIncidenceMatrix(groundTruthMatrix)
         self.predicted = self.getPredictedIncidenceMatrix(predictedMatrix)

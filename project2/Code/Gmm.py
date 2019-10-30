@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 from scipy.stats import multivariate_normal
-from scipy.stats import norm
 
 class gmm:
 
@@ -47,6 +46,13 @@ class gmm:
                 break
 
         predictedMatrix = self.getClusters()
+
+        print("\nMean ..........")
+        print(self.mu)
+        print("\nCovariance matrix ..........")
+        print(self.sigma)
+        print("\nPrior cluster probabilities ..........")
+        print(self.pi)
         return self.dataMatrix, predictedMatrix, self.geneIds
 
     def eStep(self):
