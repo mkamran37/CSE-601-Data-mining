@@ -7,7 +7,7 @@ from External_Index import externalIndex
 class helpers:
     def get_file(self):
         filename = input("enter file name (without extension): ")
-        dataset = self.read_data("CSE-601/project2/Data/"+filename+".txt")
+        dataset = self.read_data("../Data/"+filename+".txt")
         return dataset, filename
 
     def sort_result(self, datasets):
@@ -48,12 +48,13 @@ class helpers:
         dataset = [data.point for data in datasett]
         points = np.array(geneCluster)
         ids = np.array(geneID)
-        predicted = pd.DataFrame(data=points, index=ids, columns=["cluster"])
+        predicted = pd.DataFrame(data=points, index=ids, columns=["Cluster"])
         return dataset, ids, predicted
     
     def calculateCoeff(self, predicted, filename, ids):
         # ids, predicted = self.create_pd(self, dataset)
-        groundTruth = np.genfromtxt("CSE-601/project2/Data/"+filename+".txt", delimiter="\t", dtype=str, usecols=1)
+        # groundTruth = np.genfromtxt("CSE-601/project2/Data/"+filename+".txt", delimiter="\t", dtype=str, usecols=1)
+        groundTruth = np.genfromtxt("../Data/"+filename+".txt", delimiter="\t", dtype=str, usecols=1)
         coeff = externalIndex(predicted, groundTruth, ids)
         rand, jaccard = coeff.getExternalIndex()
         print("RAND COEFFICIENT: {}".format(rand))

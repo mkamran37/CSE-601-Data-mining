@@ -58,8 +58,8 @@ class hierarchical:
                 rowDf[cluster][newClusterIndex] = minValue
                 colDf[newClusterIndex][cluster] = minValue
 
-            clusterMatrix = pd.concat([clusterMatrix, rowDf], sort=False)
-            clusterMatrix = pd.concat([clusterMatrix, colDf], axis=1, sort=False)
+            clusterMatrix = pd.concat([clusterMatrix, rowDf])
+            clusterMatrix = pd.concat([clusterMatrix, colDf], axis=1)
             clusterMatrix[newClusterIndex][newClusterIndex] = np.inf
             
         self.clusters = list(clusterMatrix.index.values)
