@@ -5,7 +5,6 @@ from collections import defaultdict
 from point import Point
 from visualization import visualization as vs
 from helpers import helpers as hp
-from External_Index import externalIndex
 
 class k_means:
 

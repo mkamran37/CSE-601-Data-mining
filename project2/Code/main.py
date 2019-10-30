@@ -1,9 +1,11 @@
 from Spectral import Spectral
 from K_means import k_means
 from Density import DensityBasedClustering
-from helpers import helpers as hp
+from helpers import helpers
 from External_Index import externalIndex
 from visualization import visualization as vs
+from Hierarchical import hierarchical 
+from Gmm import gmm
 import numpy as np
 
 class main:
@@ -18,6 +20,22 @@ class main:
         result = hp.sort_result(self, dataset)
         # vs.pca(self, dataset, result)
         return dataset, result, centroids
+
+    def hrClustering(self):
+        fileName = input("Enter data file name (without extension): ")
+        filePath = "CSE-601/project2/Data/"+ fileName + ".txt"
+        numClusters = int(input("Enter number of required clusters: "))
+        hr = hierarchical(filePath, numClusters)
+        dataset, predicted, ids = hr.agglomerative()
+        return dataset, predicted, ids, fileName
+
+    def gmmClustering(self):
+        dataset, fileName = hp().get_file()
+        _, _, centroids = m.kmeans(dataset)
+        filePath = "CSE-601/project2/Data/"+ fileName + ".txt"
+        g = gmm(filePath, centroids)
+        dataset, predicted, ids = g.emAlgorithm()
+        return dataset, predicted, ids, fileName
 
     def spectral(self, dataset):
         sp = Spectral()
@@ -46,14 +64,24 @@ class main:
         return dataset, result
 
 if __name__ == "__main__":
-    choice = int(input("\nPress 1 for k-means\nPress 2 for Density based Clustering\nPress 3 for Spectral clustering\n"))
+    choice = int(input("\nPress 1 for k-means\nPress 2 for Hierarchical Clustering\nPress 3 for Density based Clustering\nPress 4 for Gaussian Mixture Model Clustering\n"))
     m = main()
-    dataset, filename = hp.get_file()
+    hp = helpers()
     if choice == 1:
+        dataset, filename = hp.get_file()
         dataset, result, centroids = m.kmeans(dataset)
+        dataset, ids, predicted = hp.create_pd(dataset)
     elif choice == 2:
+        dataset, predicted, ids, filename = m.hrClustering()
+    elif choice == 3:
+        dataset, filename = hp.get_file()
         dataset, result = m.density(dataset)
+        dataset, ids, predicted = hp.create_pd(dataset)
+    elif choice == 4:
+        dataset, predicted, ids, filename = m.gmmClustering()
     else:
+        dataset, filename = hp.get_file()
         dataset, result = m.spectral(dataset)
-    hp.calculateCoeff(dataset, filename)
-    vs.pca(m, dataset, result)
+        dataset, ids, predicted = hp.create_pd(dataset)
+    hp.calculateCoeff(predicted, filename, ids)
+    vs().pca(dataset, predicted, ids)
