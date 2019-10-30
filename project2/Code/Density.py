@@ -16,7 +16,7 @@ class DensityBasedClustering:
                 distanceMatrix[point.id-1][p.id-1] = distance.euclidean(point.point, p.point)
         return distanceMatrix
     
-    def dbScan(self, dataset, eps=1, minpts=5, distance=None, points=None):
+    def dbScan(self, dataset, eps=1.0, minpts=5, distance=None, points=None):
         clusterNumber = 0
         clusters = defaultdict(list)
         visited = set()
