@@ -4,6 +4,7 @@ import pandas as pd
 class externalIndex:
 
     def __init__(self, predictedMatrix, groundTruthMatrix, geneIds):
+        print("Finding Rand and Jaccard Coefficient ....................")
         self.geneIds = geneIds
         self.groundTruth = self.getGroundTruthIncidenceMatrix(groundTruthMatrix)
         self.predicted = self.getPredictedIncidenceMatrix(predictedMatrix)
@@ -26,7 +27,7 @@ class externalIndex:
             for j in range(i, len(self.geneIds)):
                 index1 = self.geneIds[i]
                 index2 = self.geneIds[j]
-                if predictedMatrix.at[index1, 'clusterNum'] == predictedMatrix.at[index2, 'clusterNum']:
+                if predictedMatrix.at[index1, 'Cluster'] == predictedMatrix.at[index2, 'Cluster']:
                     incidenceMatrix.at[index1, index2] = 1
                     incidenceMatrix.at[index2, index1] = 1
 
@@ -39,7 +40,6 @@ class externalIndex:
         m01 = 0
 
         # print(predicted, groundTruth)
-        print("start Index")
         for index1 in self.geneIds:
             for index2 in self.geneIds:
                 if self.predicted.at[index1, index2] == 1 and self.groundTruth.at[index1, index2] == 1:
@@ -53,5 +53,4 @@ class externalIndex:
 
         rand = (m11 + m00) / (m11 + m00 + m10 + m01)
         jaccard = (m11) / (m11 + m10 + m01)
-        print(m11, m00, m10, m01)
         return rand, jaccard

@@ -1,44 +1,34 @@
 import numpy as np
 import pandas as pd
 from scipy import spatial
-from External_Index import externalIndex
+# from External_Index import externalIndex
 
 class hierarchical:
 
     def __init__(self, filePath, numClusters):
         self.numClusters = numClusters
-        dataMatrix, self.geneIds, self.groundTruth = self.readData(filePath)
-        self.gt_incidenceMatrix = self.getGroundTruthIncidenceMatrix()
-        self.distanceMatrix = self.getDistanceMatrix(dataMatrix)
+        self.dataMatrix, self.geneIds = self.readData(filePath)
+        self.distanceMatrix = self.getDistanceMatrix()
 
     def readData(self, filePath):
         #Read data from text file as numpy ndarray
         data = np.genfromtxt(filePath, dtype='float', delimiter="\t")
         data = np.delete(data, [0,1], axis=1)
         geneIds = np.genfromtxt(filePath, delimiter="\t", dtype=str, usecols=0)
-        groundTruth = np.genfromtxt(filePath, delimiter="\t", dtype=str, usecols=1)
-        df = pd.DataFrame(data)
-        return df, geneIds, groundTruth
+        # groundTruth = np.genfromtxt(filePath, delimiter="\t", dtype=str, usecols=1)
+        dataDf = pd.DataFrame(data)
+        return dataDf, geneIds
 
-    def getGroundTruthIncidenceMatrix(self):
-        incidenceMatrix = np.zeros(shape=(len(self.groundTruth), len(self.groundTruth)))
-        for i in range(0, len(self.groundTruth)):
-            for j in range(0, len(self.groundTruth)):
-                if self.groundTruth[i] == self.groundTruth[j]:
-                    incidenceMatrix[i][j] = 1
-
-        incidenceMatrix = pd.DataFrame(incidenceMatrix, index=self.geneIds, columns=self.geneIds)
-        return incidenceMatrix
-
-    def getDistanceMatrix(self, dataMatrix):
-        distanceMatrix = spatial.distance.cdist(dataMatrix, dataMatrix, metric='euclidean')
+    def getDistanceMatrix(self):
+        distanceMatrix = spatial.distance.cdist(self.dataMatrix, self.dataMatrix, metric='euclidean')
         distanceMatrix = pd.DataFrame(distanceMatrix, index=self.geneIds, columns=self.geneIds)
         return distanceMatrix
 
     def agglomerative(self):
+        print("\nRunning hierarchical clustering (will take some time) ....................")
         clusterMatrix = self.distanceMatrix.replace(0, np.inf)
         while(clusterMatrix.shape[0] > self.numClusters):
-            print(clusterMatrix.shape)
+            # print(clusterMatrix.shape)
             # getting index of minimum value in distance matrix
             # print(clusterMatrix)
             minclusterIndex1, minClusterIndex2 = clusterMatrix.stack().idxmin()
@@ -74,25 +64,23 @@ class hierarchical:
             
         self.clusters = list(clusterMatrix.index.values)
         # print(self.clusters)
-        self.predictedMatrix = self.getPredictedMatrix()
+        return self.dataMatrix, self.getPredictedMatrix(), self.geneIds
 
     def getPredictedMatrix(self):
         predictedMatrix = np.zeros(shape=(len(self.distanceMatrix), 1))
-        predictedMatrix = pd.DataFrame(predictedMatrix, index=self.geneIds, columns=['clusterNum'])
+        predictedMatrix = pd.DataFrame(predictedMatrix, index=self.geneIds, columns=['Cluster'])
 
         for i in range(0, self.numClusters):
             for data in self.clusters[i].split('-'):
-                predictedMatrix.at[data, 'clusterNum'] = i+1
+                predictedMatrix.at[data, 'Cluster'] = i+1
 
         return predictedMatrix
 
-if __name__ == "__main__":
-    fileName = input("Enter data file name (without extension): ")
-    filePath = "CSE-601/project2/Data/"+ fileName + ".txt"
-    numClusters = int(input("Enter the number of clusters: "))
-    hr = hierarchical(filePath, numClusters)
-    hr.agglomerative()
-    extIndex = externalIndex(hr.predictedMatrix, hr.groundTruth, hr.geneIds)
-    rand, jaccard = extIndex.getExternalIndex()
-    print("RAND COEFFICIENT: {}".format(rand))
-    print("JACCARD COEFFICIENT: {}".format(jaccard))
+# if __name__ == "__main__":
+    
+#     hr = hierarchical(filePath, numClusters)
+#     hr.agglomerative()
+#     extIndex = externalIndex(hr.predictedMatrix, hr.groundTruth, hr.geneIds)
+#     rand, jaccard = extIndex.getExternalIndex()
+#     print("RAND COEFFICIENT: {}".format(rand))
+#     print("JACCARD COEFFICIENT: {}".format(jaccard))

@@ -6,8 +6,8 @@ from External_Index import externalIndex
 
 class helpers:
     def get_file(self):
-        filename = input("enter file name (without extension)")
-        dataset = self.read_data(self, "../Data/"+filename+".txt")
+        filename = input("enter file name (without extension): ")
+        dataset = self.read_data("CSE-601/project2/Data/"+filename+".txt")
         return dataset, filename
 
     def sort_result(self, datasets):
@@ -42,17 +42,18 @@ class helpers:
             dataset.append(gene)
         return dataset
     
-    def create_pd(self, dataset):
-        geneID = [data.id for data in dataset]
-        geneCluster = [data.cluster for data in dataset]
+    def create_pd(self, datasett):
+        geneID = [data.id for data in datasett]
+        geneCluster = [data.cluster for data in datasett]
+        dataset = [data.point for data in datasett]
         points = np.array(geneCluster)
         ids = np.array(geneID)
-        predicted = pd.DataFrame(data=points, index=ids, columns=["clusterNum"])
-        return ids, predicted
+        predicted = pd.DataFrame(data=points, index=ids, columns=["cluster"])
+        return dataset, ids, predicted
     
-    def calculateCoeff(self, dataset, filename):
-        ids, predicted = self.create_pd(self, dataset)
-        groundTruth = np.genfromtxt("../Data/"+filename+".txt", delimiter="\t", dtype=str, usecols=1)
+    def calculateCoeff(self, predicted, filename, ids):
+        # ids, predicted = self.create_pd(self, dataset)
+        groundTruth = np.genfromtxt("CSE-601/project2/Data/"+filename+".txt", delimiter="\t", dtype=str, usecols=1)
         coeff = externalIndex(predicted, groundTruth, ids)
         rand, jaccard = coeff.getExternalIndex()
         print("RAND COEFFICIENT: {}".format(rand))
