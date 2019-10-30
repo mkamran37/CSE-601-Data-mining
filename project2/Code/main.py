@@ -11,35 +11,39 @@ import numpy as np
 class main:
     
     def kmeans(self, dataset):
+        hp = helpers()
         km = k_means()
         datadict = km.convertToDict(dataset)
         k = int(input("Enter number of required clusters: "))
         centroids = np.array(km.initializeCentroids(datadict, k))
         iterations = int(input("Enter number of max iterations: "))
         centroids = km.assignClusters(dataset, centroids, iterations)
-        result = hp.sort_result(self, dataset)
+        result = hp.sort_result(dataset)
         # vs.pca(self, dataset, result)
         return dataset, result, centroids
 
     def hrClustering(self):
         fileName = input("Enter data file name (without extension): ")
-        filePath = "CSE-601/project2/Data/"+ fileName + ".txt"
+        # filePath = "CSE-601/project2/Data/"+ fileName + ".txt"
+        filePath = "../Data/"+filename+".txt"
         numClusters = int(input("Enter number of required clusters: "))
         hr = hierarchical(filePath, numClusters)
         dataset, predicted, ids = hr.agglomerative()
         return dataset, predicted, ids, fileName
 
     def gmmClustering(self):
-        dataset, fileName = hp().get_file()
+        hp = helpers()
+        dataset, fileName = hp.get_file()
         _, _, centroids = m.kmeans(dataset)
-        filePath = "CSE-601/project2/Data/"+ fileName + ".txt"
+        # filePath = "CSE-601/project2/Data/"+ fileName + ".txt"
+        filePath = "../Data/"+fileName+".txt"
         g = gmm(filePath, centroids)
         dataset, predicted, ids = g.emAlgorithm()
         return dataset, predicted, ids, fileName
 
     def spectral(self, dataset):
         sp = Spectral()
-        sigma = int(input("Enter the value for sigma: "))
+        sigma = float(input("Enter the value for sigma: "))
         W = sp.computeSimilarityMatrix(dataset, sigma)
         D = sp.computeDegreeMatrix(W)
         L = sp.computeLaplacianMatrix(D, W)
@@ -51,20 +55,21 @@ class main:
         max_iterations = int(input("Enter maximum number of iterations: "))
         clusters = sp.assignClusters(data, centroids, max_iterations)
         dd = sp.convertData(data, dataset)
-        result = hp.sort_result(self, dd)
+        result = hp.sort_result(dd)
         return dd, result
     
     def density(self, dataset):
+        hp = helpers()
         db = DensityBasedClustering()
         distance = db.findDistanceMatrix(dataset)
-        eps = int(input("Enter the value for epsilon prameter: "))
+        eps = float(input("Enter the value for epsilon prameter: "))
         minpts = int(input("Enter the minimum number of pts for a core point: "))
         db.dbScan(dataset, eps=eps, minpts=minpts, distance=distance)
-        result = hp.sort_result(self, dataset)
+        result = hp.sort_result(dataset)
         return dataset, result
 
 if __name__ == "__main__":
-    choice = int(input("\nPress 1 for k-means\nPress 2 for Hierarchical Clustering\nPress 3 for Density based Clustering\nPress 4 for Gaussian Mixture Model Clustering\n"))
+    choice = int(input("\nPress 1 for k-means\nPress 2 for Hierarchical Clustering\nPress 3 for Density based Clustering\nPress 4 for Gaussian Mixture Model Clustering\nPress 5 for Spectral Clustering\n"))
     m = main()
     hp = helpers()
     if choice == 1:
