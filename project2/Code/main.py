@@ -54,7 +54,7 @@ class main:
         L = sp.computeLaplacianMatrix(D, W)
         eVal, eVector = sp.findEigens(L)
         k = int(input("Enter the number of required clusters: "))
-        embeddedSpace = sp.sort(eVal, eVector, k)
+        embeddedSpace = sp.sort(eVal, eVector)
         data = sp.simulateDataset(embeddedSpace)
         centroids = np.array(sp.initializeCentroids(data, k))
         max_iterations = int(input("Enter maximum number of iterations: "))
