@@ -10,17 +10,20 @@ class gmm:
         self.pi = None
         self.sigma = None
         self.dataMatrix, self.geneIds = self.readData(filePath)
-        self.reg_sigma = 1e-6*np.identity(len(self.dataMatrix[0]))
+        self.reg_sigma = 1e-9*np.identity(len(self.dataMatrix[0]))
         self.readParams()
 
     def readParams(self):
         self.numClusters = int(input("enter number of clusters: "))
         self.threshold = int(input("enter convergence threshold: "))
         self.maxIterations = int(input("enter maximum iterations: "))
-        self.sigma = np.zeros((self.numClusters, len(self.dataMatrix[0]), len(self.dataMatrix[0])), dtype='float')
-        for dim in range(len(self.sigma)):
-            np.fill_diagonal(self.sigma[dim], 1)
-        self.pi = np.ones(self.numClusters) / self.numClusters
+        self.mu = [[0,0],[1,1]]
+        # self.sigma = np.zeros((self.numClusters, len(self.dataMatrix[0]), len(self.dataMatrix[0])), dtype='float')
+        self.sigma = [[[1,1],[1,1]], [[2,2], [2,2]]]
+        # for dim in range(len(self.sigma)):
+        #     np.fill_diagonal(self.sigma[dim], 1)
+        # self.pi = np.ones(self.numClusters) / self.numClusters
+        self.pi = [0.5, 0.5]
 
     def readData(self, filePath):
         #Read data from text file as numpy ndarray
