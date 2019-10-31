@@ -7,6 +7,7 @@ from visualization import visualization as vs
 from Hierarchical import hierarchical 
 from Gmm import gmm
 import numpy as np
+
 class main:
     
     def kmeans(self, dataset):
@@ -86,7 +87,7 @@ if __name__ == "__main__":
     else:
         dataset, filename = hp.get_file()
         dataset, result = m.spectral(dataset)
-        newdataset, ids, predicted = hp.create_pd(dataset)
+        dataset, ids, predicted = hp.create_pd(dataset)
     hp.calculateCoeff(predicted, filename, ids)
     if dataset[0].shape[0] == 2:
         vs().visualize(dataset, predicted, ids)

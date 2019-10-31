@@ -30,16 +30,16 @@ class helpers:
         dataset = list()
         for i in range(data.shape[0]):
             tmp = list()
-            data = Point()
+            gene = Point()
             for j in range(data.shape[1]):
                 if j == 0:
-                    data.id = int(data[i][0])
+                    gene.id = int(data[i][0])
                 elif j == 1:
                     continue
                 else:
                     tmp.append(data[i][j])
-            data.point = np.array(tmp)
-            dataset.append(data)
+            gene.point = np.array(tmp)
+            dataset.append(gene)
         return dataset
     
     def create_pd(self, datasett):

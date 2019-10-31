@@ -33,7 +33,7 @@ class Spectral:
         for point in dataset:
             for p in dataset:
                 dist = np.linalg.norm(point.point - p.point)
-                similarityMatrix[point.id-1][p.id-1] = np.exp(-dist**2/((sigma**2.)))
+                similarityMatrix[point.id-1][p.id-1] = np.exp(-dist**2/(sigma**2.))
         return similarityMatrix
 
     def computeDegreeMatrix(self, W):
@@ -68,21 +68,22 @@ class Spectral:
         input:  eigenValues, eigenVectors
         output: eigen vectors corresponding to the sorted eigen values in ascending order
         '''
-        eigenValues = eigenValues.argsort()
-        k = self.findEigenGap(eigenValues)
-        idx = eigenValues[:k]
+        ev = eigenValues.argsort()
+        k = self.findEigenGap(eigenValues, ev)
+        print(k)
+        idx = ev[:k]
         eigenVectors = eigenVectors[:,idx]
         return eigenVectors
 
-    def findEigenGap(self, eigenValues):
+    def findEigenGap(self, eigenValues, ev):
         delta = 0
         k = 0
         for i in range(1, len(eigenValues)):
-            tmp = abs(eigenValues[i] - eigenValues[i-1])
+            tmp = abs(eigenValues[ev[i]] - eigenValues[ev[i-1]])
             if tmp > delta:
-                k = i
+                k = ev[i]
                 delta = tmp
-        return k+1
+        return k
 
     def initializeCentroids(self, dataset, k=5):
         '''
