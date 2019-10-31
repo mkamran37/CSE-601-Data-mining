@@ -38,16 +38,16 @@ class k_means:
             cluster+=1
         return centroids
     
-    def find_cluster(self, centroids, gene, clusters):
+    def find_cluster(self, centroids, data, clusters):
         min_dist = float('inf')
         cluster = 0
         for i,centroid in enumerate(centroids):
-            dist = distance.euclidean(gene.point, centroid)
+            dist = distance.euclidean(data.point, centroid)
             if dist < min_dist:
                 min_dist = dist
                 cluster = i+1
-        gene.cluster = int(cluster)
-        clusters[cluster].append(gene.point)
+        data.cluster = int(cluster)
+        clusters[cluster].append(data.point)
         return clusters
 
     def findClusterCentroid(self, centroids, clusters):
