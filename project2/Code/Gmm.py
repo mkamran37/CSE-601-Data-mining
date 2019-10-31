@@ -9,14 +9,9 @@ class gmm:
         self.mu = centroids
         self.pi = None
         self.sigma = None
-<<<<<<< HEAD
         self.log_likelihood = [0]
         print("\nRequire input parameters for gaussian mixture model ....................")
         self.dataMatrix, self.geneIds = self.readData(filePath)
-=======
-        self.dataMatrix, self.dataIds = self.readData(filePath)
-        self.reg_sigma = 1e-6*np.identity(len(self.dataMatrix[0]))
->>>>>>> master
         self.readParams()
 
     def readParams(self):
@@ -51,7 +46,6 @@ class gmm:
                 break
 
         predictedMatrix = self.getClusters()
-<<<<<<< HEAD
 
         print("\nMean ..........")
         print(self.mu)
@@ -60,9 +54,6 @@ class gmm:
         print("\nPrior cluster probabilities ..........")
         print(self.pi)
         return self.dataMatrix, predictedMatrix, self.geneIds
-=======
-        return self.dataMatrix, predictedMatrix, self.dataIds
->>>>>>> master
 
     def eStep(self):
         # probMatrix (rik) = n x k where n = number of data points, k = number of clusters
