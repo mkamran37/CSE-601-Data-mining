@@ -11,7 +11,7 @@ class gmm:
         self.sigma = None
         self.log_likelihood = [0]
         print("\nRequire input parameters for gaussian mixture model ....................")
-        self.dataMatrix, self.geneIds = self.readData(filePath)
+        self.dataMatrix, self.dataIds = self.readData(filePath)
         self.readParams()
 
     def readParams(self):
@@ -53,7 +53,7 @@ class gmm:
         print(self.sigma)
         print("\nPrior cluster probabilities ..........")
         print(self.pi)
-        return self.dataMatrix, predictedMatrix, self.geneIds
+        return self.dataMatrix, predictedMatrix, self.dataIds
 
     def eStep(self):
         # probMatrix (rik) = n x k where n = number of data points, k = number of clusters
@@ -66,7 +66,7 @@ class gmm:
     def rik(self, mu, sigma, pi):
         numerator = pi*multivariate_normal.pdf(self.dataMatrix, mean=mu, cov=sigma, allow_singular=True)
         denominator = np.sum([p*multivariate_normal.pdf(self.dataMatrix, mean=m, cov=s, allow_singular=True)
-                                    for p, m, s in zip(self.pi, self.mu, self.sigma+self.reg_sigma)], axis=0)
+                                    for p, m, s in zip(self.pi, self.mu, self.sigma+self.smooth)], axis=0)
         return numerator / denominator
 
     def mStep(self):
