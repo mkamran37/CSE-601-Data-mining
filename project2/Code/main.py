@@ -24,8 +24,8 @@ class main:
 
     def hrClustering(self):
         fileName = input("Enter data file name (without extension): ")
-        # filePath = "CSE-601/project2/Data/"+ fileName + ".txt"
-        filePath = "../Data/"+filename+".txt"
+        filePath = "CSE-601/project2/Data/"+ fileName + ".txt"
+        # filePath = "../Data/"+filename+".txt"
         numClusters = int(input("Enter number of required clusters: "))
         hr = hierarchical(filePath, numClusters)
         dataset, predicted, ids = hr.agglomerative()

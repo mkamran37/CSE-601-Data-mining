@@ -18,14 +18,14 @@ class gmm:
         self.numClusters = int(input("Enter number of clusters: "))
         self.threshold = float(input("Enter convergence threshold: "))
         self.maxIterations = int(input("Enter maximum iterations: "))
-        self.reg_sigma = 1e-9*np.ones(len(self.dataMatrix[0]))
-        self.mu = [[0,0],[1,1],[2,2]]
-        # self.sigma = np.ones((self.numClusters, len(self.dataMatrix[0]), len(self.dataMatrix[0])), dtype='float')
-        self.sigma = [[[1,1],[1,1]], [[2,2], [2,2]], [[3,3], [3,3]]]
-        # for dim in range(len(self.sigma)):
-        #     np.fill_diagonal(self.sigma[dim], 1)
-        # self.pi = np.ones(self.numClusters) / self.numClusters
-        self.pi = [0.5, 0.5, 0.5]
+        self.smooth = 1e-9*np.ones(len(self.dataMatrix[0]))
+        # self.mu = [[0,0],[1,1],[2,2]]
+        self.sigma = np.zeros((self.numClusters, len(self.dataMatrix[0]), len(self.dataMatrix[0])), dtype='float')
+        # self.sigma = [[[1,1],[1,1]], [[2,2], [2,2]], [[3,3], [3,3]]]
+        for dim in range(len(self.sigma)):
+            np.fill_diagonal(self.sigma[dim], 1)
+        self.pi = np.ones(self.numClusters) / self.numClusters
+        # self.pi = [0.5, 0.5, 0.5]
 
     def readData(self, filePath):
         #Read data from text file as numpy ndarray
@@ -59,7 +59,7 @@ class gmm:
         # probMatrix (rik) = n x k where n = number of data points, k = number of clusters
         probMatrix = np.zeros((self.dataMatrix.shape[0], self.numClusters))
         for mu, sig, pi, idx in zip(self.mu, self.sigma, self.pi, range(self.numClusters)):
-                sig += self.reg_sigma
+                sig += self.smooth
                 probMatrix[:, idx] = self.rik(mu, sig, pi)
         return probMatrix
 
@@ -75,16 +75,15 @@ class gmm:
         self.pi = []
         for k in range(len(self.probMatrix[0])):
             sigma_rik = np.sum(self.probMatrix[:,k], axis=0)
-            x = self.probMatrix[:,k].reshape(1, len(self.probMatrix))
             new_mu = (1/sigma_rik)*np.sum(self.probMatrix[:,k].reshape(len(self.probMatrix), 1)*self.dataMatrix, axis=0)
             self.mu.append(new_mu)
             new_pi = sigma_rik / len(self.dataMatrix)
             self.pi.append(new_pi)
             new_sigma = (np.dot((np.array(self.probMatrix[:,k]).reshape(len(self.dataMatrix), 1)
                             *(self.dataMatrix - new_mu)).T, (self.dataMatrix - new_mu))) / sigma_rik
-            self.sigma.append(new_sigma + self.reg_sigma)
+            self.sigma.append(new_sigma + self.smooth)
 
-        log_likelihood = np.log(np.sum([pi*multivariate_normal.pdf(self.dataMatrix, mean=self.mu[m], cov=self.sigma[s]+self.reg_sigma, allow_singular=True) 
+        log_likelihood = np.log(np.sum([pi*multivariate_normal.pdf(self.dataMatrix, mean=self.mu[m], cov=self.sigma[s]+self.smooth, allow_singular=True) 
                                     for pi,m,s in zip(self.pi,range(len(self.mu)),range(len(self.sigma)))]))
         return log_likelihood
 
