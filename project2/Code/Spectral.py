@@ -70,7 +70,6 @@ class Spectral:
         '''
         ev = eigenValues.argsort()
         k = self.findEigenGap(eigenValues, ev)
-        print(k)
         idx = ev[:k]
         eigenVectors = eigenVectors[:,idx]
         return eigenVectors
