@@ -9,9 +9,14 @@ class gmm:
         self.mu = centroids
         self.pi = None
         self.sigma = None
+<<<<<<< HEAD
         self.log_likelihood = [0]
         print("\nRequire input parameters for gaussian mixture model ....................")
         self.dataMatrix, self.geneIds = self.readData(filePath)
+=======
+        self.dataMatrix, self.dataIds = self.readData(filePath)
+        self.reg_sigma = 1e-6*np.identity(len(self.dataMatrix[0]))
+>>>>>>> master
         self.readParams()
 
     def readParams(self):
@@ -31,8 +36,8 @@ class gmm:
         #Read data from text file as numpy ndarray
         data = np.genfromtxt(filePath, dtype='float', delimiter="\t")
         data = np.delete(data, [0,1], axis=1)
-        geneIds = np.genfromtxt(filePath, delimiter="\t", dtype=str, usecols=0)
-        return data, geneIds
+        dataIds = np.genfromtxt(filePath, delimiter="\t", dtype=str, usecols=0)
+        return data, dataIds
 
     def emAlgorithm(self):
         print("\nRunning Gaussian Mixture Model ....................")
@@ -46,6 +51,7 @@ class gmm:
                 break
 
         predictedMatrix = self.getClusters()
+<<<<<<< HEAD
 
         print("\nMean ..........")
         print(self.mu)
@@ -54,6 +60,9 @@ class gmm:
         print("\nPrior cluster probabilities ..........")
         print(self.pi)
         return self.dataMatrix, predictedMatrix, self.geneIds
+=======
+        return self.dataMatrix, predictedMatrix, self.dataIds
+>>>>>>> master
 
     def eStep(self):
         # probMatrix (rik) = n x k where n = number of data points, k = number of clusters
@@ -89,5 +98,5 @@ class gmm:
 
     def getClusters(self):
         maxIndices = np.argmax(self.probMatrix, axis=1) + 1
-        predictedMatrix = pd.DataFrame(maxIndices, index=self.geneIds, columns=['Cluster'])
+        predictedMatrix = pd.DataFrame(maxIndices, index=self.dataIds, columns=['Cluster'])
         return predictedMatrix

@@ -67,7 +67,7 @@ class main:
         hp = helpers()
         db = DensityBasedClustering()
         distance = db.findDistanceMatrix(dataset)
-        eps = float(input("Enter the value for epsilon prameter: "))
+        eps = float(input("Enter the value for epsilon parameter: "))
         minpts = int(input("Enter the minimum number of pts for a core point: "))
         db.dbScan(dataset, eps=eps, minpts=minpts, distance=distance)
         result = hp.sort_result(dataset)
@@ -92,7 +92,7 @@ if __name__ == "__main__":
     else:
         dataset, filename = hp.get_file()
         dataset, result = m.spectral(dataset)
-        newdataset, ids, predicted = hp.create_pd(dataset)
+        dataset, ids, predicted = hp.create_pd(dataset)
     hp.calculateCoeff(predicted, filename, ids)
     if dataset[0].shape[0] == 2:
         vs().visualize(dataset, predicted, ids)
