@@ -14,7 +14,6 @@ class hierarchical:
         data = np.genfromtxt(filePath, dtype='float', delimiter="\t")
         data = np.delete(data, [0,1], axis=1)
         dataIds = np.genfromtxt(filePath, delimiter="\t", dtype=str, usecols=0)
-        # groundTruth = np.genfromtxt(filePath, delimiter="\t", dtype=str, usecols=1)
         dataDf = pd.DataFrame(data)
         return dataDf, dataIds
 

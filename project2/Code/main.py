@@ -19,13 +19,12 @@ class main:
         iterations = int(input("Enter number of max iterations: "))
         centroids = km.assignClusters(dataset, centroids, iterations)
         result = hp.sort_result(dataset)
-        # vs.pca(self, dataset, result)
         return dataset, result, centroids
 
     def hrClustering(self):
         fileName = input("Enter data file name (without extension): ")
-        filePath = "CSE-601/project2/Data/"+ fileName + ".txt"
-        # filePath = "../Data/"+filename+".txt"
+        # filePath = "CSE-601/project2/Data/"+ fileName + ".txt"
+        filePath = "../Data/"+filename+".txt"
         numClusters = int(input("Enter number of required clusters: "))
         hr = hierarchical(filePath, numClusters)
         dataset, predicted, ids = hr.agglomerative()
@@ -40,8 +39,8 @@ class main:
             _, _, centroids = m.kmeans(dataset)
         else:
             fileName = input("Enter data file name (without extension): ")
-        # filePath = "../Data/"+fileName+".txt"
-        filePath = "CSE-601/project2/Data/"+ fileName + ".txt"
+        filePath = "../Data/"+fileName+".txt"
+        # filePath = "CSE-601/project2/Data/"+ fileName + ".txt"
         g = gmm(filePath, centroids)
         dataset, predicted, ids = g.emAlgorithm()
         return dataset, predicted, ids, fileName
