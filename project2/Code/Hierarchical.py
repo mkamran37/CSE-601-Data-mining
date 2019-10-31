@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 from scipy import spatial
-# from External_Index import externalIndex
 
 class hierarchical:
 
@@ -20,6 +19,7 @@ class hierarchical:
         return dataDf, dataIds
 
     def getDistanceMatrix(self):
+        # To calculate the initial distance matrix
         distanceMatrix = spatial.distance.cdist(self.dataMatrix, self.dataMatrix, metric='euclidean')
         distanceMatrix = pd.DataFrame(distanceMatrix, index=self.dataIds, columns=self.dataIds)
         return distanceMatrix
@@ -28,12 +28,9 @@ class hierarchical:
         print("\nRunning hierarchical clustering (will take some time) ....................")
         clusterMatrix = self.distanceMatrix.replace(0, np.inf)
         while(clusterMatrix.shape[0] > self.numClusters):
-            # print(clusterMatrix.shape)
-            # getting index of minimum value in distance matrix
-            # print(clusterMatrix)
+            # finding the row and column with min distance value
             minclusterIndex1, minClusterIndex2 = clusterMatrix.stack().idxmin()
-            # print(clusterMatrix.loc[[minclusterIndex1], [minClusterIndex2]])
-            # removing the rows and columns of the min value
+            # Deleting the row and column
             clusterMatrix.drop([minclusterIndex1, minClusterIndex2], axis = 1, inplace = True)
             clusterMatrix.drop([minclusterIndex1, minClusterIndex2], inplace = True)
 
@@ -42,7 +39,7 @@ class hierarchical:
             # creating new row 
             rowDf = pd.DataFrame(np.full((1, clusterMatrix.shape[1]), np.inf), columns=clusterMatrix.columns)
             rowDf.rename(index={0:newClusterIndex}, inplace=True)
-
+            # creating new column
             colDf = pd.DataFrame(np.full((clusterMatrix.shape[0], 1), np.inf), index=clusterMatrix.index)
             colDf.rename(columns={0:newClusterIndex}, inplace=True)
 
@@ -75,12 +72,3 @@ class hierarchical:
                 predictedMatrix.at[data, 'Cluster'] = i+1
 
         return predictedMatrix
-
-# if __name__ == "__main__":
-    
-#     hr = hierarchical(filePath, numClusters)
-#     hr.agglomerative()
-#     extIndex = externalIndex(hr.predictedMatrix, hr.groundTruth, hr.dataIds)
-#     rand, jaccard = extIndex.getExternalIndex()
-#     print("RAND COEFFICIENT: {}".format(rand))
-#     print("JACCARD COEFFICIENT: {}".format(jaccard))

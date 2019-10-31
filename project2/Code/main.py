@@ -24,19 +24,24 @@ class main:
 
     def hrClustering(self):
         fileName = input("Enter data file name (without extension): ")
-        # filePath = "CSE-601/project2/Data/"+ fileName + ".txt"
-        filePath = "../Data/"+filename+".txt"
+        filePath = "CSE-601/project2/Data/"+ fileName + ".txt"
+        # filePath = "../Data/"+filename+".txt"
         numClusters = int(input("Enter number of required clusters: "))
         hr = hierarchical(filePath, numClusters)
         dataset, predicted, ids = hr.agglomerative()
         return dataset, predicted, ids, fileName
 
     def gmmClustering(self):
-        hp = helpers()
-        dataset, fileName = hp.get_file()
-        _, _, centroids = m.kmeans(dataset)
-        # filePath = "CSE-601/project2/Data/"+ fileName + ".txt"
-        filePath = "../Data/"+fileName+".txt"
+        flag = int(input("Enter 1 for Kmeans initialization else Enter 0: "))
+        centroids = []
+        if flag == 1:
+            hp = helpers()
+            dataset, fileName = hp.get_file()
+            _, _, centroids = m.kmeans(dataset)
+        else:
+            fileName = input("Enter data file name (without extension): ")
+        # filePath = "../Data/"+fileName+".txt"
+        filePath = "CSE-601/project2/Data/"+ fileName + ".txt"
         g = gmm(filePath, centroids)
         dataset, predicted, ids = g.emAlgorithm()
         return dataset, predicted, ids, fileName
