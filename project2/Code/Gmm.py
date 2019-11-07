@@ -19,13 +19,13 @@ class gmm:
         self.threshold = float(input("Enter convergence threshold: "))
         self.maxIterations = int(input("Enter maximum iterations: "))
         self.smooth = 1e-9*np.ones(len(self.dataMatrix[0]))
-        # self.mu = [[0,0],[1,1],[2,2]]
-        self.sigma = np.zeros((self.numClusters, len(self.dataMatrix[0]), len(self.dataMatrix[0])), dtype='float')
-        # self.sigma = [[[1,1],[1,1]], [[2,2], [2,2]], [[3,3], [3,3]]]
-        for dim in range(len(self.sigma)):
-            np.fill_diagonal(self.sigma[dim], 1)
-        self.pi = np.ones(self.numClusters) / self.numClusters
-        # self.pi = [0.5, 0.5, 0.5]
+        self.mu = [[0,0],[3,3],[0,4]]
+        # self.sigma = np.zeros((self.numClusters, len(self.dataMatrix[0]), len(self.dataMatrix[0])), dtype='float')
+        self.sigma = [[[1,0.4],[0.4,1]], [[1,0], [0,2]], [[0.4,0], [0,0.1]]]
+        # for dim in range(len(self.sigma)):
+            # np.fill_diagonal(self.sigma[dim], 1)
+        # self.pi = np.ones(self.numClusters) / self.numClusters
+        self.pi = [0.4, 0.4, 0.2]
 
     def readData(self, filePath):
         #Read data from text file as numpy ndarray
