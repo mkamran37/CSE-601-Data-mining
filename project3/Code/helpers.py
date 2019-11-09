@@ -75,10 +75,29 @@ class helpers:
         return (truePositives+trueNegatives)/(truePositives+trueNegatives+falsePositives+falseNegatives)
     
     def findPrecision(self, truePositives, trueNegatives, falsePositives, falseNegatives):
-        return (truePositives)/(truePositives+falsePositives)
+        try:
+            return (truePositives)/(truePositives+falsePositives)
+        except:
+            return 0
     
     def findRecall(self, truePositives, trueNegatives, falsePositives, falseNegatives):
-        return (truePositives)/(truePositives+falseNegatives)
+        try:
+            return (truePositives)/(truePositives+falseNegatives)
+        except:
+            return 0
     
     def findFMeasure(self, precision, recall):
-        return (2*precision*recall)/(precision+recall)
+        try:
+            return (2*precision*recall)/(precision+recall)
+        except:
+            return 0
+    
+    def calculateMetrics(self, accuracy, precision, recall, f_score):
+        averageAccuracy = sum(accuracy)/len(accuracy)
+        averagePrecision = sum(precision)/len(precision)
+        averageRecall = sum(recall)/len(recall)
+        averageFscore = sum(f_score)/len(f_score)
+        print("ACCURACY = {}%".format(averageAccuracy*100))
+        print("PRECISION = {}%".format(averagePrecision*100))
+        print("RECALL = {}%".format(averageRecall*100))
+        print("F MEASURE = {}%".format(averageFscore*100))
