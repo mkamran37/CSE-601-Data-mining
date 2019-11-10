@@ -28,7 +28,7 @@ class bayes:
         for i in range(len(data)):
             if data[i].point[index] == attr:
                 counter+=1
-        return counter/len(data) if counter > 0 else 1/len(data)
+        return counter/len(data)
 
     def segregateClasses(self, data):
         classes = defaultdict(list)
@@ -58,7 +58,7 @@ class bayes:
             pt.label = self.bayesProbabilty(pt.point, classPriorProbabilities, descriptorPosteriorProbabilites)
     
     def bayesProbabilty(self, points, ph, pxh):
-        maxProbability = 0.0
+        maxProbability = -1.0
         label = -1
         for key in ph:
             phi = ph[key]

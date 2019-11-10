@@ -92,6 +92,55 @@ class helpers:
         except:
             return 0
     
+    def normalizeData(self, data):
+        mean = dict()
+        stdDeviation = dict()
+        for lst in data:
+            for point in lst:
+                for i in range(len(point.point)):
+                    if i not in mean:
+                        mean[i] = self.findMean(i, data)
+                    if i not in stdDeviation:
+                        stdDeviation[i] = self.findstdDeviation(i, data, mean)
+                    point.point[i] = (point.point[i] - mean[i])/(stdDeviation[i])
+    
+    def normalizeEvaluationSet(self, data):
+        mean = dict()
+        stdDeviation = dict()
+        for point in data:
+            for i in range(len(point.point)):
+                if i not in mean:
+                    mean[i] = self.findMeanES(i, data)
+                if i not in stdDeviation:
+                    stdDeviation[i] = self.findStdDeviationES(i, data, mean)
+                point.point[i] = (point.point[i] - mean[i])/(stdDeviation[i])
+    
+    def findMeanES(self, index, data):
+        sumMean = 0
+        for point in data:
+            sumMean += point.point[index]
+        return sumMean/len(data)
+    
+    def findStdDeviationES(self, index, data, mean):
+        stdDev = 0
+        for point in data:
+            stdDev += ((point.point[index] - mean[index])**2)
+        return (stdDev/(len(data) - 1))**0.5
+   
+    def findMean(self, index, data):
+        sumMean = 0
+        for lst in data:
+            for point in lst:
+                sumMean += point.point[index]
+        return sumMean/len(data)
+    
+    def findstdDeviation(self, index, data, mean):
+        stdDev = 0
+        for lst in data:
+            for point in lst:
+                stdDev = stdDev + ((point.point[index] - mean[index])**2)
+        return (stdDev/(len(data) - 1))**0.5
+
     def calculateMetrics(self, accuracy, precision, recall, f_score):
         averageAccuracy = sum(accuracy)/len(accuracy)
         averagePrecision = sum(precision)/len(precision)

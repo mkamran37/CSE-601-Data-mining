@@ -1,6 +1,8 @@
 from helpers import helpers as hp
 from knn import knn
 from naive_bayes import bayes
+from sklearn import preprocessing
+import numpy as np
 
 class main:
     def knn(self, trainData, kCrossValidation = 10):
@@ -13,6 +15,8 @@ class main:
         for i in range(len(trainData)):
             predictData = trainData[i]
             tmp = [lt for j, lt in enumerate(trainData) if j != i]
+            h.normalizeData(tmp)
+            h.normalizeEvaluationSet(predictData)
             td = h.convertToList(tmp)
             k.classify(td, predictData)
             truePositives, trueNegatives, falsePositives, falseNegatives = h.findParams(predictData)
@@ -45,6 +49,7 @@ class main:
             recall.append(tmpRecall)
             f_score.append(h.findFMeasure(tmpPrecision, tmpRecall))
         return accuracy, precision, recall, f_score
+
 if __name__ == "__main__":
     m = main()
     h = hp()

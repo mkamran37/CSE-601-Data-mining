@@ -29,6 +29,7 @@ class knn:
                 # majority[neighbor.label] = 1
             else:
                 majority[neighbor.label] += 1/(d**2)
+                # majority[neighbor.label] += 1
             if majority[neighbor.label] > maxMajority:
                 maxMajority = majority[neighbor.label]
                 label = neighbor.label
