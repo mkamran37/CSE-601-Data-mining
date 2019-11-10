@@ -58,14 +58,14 @@ class helpers:
                 result.append(pt)
         return result
     
-    def findParams(self, predictData):
+    def findParams(self, predictData, tp, tn):
         truePositives, trueNegatives, falsePositives, falseNegatives = 0,0,0,0
         for pt in predictData:
-            if pt.label == 1 and pt.groundTruth == 1:
+            if pt.label == tp and pt.groundTruth == tp:
                 truePositives+=1
-            elif pt.label == 1 and pt.groundTruth == 0:
+            elif pt.label == tp and pt.groundTruth == tn:
                 falsePositives+=1
-            elif pt.label == 0 and pt.groundTruth == 1:
+            elif pt.label == tn and pt.groundTruth == tp:
                 falseNegatives+=1
             else:
                 trueNegatives+=1
