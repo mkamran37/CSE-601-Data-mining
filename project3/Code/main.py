@@ -1,6 +1,6 @@
 from helpers import helpers as hp
 from knn import knn
-from naive_bayes import bayes
+# from naive_bayes import bayes
 
 class main:
     def knn(self, kCrossValidation = 10):
@@ -32,6 +32,21 @@ class main:
         print("PRECISION = {}%".format(averagePrecision*100))
         print("RECALL = {}%".format(averageRecall*100))
         print("F MEASURE = {}%".format(averageFscore*100))
+
+    def decision_tree(self, kCrossValidation = 10):
+        from decision_tree import decisionTree
+        h = hp()
+        fileName = h.get_fileName()
+        # filePath = "../Data/"+fileName+".txt"
+        filePath = "CSE-601/project3/Data/"+fileName+".txt"
+        dt = decisionTree()
+        data, labels = dt.readData(filePath)
+        data = dt.oneHotEncoding(data, labels)
+        target, predicted = dt.decision(data)
+        print(target)
+        print(predicted)
+
+        
     
     def bayes_naive(self, kCrossValidation = 10):
         h = hp()
@@ -49,4 +64,4 @@ class main:
             td = h.convertToList(tmp)
 
 
-main().knn()
+main().decision_tree()
