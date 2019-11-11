@@ -1,4 +1,5 @@
 import numpy as np
+from collections import defaultdict
 from helpers import helpers as hp
 
 class knn:
@@ -21,15 +22,13 @@ class knn:
         label = -1
         maxMajority = 0.0
         closestNeighbours = sorted(trainData, key = lambda x: np.linalg.norm(x.point - pt.point))[:k]
-        majority = dict()
+        majority = defaultdict(int)
         for neighbor in closestNeighbours:
             d = np.linalg.norm(neighbor.point - pt.point)
-            if neighbor.label not in majority:
-                majority[neighbor.label] = 1/(d**2)
-                # majority[neighbor.label] = 1
-            else:
+            if d != 0.0:
                 majority[neighbor.label] += 1/(d**2)
-                # majority[neighbor.label] += 1
+            else:
+                majority[neighbor.label] += 1
             if majority[neighbor.label] > maxMajority:
                 maxMajority = majority[neighbor.label]
                 label = neighbor.label

@@ -7,12 +7,42 @@ class helpers:
         filename = input("enter file name (without extension): ")
         return filename
 
-    def get_file(self, filename, kCrossValidation = 10):
-        trainData = self.read_data("../Data/"+filename+".txt", kCrossValidation)
+    def get_file(self, filename, kCrossValidation = 10, fileType = 'trainData'):
+        trainData = self.read_data("../Data/"+filename+".txt", kCrossValidation, fileType)
         # dataset = self.read_data("CSE-601/project2/Data/"+filename+".txt")
+        if fileType == 'predictData':
+            trainData = self.read_predictData("../Data/"+filename+".txt")
         return trainData
     
-    def read_data(self, filepath, kCrossValidation):
+    def read_predictData(self, filepath):
+        file = np.genfromtxt(filepath, dtype='unicode', delimiter="\t")
+        trainData = list()
+        k = 0
+        counter = 0
+        start = 0.0
+        nominal_to_number = dict()
+        tmp = list()
+        for i in range(file.shape[0]):
+            data = point()
+            temp = list()
+            for j in range(file.shape[1]):
+                if j == file.shape[1]-1:
+                    # data.label = int(file[i][j])
+                    data.groundTruth = data.label
+                else:
+                    try:
+                        n = float(file[i][j])
+                        temp.append(n)
+                    except:
+                        if file[i][j] not in nominal_to_number:
+                            nominal_to_number[file[i][j]] = start
+                            start+=1.0
+                        temp.append(nominal_to_number[file[i][j]])
+            data.point = np.array(temp)
+            tmp.append(data)
+        return tmp
+
+    def read_data(self, filepath, kCrossValidation, filetype):
         '''
             input: filepath
             output: trainData - a list of Point objects with known labels used to train the model
@@ -22,7 +52,7 @@ class helpers:
         trainData = list()
         k = 0
         counter = 0
-        start = 0
+        start = 0.0
         nominal_to_number = dict()
         maxsize = math.ceil(file.shape[0]/kCrossValidation)+1
         while k < kCrossValidation:
@@ -42,12 +72,15 @@ class helpers:
                         except:
                             if file[i][j] not in nominal_to_number:
                                 nominal_to_number[file[i][j]] = start
-                                start+=1
+                                start+=1.0
                             temp.append(nominal_to_number[file[i][j]])
                 data.point = np.array(temp)
                 tmp.append(data)
                 counter+=1
-            trainData.append(tmp)
+            if len(tmp) != 0:
+                trainData.append(tmp)
+            if filetype == 'predictData':
+                return tmp
             k+=1
         return trainData
     
@@ -58,7 +91,7 @@ class helpers:
                 result.append(pt)
         return result
     
-    def findParams(self, predictData, tp, tn):
+    def findParams(self, predictData, tp = 1, tn = 0):
         truePositives, trueNegatives, falsePositives, falseNegatives = 0,0,0,0
         for pt in predictData:
             if pt.label == tp and pt.groundTruth == tp:
@@ -113,7 +146,10 @@ class helpers:
                     mean[i] = self.findMeanES(i, data)
                 if i not in stdDeviation:
                     stdDeviation[i] = self.findStdDeviationES(i, data, mean)
-                point.point[i] = (point.point[i] - mean[i])/(stdDeviation[i])
+                if stdDeviation[i] == 0.0:
+                    point.point[i] = (point.point[i] - mean[i])
+                else:
+                    point.point[i] = (point.point[i] - mean[i])/(stdDeviation[i])
     
     def findMeanES(self, index, data):
         sumMean = 0
@@ -125,7 +161,10 @@ class helpers:
         stdDev = 0
         for point in data:
             stdDev += ((point.point[index] - mean[index])**2)
-        return (stdDev/(len(data) - 1))**0.5
+        if len(data) > 1:
+            return (stdDev/(len(data) - 1))**0.5
+        else:
+            return (stdDev/(len(data)))**0.5
    
     def findMean(self, index, data):
         sumMean = 0
@@ -139,7 +178,10 @@ class helpers:
         for lst in data:
             for point in lst:
                 stdDev = stdDev + ((point.point[index] - mean[index])**2)
-        return (stdDev/(len(data) - 1))**0.5
+        if len(data) > 1:
+            return (stdDev/(len(data) - 1))**0.5
+        else:
+            return (stdDev/(len(data)))**0.5
 
     def calculateMetrics(self, accuracy, precision, recall, f_score):
         averageAccuracy = sum(accuracy)/len(accuracy)

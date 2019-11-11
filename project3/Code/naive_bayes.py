@@ -15,9 +15,9 @@ class bayes:
         return res
     
     def findDescriptorPriorProbabilities(self, data):
-        product = 1
+        product = 1.0
         for row in data:
-            p = 1
+            p = 1.0
             for i in range(len(row.point)):
                 p*=self.findProbability(row.point[i], i, data)
             product*=(p/len(data))
