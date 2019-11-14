@@ -1,24 +1,29 @@
 import numpy as np
 from point import point
 import math
+from collections import defaultdict
 
 class helpers:
     def get_fileName(self):
         filename = input("enter file name (without extension): ")
         return filename
 
-    def get_file(self, filename, kCrossValidation = 10, fileType = 'trainData'):
-        trainData = self.read_data("../Data/"+filename+".txt", kCrossValidation, fileType)
-        # dataset = self.read_data("CSE-601/project2/Data/"+filename+".txt")
+    def get_file_bayes(self, filename, kCrossValidation = 10,  fileType='trainData'):
+        if fileType == 'predictData':
+            trainData = self.read_predictData_bayes("../Data/"+filename+".txt")
+        else:
+            trainData = self.read_data_bayes("../Data/"+filename+".txt", kCrossValidation)
+        return trainData
+
+    def get_file(self, filename, kCrossValidation = 10,  fileType='trainData'):
         if fileType == 'predictData':
             trainData = self.read_predictData("../Data/"+filename+".txt")
+        else:
+            trainData = self.read_data("../Data/"+filename+".txt", kCrossValidation)
         return trainData
     
     def read_predictData(self, filepath):
         file = np.genfromtxt(filepath, dtype='unicode', delimiter="\t")
-        trainData = list()
-        k = 0
-        counter = 0
         start = 0.0
         nominal_to_number = dict()
         tmp = list()
@@ -27,7 +32,7 @@ class helpers:
             temp = list()
             for j in range(file.shape[1]):
                 if j == file.shape[1]-1:
-                    # data.label = int(file[i][j])
+                    data.label = int(file[i][j])
                     data.groundTruth = data.label
                 else:
                     try:
@@ -42,18 +47,73 @@ class helpers:
             tmp.append(data)
         return tmp
 
-    def read_data(self, filepath, kCrossValidation, filetype):
+    def read_predictData_bayes(self, filepath):
+        file = np.genfromtxt(filepath, dtype='unicode', delimiter="\t")
+        tmp = list()
+        for i in range(file.shape[0]):
+            data = point()
+            temp = list()
+            catData = list()
+            for j in range(file.shape[1]):
+                if j == file.shape[1]-1:
+                    data.label = int(file[i][j])
+                    data.groundTruth = data.label
+                else:
+                    try:
+                        n = float(file[i][j])
+                        temp.append(n)
+                    except:
+                        catData.append(file[i][j])
+            data.point = np.array(temp)
+            data.categoricalData = np.array(catData)
+            tmp.append(data)
+        return tmp
+
+    def read_data_bayes(self, filepath, kCrossValidation):
+        file = np.genfromtxt(filepath, dtype='unicode', delimiter="\t")
+        trainData = list()
+        k = 0
+        counter = 0
+        maxsize = math.ceil(file.shape[0]/kCrossValidation)+1
+        while k < kCrossValidation:
+            extent = counter
+            tmp = list()            
+            for i in range(extent, min(extent+maxsize, file.shape[0])):
+                data = point()
+                temp = list()
+                catData = list()
+                for j in range(file.shape[1]):
+                    if j == file.shape[1]-1:
+                        data.label = int(file[i][j])
+                        data.groundTruth = data.label
+                    else:
+                        try:
+                            n = float(file[i][j])
+                            temp.append(n)
+                        except:
+                            catData.append(file[i][j])
+                data.point = np.array(temp)
+                data.categoricalData = np.array(catData)
+                tmp.append(data)
+                counter+=1
+            if len(tmp) != 0:
+                trainData.append(tmp)
+            k+=1
+        return trainData
+
+    def read_data(self, filepath, kCrossValidation):
         '''
             input: filepath
             output: trainData - a list of Point objects with known labels used to train the model
                     predictData - a list of Point objects with unknown labels
         '''
         file = np.genfromtxt(filepath, dtype='unicode', delimiter="\t")
+        # file = np.genfromtxt(filepath, dtype='unicode', delimiter=",")
         trainData = list()
         k = 0
         counter = 0
         start = 0.0
-        nominal_to_number = dict()
+        nominal_to_number = defaultdict(int)
         maxsize = math.ceil(file.shape[0]/kCrossValidation)+1
         while k < kCrossValidation:
             extent = counter
@@ -71,7 +131,7 @@ class helpers:
                             temp.append(n)
                         except:
                             if file[i][j] not in nominal_to_number:
-                                nominal_to_number[file[i][j]] = start
+                                nominal_to_number[file[i][j]]=start
                                 start+=1.0
                             temp.append(nominal_to_number[file[i][j]])
                 data.point = np.array(temp)
@@ -79,8 +139,6 @@ class helpers:
                 counter+=1
             if len(tmp) != 0:
                 trainData.append(tmp)
-            if filetype == 'predictData':
-                return tmp
             k+=1
         return trainData
     
@@ -100,7 +158,7 @@ class helpers:
                 falsePositives+=1
             elif pt.label == tn and pt.groundTruth == tp:
                 falseNegatives+=1
-            else:
+            elif pt.label == tn and pt.groundTruth == tn:
                 trueNegatives+=1
         return truePositives, trueNegatives, falsePositives, falseNegatives
 
@@ -130,14 +188,24 @@ class helpers:
         stdDeviation = dict()
         for lst in data:
             for point in lst:
+                pt = list()
                 for i in range(len(point.point)):
                     if i not in mean:
                         mean[i] = self.findMean(i, data)
                     if i not in stdDeviation:
                         stdDeviation[i] = self.findstdDeviation(i, data, mean)
-                    point.point[i] = (point.point[i] - mean[i])/(stdDeviation[i])
+                    pt.append((point.point[i] - mean[i])/(stdDeviation[i]))
+                point.point = np.array(pt)
+        return mean, stdDeviation
     
-    def normalizeEvaluationSet(self, data):
+    def normalizeEvaluationSet(self, data, mean, stdDev):
+        for point in data:
+            pt = list()
+            for i in range(len(point.point)):
+                pt.append((point.point[i] - mean[i])/(stdDev[i]))
+            point.point = np.array(pt)
+    
+    def standardizeBayes(self, data):
         mean = dict()
         stdDeviation = dict()
         for point in data:
@@ -146,10 +214,7 @@ class helpers:
                     mean[i] = self.findMeanES(i, data)
                 if i not in stdDeviation:
                     stdDeviation[i] = self.findStdDeviationES(i, data, mean)
-                if stdDeviation[i] == 0.0:
-                    point.point[i] = (point.point[i] - mean[i])
-                else:
-                    point.point[i] = (point.point[i] - mean[i])/(stdDeviation[i])
+        return mean, stdDeviation
     
     def findMeanES(self, index, data):
         sumMean = 0

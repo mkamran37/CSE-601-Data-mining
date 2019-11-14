@@ -1,4 +1,6 @@
 from collections import defaultdict
+from helpers import helpers as hp
+from math import e
 
 class bayes:
     def findClassPriorProbability(self, data):
@@ -8,66 +10,61 @@ class bayes:
         '''
         class_map = defaultdict(int)
         for pt in data:
-            class_map[pt.label] += 1
+            class_map[pt.groundTruth] += 1
         res = dict()
         for key in class_map:
             res[key] = class_map[key]/len(data)
         return res
-    
-    def findDescriptorPriorProbabilities(self, data):
-        product = 1.0
-        for row in data:
-            p = 1.0
-            for i in range(len(row.point)):
-                p*=self.findProbability(row.point[i], i, data)
-            product*=(p/len(data))
-        return product
-    
-    def findProbability(self, attr, index, data):
-        counter = 0
-        for i in range(len(data)):
-            if data[i].point[index] == attr:
-                counter+=1
-        return counter/len(data)
 
     def segregateClasses(self, data):
         classes = defaultdict(list)
         for point in data:
-            classes[point.label].append(point)
+            classes[point.groundTruth].append(point)
         return classes
 
     def countOccurence(self, pt, index, data):
         count = 0
         for tmp in data:
-            if tmp.point[index] == pt:
+            if tmp.categoricalData[index] == pt:
                 count+=1
         return count
 
-    def findDescriptorPosteriorProbabilites(self, classes):
+    def findDescriptorPosteriorProbabilites(self, classes, td):
         res = defaultdict(int)
+        occurences = defaultdict(int)
+        mean, stdDeviation = defaultdict(dict), defaultdict(dict)
         for key in classes:
             tmp = classes[key]
+            mean[key], stdDeviation[key] = hp().standardizeBayes(tmp)
             for pt in tmp:
                 for index, i in enumerate(pt.point):
                     if (i, key) not in res:
-                        res[(i, key)] = self.countOccurence(i, index, tmp)/len(tmp)
-        return res
-    
-    def classify(self, predictData, classPriorProbabilities, descriptorPosteriorProbabilites):
+                        den = 2*(22/7)*(stdDeviation[key][index]**2)
+                        num = ((i-mean[key][index])**2)/(2*(stdDeviation[key][index]**2))
+                        res[(i,key)] = (1/den**0.5)*(e**(-1*num))
+                for index, i in enumerate(pt.categoricalData):
+                    if (i, key) not in occurences:
+                        count = self.countOccurence(i, index, tmp)
+                        occurences[(i, key)] = count/len(tmp)
+        return res, occurences, mean, stdDeviation
+
+    def classify(self, predictData, classPriorProbabilities, descriptorPosteriorProbabilites, occurences, mean, stdDeviation):
         for pt in predictData:
-            pt.label = self.bayesProbabilty(pt.point, classPriorProbabilities, descriptorPosteriorProbabilites)
+            pt.label = self.bayesProbabilty(pt, classPriorProbabilities, descriptorPosteriorProbabilites, occurences, mean, stdDeviation)
     
-    def bayesProbabilty(self, points, ph, pxh):
-        maxProbability = -1.0
+    def bayesProbabilty(self, point, ph, pxh, occurences, mean, stdDeviation):
+        maxProbability = float('-inf')
         label = -1
         for key in ph:
             phi = ph[key]
             probability = 1.0
-            for pt in points:
-                if (pt, key) in pxh:
-                    probability*=pxh[(pt, key)]
-            if probability != 1.0:
-                probability*=phi
+            for index, i in enumerate(point.point):
+                den = 2*(22/7)*(stdDeviation[key][index]**2)
+                num = ((i-mean[key][index])**2)/(2*(stdDeviation[key][index]**2))
+                probability*=(1/den**0.5)*(e**(-1*num))
+            for index, i in enumerate(point.categoricalData):
+                probability*=occurences[(i, key)]
+            probability*=phi
             if probability >= maxProbability:
                 maxProbability = probability
                 label = key

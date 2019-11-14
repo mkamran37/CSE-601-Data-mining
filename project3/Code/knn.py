@@ -26,10 +26,10 @@ class knn:
         for neighbor in closestNeighbours:
             d = np.linalg.norm(neighbor.point - pt.point)
             if d != 0.0:
-                majority[neighbor.label] += 1/(d**2)
+                majority[neighbor.groundTruth] += 1/(d**2)
             else:
-                majority[neighbor.label] += 1
-            if majority[neighbor.label] > maxMajority:
-                maxMajority = majority[neighbor.label]
-                label = neighbor.label
+                majority[neighbor.groundTruth] += 1
+            if majority[neighbor.groundTruth] > maxMajority:
+                maxMajority = majority[neighbor.groundTruth]
+                label = neighbor.groundTruth
         return label
