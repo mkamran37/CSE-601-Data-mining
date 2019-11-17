@@ -5,7 +5,7 @@ import csv
 
 class competition:
     
-    def get_file_competition(self, filename, kCrossValidation = 10, fileType='trainData'):
+    def get_file_competition(self, filename, kCrossValidation = 9, fileType='trainData'):
         if fileType == 'predictData':
             trainData = self.read_predictData("../Data/"+filename+".csv")
         else:
@@ -47,10 +47,15 @@ class competition:
         return trainData
 
     def read_labels(self, filepath):
+        # file = np.genfromtxt(filepath, delimiter=',', skip_header=1, dtype=int)
+        # labels = dict()
+        # for row in file:
+        #     labels[row[0]] = row[1]
+        # return labels
         file = np.genfromtxt(filepath, delimiter=',', skip_header=1, dtype=int)
-        labels = dict()
+        labels = list()
         for row in file:
-            labels[row[0]] = row[1]
+            labels.append(row[1])
         return labels
 
     def assign_labels(self, file, labels):
@@ -83,10 +88,16 @@ class competition:
         return tmp
     
     def writeToCSV(self, predictData):
-        f = open('../output2.csv','w')
-        for point in predictData:
-            f.write(str(point.id))
+        f = open('../output5.csv','w')
+        for key in predictData:
+            f.write(str(key))
             f.write(',')
-            f.write(str(point.label))
+            f.write(str(int(predictData[key][0])))
             f.write('\n')
+        # f.close()
+        # for point in predictData:
+        #     f.write(str(point.id))
+        #     f.write(',')
+        #     f.write(str(point.label))
+        #     f.write('\n')
         f.close()
