@@ -74,7 +74,8 @@ class helpers:
         trainData = list()
         k = 0
         counter = 0
-        maxsize = math.ceil(file.shape[0]/kCrossValidation)+1
+        # maxsize = math.ceil(file.shape[0]/kCrossValidation)+1
+        maxsize = math.floor(file.shape[0]/kCrossValidation)
         while k < kCrossValidation:
             extent = counter
             tmp = list()            
@@ -108,13 +109,13 @@ class helpers:
                     predictData - a list of Point objects with unknown labels
         '''
         file = np.genfromtxt(filepath, dtype='unicode', delimiter="\t")
-        # file = np.genfromtxt(filepath, dtype='unicode', delimiter=",")
         trainData = list()
         k = 0
         counter = 0
         start = 0.0
         nominal_to_number = defaultdict(int)
         maxsize = math.ceil(file.shape[0]/kCrossValidation)+1
+        # maxsize = math.floor(file.shape[0]/kCrossValidation)
         while k < kCrossValidation:
             extent = counter
             tmp = list()
@@ -149,16 +150,16 @@ class helpers:
                 result.append(pt)
         return result
     
-    def findParams(self, predictData, tp = 1, tn = 0):
+    def findParams(self, predictData):
         truePositives, trueNegatives, falsePositives, falseNegatives = 0,0,0,0
         for pt in predictData:
-            if pt.label == tp and pt.groundTruth == tp:
+            if pt.label == 1 and pt.groundTruth == 1:
                 truePositives+=1
-            elif pt.label == tp and pt.groundTruth == tn:
+            elif pt.label == 1 and pt.groundTruth == 0:
                 falsePositives+=1
-            elif pt.label == tn and pt.groundTruth == tp:
+            elif pt.label == 0 and pt.groundTruth == 1:
                 falseNegatives+=1
-            elif pt.label == tn and pt.groundTruth == tn:
+            else:
                 trueNegatives+=1
         return truePositives, trueNegatives, falsePositives, falseNegatives
 
@@ -184,19 +185,20 @@ class helpers:
             return 0
     
     def normalizeData(self, data):
-        mean = dict()
-        stdDeviation = dict()
+        tmp = list()
+        for lt in data:
+            for point in lt:
+                tmp.append(point.point)
+        tmp = np.array(tmp)
+        mean = tmp.mean(axis=0)
+        stdDev = tmp.std(axis=0)
         for lst in data:
             for point in lst:
                 pt = list()
                 for i in range(len(point.point)):
-                    if i not in mean:
-                        mean[i] = self.findMean(i, data)
-                    if i not in stdDeviation:
-                        stdDeviation[i] = self.findstdDeviation(i, data, mean)
-                    pt.append((point.point[i] - mean[i])/(stdDeviation[i]))
+                    pt.append((point.point[i] - mean[i])/(stdDev[i]))
                 point.point = np.array(pt)
-        return mean, stdDeviation
+        return mean, stdDev
     
     def normalizeEvaluationSet(self, data, mean, stdDev):
         for point in data:
@@ -206,48 +208,14 @@ class helpers:
             point.point = np.array(pt)
     
     def standardizeBayes(self, data):
-        mean = dict()
-        stdDeviation = dict()
-        for point in data:
-            for i in range(len(point.point)):
-                if i not in mean:
-                    mean[i] = self.findMeanES(i, data)
-                if i not in stdDeviation:
-                    stdDeviation[i] = self.findStdDeviationES(i, data, mean)
-        return mean, stdDeviation
+        tmp = list()
+        for lt in data:
+            tmp.append(lt.point)
+        tmp = np.array(tmp)
+        mean = tmp.mean(axis=0)
+        stdDev = tmp.std(axis=0)
+        return mean, stdDev
     
-    def findMeanES(self, index, data):
-        sumMean = 0
-        for point in data:
-            sumMean += point.point[index]
-        return sumMean/len(data)
-    
-    def findStdDeviationES(self, index, data, mean):
-        stdDev = 0
-        for point in data:
-            stdDev += ((point.point[index] - mean[index])**2)
-        if len(data) > 1:
-            return (stdDev/(len(data) - 1))**0.5
-        else:
-            return (stdDev/(len(data)))**0.5
-   
-    def findMean(self, index, data):
-        sumMean = 0
-        for lst in data:
-            for point in lst:
-                sumMean += point.point[index]
-        return sumMean/len(data)
-    
-    def findstdDeviation(self, index, data, mean):
-        stdDev = 0
-        for lst in data:
-            for point in lst:
-                stdDev = stdDev + ((point.point[index] - mean[index])**2)
-        if len(data) > 1:
-            return (stdDev/(len(data) - 1))**0.5
-        else:
-            return (stdDev/(len(data)))**0.5
-
     def calculateMetrics(self, accuracy, precision, recall, f_score):
         averageAccuracy = sum(accuracy)/len(accuracy)
         averagePrecision = sum(precision)/len(precision)

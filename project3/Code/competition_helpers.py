@@ -88,16 +88,15 @@ class competition:
         return tmp
     
     def writeToCSV(self, predictData):
-        f = open('../output5.csv','w')
-        for key in predictData:
-            f.write(str(key))
-            f.write(',')
-            f.write(str(int(predictData[key][0])))
-            f.write('\n')
-        # f.close()
-        # for point in predictData:
-        #     f.write(str(point.id))
+        f = open('../output6.csv','w')
+        # for key in predictData:
+        #     f.write(str(key))
         #     f.write(',')
-        #     f.write(str(point.label))
+        #     f.write(str(int(predictData[key][0])))
         #     f.write('\n')
+        for point in predictData:
+            f.write(str(point.id))
+            f.write(',')
+            f.write(str(point.label))
+            f.write('\n')
         f.close()

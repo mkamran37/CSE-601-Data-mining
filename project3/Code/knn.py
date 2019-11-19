@@ -25,10 +25,10 @@ class knn:
             d = np.linalg.norm(neighbor.point - pt.point)
             if d != 0.0:
                 majority[neighbor.groundTruth] += 1/(d**2)
+                # majority[neighbor.groundTruth] += 1
             else:
                 majority[neighbor.groundTruth] += 1
         if majority[0] > majority[1]:
-            # maxMajority = majority[neighbor.groundTruth]
             return 0
         else:
             return 1
