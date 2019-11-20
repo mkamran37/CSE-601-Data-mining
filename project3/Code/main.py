@@ -6,64 +6,62 @@ import numpy as np
 import pandas as pd
 
 class main:
-    def knn(self, predictData = None, trainData = None, kCrossValidation = 10):
+    def knn(self, predictData = None, trainData = None):
         h = hp()
         k = knn()
         accuracy = []
         precision = []
         recall = []
         f_score = []
-        pd = predictData
+        mean, stdDev = h.normalizeData(trainData)
+        if predictData == None:
+            pd = None
+        else:
+            h.normalizeEvaluationSet(predictData, mean, stdDev)
+            pd = [pt for pt in predictData]
         for i in range(len(trainData)):
             tmp = None
             if predictData == None:
                 predictData = trainData[i]
                 tmp = [lt for j, lt in enumerate(trainData) if j != i]
             else:
-                tmp = trainData
-            # h.normalizeData(tmp)
-            # h.normalizeEvaluationSet(predictData)
+                tmp = [lt for j, lt in enumerate(trainData) if j != i]
             td = h.convertToList(tmp)
-            classes = bayes().segregateClasses(td)
             k.classify(td, predictData)
             truePositives, trueNegatives, falsePositives, falseNegatives = h.findParams(predictData)
-            if truePositives < trueNegatives:
-                truePositives, trueNegatives, falsePositives, falseNegatives = trueNegatives, truePositives, falseNegatives, falsePositives
             accuracy.append(h.findAccuracy(truePositives, trueNegatives, falsePositives, falseNegatives))
             tmpPrecision = h.findPrecision(truePositives, trueNegatives, falsePositives, falseNegatives)
             tmpRecall = h.findRecall(truePositives, trueNegatives, falsePositives, falseNegatives)
             precision.append(tmpPrecision)
             recall.append(tmpRecall)
             f_score.append(h.findFMeasure(tmpPrecision, tmpRecall))
-            predictData = pd 
-        return accuracy, precision, recall, f_score    
+            predictData = [pt for pt in pd] if pd is not None else None
+        return accuracy, precision, recall, f_score
     
-    def bayes_naive(self, predictData, trainData, kCrossValidation = 10):
+    def bayes_naive(self, predictData, trainData):
         h = hp()
         nb = bayes()
         accuracy = []
         precision = []
         recall = []
         f_score = []
-        pd = predictData
+        if predictData == None:
+            pd = None
+        else:
+            pd = [pt for pt in predictData]
         for i in range(len(trainData)):
             tmp = None
             if predictData == None:
                 predictData = trainData[i]
                 tmp = [lt for j, lt in enumerate(trainData) if j != i]
             else:
-                tmp = trainData
-            h.normalizeData(tmp)
-            h.normalizeEvaluationSet(predictData)
+                tmp = [lt for j, lt in enumerate(trainData) if j != i]
             td = h.convertToList(tmp)
             classPriorProbabilities = nb.findClassPriorProbability(td)
             classes = nb.segregateClasses(td)
-            descriptorPosteriorProbabilites = nb.findDescriptorPosteriorProbabilites(classes)
-            nb.classify(predictData, classPriorProbabilities, descriptorPosteriorProbabilites)
+            descriptorPosteriorProbabilites, occurences, means, stdDev = nb.findDescriptorPosteriorProbabilites(classes, td)
+            nb.classify(predictData, classPriorProbabilities, descriptorPosteriorProbabilites, occurences, means, stdDev)
             truePositives, trueNegatives, falsePositives, falseNegatives = h.findParams(predictData)
-            # print(truePositives, trueNegatives, falsePositives, falseNegatives)
-            if truePositives < trueNegatives:
-                truePositives, trueNegatives, falsePositives, falseNegatives = trueNegatives, truePositives, falseNegatives, falsePositives
             accuracy.append(h.findAccuracy(truePositives, trueNegatives, falsePositives, falseNegatives))
             tmpPrecision = h.findPrecision(truePositives, trueNegatives, falsePositives, falseNegatives)
             tmpRecall = h.findRecall(truePositives, trueNegatives, falsePositives, falseNegatives)
@@ -147,16 +145,26 @@ class main:
 if __name__ == "__main__":
     m = main()
     h = hp()
-    # trainData = h.get_file(h.get_fileName())
-    # name = h.get_fileName()
-    # if name == '':
-    #     predictData = None
-    # else:
-    #     predictData = h.get_file(name, fileType='predictData')
-    # accuracy, precision, recall, f_score = m.knn(predictData, trainData)
-    # accuracy, precision, recall, f_score = m.bayes_naive(predictData, trainData)
-    # h.calculateMetrics(accuracy, precision, recall, f_score)
-
-    accuracy, precision, recall, f_score = m.random_forest()
-    print(accuracy, precision, recall, f_score)
-    h.calculateMetrics(accuracy, precision, recall, f_score)
+    algorithm = int(input("Enter 1 for K-Nearest Neigbour Algorithm\nEnter 2 for Decision Tree Algorithm\nEnter 3 for Naive Bayes Algorithm\nEnter 4 for Random Forest Algorithm\n"))
+    if algorithm == 1:
+        print("Enter train File name")
+        trainData = h.get_file(h.get_fileName(), kCrossValidation = 10)
+        print("Enter test File name(if no test file, just press enter)")
+        name = h.get_fileName()
+        if name == '':
+            predictData = None
+        else:
+            predictData = h.get_file(name, fileType='predictData')
+        accuracy, precision, recall, f_score = m.knn(predictData, trainData)
+        h.calculateMetrics(accuracy, precision, recall, f_score)
+    elif algorithm == 3:
+        print("Enter train File name")
+        trainData = h.get_file_bayes(h.get_fileName(), kCrossValidation = 10)
+        print("Enter test File name(if no test file, just press enter)")
+        name = h.get_fileName()
+        if name == '':
+            predictData = None
+        else:
+            predictData = h.get_file_bayes(name, fileType='predictData')
+        accuracy, precision, recall, f_score = m.bayes_naive(predictData, trainData)
+        h.calculateMetrics(accuracy, precision, recall, f_score)
