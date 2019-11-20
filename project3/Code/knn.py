@@ -19,17 +19,16 @@ class knn:
                     pt - a single point object whose label has to be determined
             output: label - the predicted label for given point
         '''
-        label = -1
-        maxMajority = 0.0
         closestNeighbours = sorted(trainData, key = lambda x: np.linalg.norm(x.point - pt.point))[:k]
         majority = defaultdict(int)
         for neighbor in closestNeighbours:
             d = np.linalg.norm(neighbor.point - pt.point)
             if d != 0.0:
-                majority[neighbor.label] += 1/(d**2)
+                majority[neighbor.groundTruth] += 1/(d**2)
+                # majority[neighbor.groundTruth] += 1
             else:
-                majority[neighbor.label] += 1
-            if majority[neighbor.label] > maxMajority:
-                maxMajority = majority[neighbor.label]
-                label = neighbor.label
-        return label
+                majority[neighbor.groundTruth] += 1
+        if majority[0] > majority[1]:
+            return 0
+        else:
+            return 1
