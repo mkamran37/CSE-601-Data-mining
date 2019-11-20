@@ -36,43 +36,7 @@ class main:
             recall.append(tmpRecall)
             f_score.append(h.findFMeasure(tmpPrecision, tmpRecall))
             predictData = pd 
-        return accuracy, precision, recall, f_score
-
-    def decision_tree(self, kCrossValidation = 10):
-        print("\nRunning Decision Tree Classifier ....................\n")
-        from decision_tree import decisionTree
-        h = hp()
-        fileName = h.get_fileName()
-        # filePath = "../Data/"+fileName+".txt"
-        filePath = "CSE-601/project3/Data/"+fileName+".txt"
-        dt = decisionTree()
-        data, labels = dt.readData(filePath)
-        data = dt.oneHotEncoding(data, labels)
-
-        accuracy = []
-        precision = []
-        recall = []
-        f_score = []
-        models = []
-
-        foldSize = int(data.shape[0] / kCrossValidation)
-        for i in range(kCrossValidation):
-            print("Running iteration " + str(i+1) + " of k cross validation")
-            testData = data.loc[foldSize*i:foldSize*(i+1)-1]
-            trainData = data.loc[:foldSize*i-1].append(data.loc[foldSize*(i+1):])
-            target, predicted, root = dt.decision(trainData, testData)
-            models.append(root)
-            truePositives, trueNegatives, falsePositives, falseNegatives = dt.findParams(predicted, target)
-            # if truePositives < trueNegatives:
-            #     truePositives, trueNegatives, falsePositives, falseNegatives = trueNegatives, truePositives, falseNegatives, falsePositives
-            accuracy.append(h.findAccuracy(truePositives, trueNegatives, falsePositives, falseNegatives))
-            tmpPrecision = h.findPrecision(truePositives, trueNegatives, falsePositives, falseNegatives)
-            tmpRecall = h.findRecall(truePositives, trueNegatives, falsePositives, falseNegatives)
-            precision.append(tmpPrecision)
-            recall.append(tmpRecall)
-            f_score.append(h.findFMeasure(tmpPrecision, tmpRecall))
-        return accuracy, precision, recall, f_score
-        
+        return accuracy, precision, recall, f_score    
     
     def bayes_naive(self, predictData, trainData, kCrossValidation = 10):
         h = hp()
@@ -109,6 +73,77 @@ class main:
             predictData = pd
         return accuracy, precision, recall, f_score
 
+    def decision_tree(self, kCrossValidation = 10):
+        print("\nRunning Decision Tree Classifier ....................\n")
+        from decision_tree import decisionTree
+        h = hp()
+        fileName = h.get_fileName()
+        # filePath = "../Data/"+fileName+".txt"
+        filePath = "CSE-601/project3/Data/"+fileName+".txt"
+        data, labels = h.readData(filePath)
+        data = h.oneHotEncoding(data, labels)
+        dt = decisionTree()
+
+        accuracy = []
+        precision = []
+        recall = []
+        f_score = []
+        models = []
+
+        foldSize = int(data.shape[0] / kCrossValidation)
+        for i in range(kCrossValidation):
+            print("Running iteration " + str(i+1) + " of k cross validation")
+            testData = data.loc[foldSize*i:foldSize*(i+1)-1]
+            trainData = data.loc[:foldSize*i-1].append(data.loc[foldSize*(i+1):])
+            root = dt.decision(trainData)
+            target = testData.iloc[:,-1].values.tolist()
+            predicted = dt.predictData(testData.iloc[:, :-1], root)
+            models.append(root)
+            truePositives, trueNegatives, falsePositives, falseNegatives = h.findParameters(predicted, target)
+            accuracy.append(h.findAccuracy(truePositives, trueNegatives, falsePositives, falseNegatives))
+            tmpPrecision = h.findPrecision(truePositives, trueNegatives, falsePositives, falseNegatives)
+            tmpRecall = h.findRecall(truePositives, trueNegatives, falsePositives, falseNegatives)
+            precision.append(tmpPrecision)
+            recall.append(tmpRecall)
+            f_score.append(h.findFMeasure(tmpPrecision, tmpRecall))
+        return accuracy, precision, recall, f_score
+
+    def random_forest(self, kCrossValidation = 10):
+        print("\nRunning Random Forest Classifier ....................\n")
+        from random_forest import randomForest
+        h = hp()
+        fileName = h.get_fileName()
+        # filePath = "../Data/"+fileName+".txt"
+        filePath = "CSE-601/project3/Data/"+fileName+".txt"
+        data, labels = h.readData(filePath)
+        data = h.oneHotEncoding(data, labels)
+        rf = randomForest()
+
+        accuracy = []
+        precision = []
+        recall = []
+        f_score = []
+        models = []
+
+        foldSize = int(data.shape[0] / kCrossValidation)
+        for i in range(kCrossValidation):
+            print("Running iteration " + str(i+1) + " of k cross validation")
+            testData = data.loc[foldSize*i:foldSize*(i+1)-1]
+            trainData = data.loc[:foldSize*i-1].append(data.loc[foldSize*(i+1):])
+            forest = rf.forest(trainData)
+            target = testData.iloc[:,-1].values.tolist()
+            predicted = rf.predictForest(testData.iloc[:, :-1], forest)
+            models.append(forest)
+            truePositives, trueNegatives, falsePositives, falseNegatives = h.findParameters(predicted, target)
+            print(truePositives, trueNegatives, falsePositives, falseNegatives)
+            accuracy.append(h.findAccuracy(truePositives, trueNegatives, falsePositives, falseNegatives))
+            tmpPrecision = h.findPrecision(truePositives, trueNegatives, falsePositives, falseNegatives)
+            tmpRecall = h.findRecall(truePositives, trueNegatives, falsePositives, falseNegatives)
+            precision.append(tmpPrecision)
+            recall.append(tmpRecall)
+            f_score.append(h.findFMeasure(tmpPrecision, tmpRecall))
+        return accuracy, precision, recall, f_score
+
 if __name__ == "__main__":
     m = main()
     h = hp()
@@ -122,7 +157,6 @@ if __name__ == "__main__":
     # accuracy, precision, recall, f_score = m.bayes_naive(predictData, trainData)
     # h.calculateMetrics(accuracy, precision, recall, f_score)
 
-    accuracy, precision, recall, f_score = m.decision_tree()
+    accuracy, precision, recall, f_score = m.random_forest()
     print(accuracy, precision, recall, f_score)
     h.calculateMetrics(accuracy, precision, recall, f_score)
-
