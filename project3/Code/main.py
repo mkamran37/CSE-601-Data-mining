@@ -13,18 +13,15 @@ class main:
         recall = []
         f_score = []
         mean, stdDev = h.normalizeData(trainData)
-        if predictData == None:
-            pd = None
-        else:
+        pd = None
+        if predictData is not None:
             h.normalizeEvaluationSet(predictData, mean, stdDev)
-            pd = [pt for pt in predictData]
+            pd = 0
         for i in range(len(trainData)):
             tmp = None
-            if predictData == None:
+            if pd is None:
                 predictData = trainData[i]
-                tmp = [lt for j, lt in enumerate(trainData) if j != i]
-            else:
-                tmp = [lt for j, lt in enumerate(trainData) if j != i]
+            tmp = [lt for j, lt in enumerate(trainData) if j != i]
             td = h.convertToList(tmp)
             k.classify(td, predictData)
             truePositives, trueNegatives, falsePositives, falseNegatives = h.findParams(predictData)
@@ -34,7 +31,6 @@ class main:
             precision.append(tmpPrecision)
             recall.append(tmpRecall)
             f_score.append(h.findFMeasure(tmpPrecision, tmpRecall))
-            predictData = [pt for pt in pd] if pd is not None else None
         return accuracy, precision, recall, f_score
     
     def bayes_naive(self, predictData, trainData):
@@ -44,22 +40,19 @@ class main:
         precision = []
         recall = []
         f_score = []
-        if predictData == None:
-            pd = None
-        else:
-            pd = [pt for pt in predictData]
+        pd = None
+        if predictData is not None:
+            pd = 0
         for i in range(len(trainData)):
             tmp = None
-            if predictData == None:
+            if pd is None:
                 predictData = trainData[i]
-                tmp = [lt for j, lt in enumerate(trainData) if j != i]
-            else:
-                tmp = [lt for j, lt in enumerate(trainData) if j != i]
+            tmp = [lt for j, lt in enumerate(trainData) if j != i]
             td = h.convertToList(tmp)
             classPriorProbabilities = nb.findClassPriorProbability(td)
             classes = nb.segregateClasses(td)
-            descriptorPosteriorProbabilites, occurences, means, stdDev = nb.findDescriptorPosteriorProbabilites(classes, td)
-            nb.classify(predictData, classPriorProbabilities, descriptorPosteriorProbabilites, occurences, means, stdDev)
+            occurences, means, stdDev = nb.findDescriptorPosteriorProbabilites(classes, td)
+            nb.classify(predictData, classPriorProbabilities, occurences, means, stdDev)
             truePositives, trueNegatives, falsePositives, falseNegatives = h.findParams(predictData)
             accuracy.append(h.findAccuracy(truePositives, trueNegatives, falsePositives, falseNegatives))
             tmpPrecision = h.findPrecision(truePositives, trueNegatives, falsePositives, falseNegatives)
@@ -67,7 +60,6 @@ class main:
             precision.append(tmpPrecision)
             recall.append(tmpRecall)
             f_score.append(h.findFMeasure(tmpPrecision, tmpRecall))
-            predictData = pd
         return accuracy, precision, recall, f_score
 
 if __name__ == "__main__":

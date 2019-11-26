@@ -2,6 +2,7 @@ import numpy as np
 from point import point
 import math
 import csv
+from collections import defaultdict
 
 class competition:
     
@@ -53,9 +54,9 @@ class competition:
         #     labels[row[0]] = row[1]
         # return labels
         file = np.genfromtxt(filepath, delimiter=',', skip_header=1, dtype=int)
-        labels = list()
+        labels = defaultdict(int)
         for row in file:
-            labels.append(row[1])
+            labels[row[0]] = row[1]
         return labels
 
     def assign_labels(self, file, labels):
@@ -88,15 +89,15 @@ class competition:
         return tmp
     
     def writeToCSV(self, predictData):
-        f = open('../output6.csv','w')
-        # for key in predictData:
-        #     f.write(str(key))
-        #     f.write(',')
-        #     f.write(str(int(predictData[key][0])))
-        #     f.write('\n')
-        for point in predictData:
-            f.write(str(point.id))
+        f = open('../GNBBernoulli2.0.csv','w')
+        for key in predictData:
+            f.write(str(key))
             f.write(',')
-            f.write(str(point.label))
+            f.write(str(int(predictData[key])))
             f.write('\n')
+        # for point in predictData:
+        #     f.write(str(point.id))
+        #     f.write(',')
+        #     f.write(str(point.label))
+        #     f.write('\n')
         f.close()

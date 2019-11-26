@@ -74,8 +74,9 @@ class helpers:
         trainData = list()
         k = 0
         counter = 0
-        # maxsize = math.ceil(file.shape[0]/kCrossValidation)+1
-        maxsize = math.floor(file.shape[0]/kCrossValidation)
+        maxsize = math.ceil(file.shape[0]/kCrossValidation)+1
+        # For d4 take ceil else take floor
+        # maxsize = math.floor(file.shape[0]/kCrossValidation)
         while k < kCrossValidation:
             extent = counter
             tmp = list()            
