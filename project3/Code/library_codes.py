@@ -15,6 +15,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import normalize
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
+from scipy import stats
 
 def readTrainData():
 
@@ -35,6 +36,7 @@ def readTrainData():
     return data, labels
 
 def splitData(data, labels):
+
 
     train_features, test_features, train_labels, test_labels = train_test_split(data, labels, test_size = 0.2, random_state = 5)
     test_labels = test_labels.ravel()
@@ -66,7 +68,7 @@ def readTestData():
 
 def writeToFile(test_features, pred_labels):
 
-    f = open('CSE-601/project3/Data/output8.csv', 'w')
+    f = open('CSE-601/project3/Data/output5.csv', 'w')
     for y, i in zip(pred_labels, test_features.index.values):
         f.write(str(i))
         f.write(',')
@@ -78,6 +80,48 @@ def predict(clf, test_features):
 
     return clf.predict(test_features)
 
+def dt(data, labels, test_features=None):
+
+    from helpers import helpers as hp
+    from decision_tree import decisionTree
+    h = hp()
+    dt = decisionTree()
+    data = pd.concat([data, labels], axis=1)
+    data.dropna(inplace=True)
+    print(data.head())
+    trainAccuracy = []
+    testAccuracy = []
+    precision = []
+    recall = []
+    f_score = []
+    models = []
+
+    foldSize = int(data.shape[0] / 10)
+    for i in range(10):
+        print("Running iteration " + str(i+1) + " of k cross validation")
+        testData = data.loc[foldSize*i:foldSize*(i+1)-1]
+        # testData = pd.DataFrame(stats.zscore(testData.iloc[:,:-1], axis=1), columns=testData.columns)
+        trainData = data.loc[:foldSize*i-1].append(data.loc[foldSize*(i+1):])
+        trainData = trainData[(np.abs(stats.zscore(trainData.iloc[:,:-1])) < 3).all(axis=1)]
+        root = dt.decision(trainData, depth=10, minLeafRows=5)
+        testTarget = testData.iloc[:,-1].values.tolist()
+        # testPredicted = dt.predictData(testData.iloc[:, :-1], root)
+        testPredicted = dt.predictData(pd.DataFrame(stats.zscore(testData.iloc[:,:-1], axis=1), columns=testData.columns.values.tolist()[:-1]), root)
+        trainTarget = trainData.iloc[:,-1].values.tolist()
+        trainPredicted = dt.predictData(trainData.iloc[:, :-1], root)
+        models.append(root)
+        truePositives, trueNegatives, falsePositives, falseNegatives = h.findParameters(trainPredicted, trainTarget)
+        trainAccuracy.append(h.findAccuracy(truePositives, trueNegatives, falsePositives, falseNegatives))
+        truePositives, trueNegatives, falsePositives, falseNegatives = h.findParameters(testPredicted, testTarget)
+        testAccuracy.append(h.findAccuracy(truePositives, trueNegatives, falsePositives, falseNegatives))
+        tmpPrecision = h.findPrecision(truePositives, trueNegatives, falsePositives, falseNegatives)
+        tmpRecall = h.findRecall(truePositives, trueNegatives, falsePositives, falseNegatives)
+        precision.append(tmpPrecision)
+        recall.append(tmpRecall)
+        f_score.append(h.findFMeasure(tmpPrecision, tmpRecall))
+    h.calculateMetrics(testAccuracy, precision, recall, f_score)
+    return trainAccuracy, testAccuracy, precision, recall, models, dt
+
 def rf(data, labels, test_features=None):
 
     from random_forest import randomForest
@@ -88,7 +132,7 @@ def rf(data, labels, test_features=None):
     dt = decisionTree()
 
     data = pd.concat([data, labels], axis=1)
-    print(data)
+    # print(data)
 
     accuracy = []
     precision = []
@@ -120,21 +164,7 @@ def rf(data, labels, test_features=None):
     
     h.calculateMetrics(accuracy, precision, recall, f_score)
 
-    # for i in range(3):
-    #     print("Running iteration " + str(i+1) + " of k cross validation")
-    #     testData = data.loc[foldSize*i:foldSize*(i+1)-1]
-    #     trainData = data.loc[:foldSize*i-1].append(data.loc[foldSize*(i+1):])
-    #     root = dt.decision(trainData)
-    #     target = testData.iloc[:,-1].values.tolist()
-    #     predicted = dt.predictData(testData.iloc[:, :-1], root)
-    #     models.append(root)
-    #     truePositives, trueNegatives, falsePositives, falseNegatives = h.findParameters(predicted, target)
-    #     accuracy.append(h.findAccuracy(truePositives, trueNegatives, falsePositives, falseNegatives))
-    #     tmpPrecision = h.findPrecision(truePositives, trueNegatives, falsePositives, falseNegatives)
-    #     tmpRecall = h.findRecall(truePositives, trueNegatives, falsePositives, falseNegatives)
-    #     precision.append(tmpPrecision)
-    #     recall.append(tmpRecall)
-    #     f_score.append(h.findFMeasure(tmpPrecision, tmpRecall))
+    
     
     # print(accuracy, precision, recall, f_score)
     # h.calculateMetrics(accuracy, precision, recall, f_score)
@@ -193,6 +223,18 @@ def lr(train_features, train_labels):
 if __name__ == "__main__":
 
     data, labels = readTrainData()
+    # labels.rename(columns={1: 100}, inplace=True)
+    # data = stats.zscore(data, axis=1)
+    # data = pd.DataFrame(data)
+    # print(data.skew(axis=0))
+    # data.drop(data.columns[1], axis=1, inplace=True)
+    # print(data.skew(axis=0))
+    # print(data.head())
+    # exit()
+    # for c in data.columns:
+    #     data[c] = np.log10(data[c])
+    # print(data.skew(axis=0))
+    # exit()
     # print(labels.iloc[:,0].value_counts())
     # print(zeros, ones)
     # trainData = data.iloc[:int(data.shape[0]*0.8)]
@@ -223,37 +265,69 @@ if __name__ == "__main__":
     # exit()
     # exit()
     # labels = np.array(labels)
+    data = data.sample(data.shape[0], axis=0, random_state=12, replace=False)
     data = np.array(data)
     train_features, test_features, train_labels, test_labels = splitData(data, np.array(labels))
-    train_features = normalize(train_features)
-    test_features=normalize(test_features)
+    train_features = pd.DataFrame(train_features)
+    train_labels = pd.DataFrame(train_labels)
+    test_features = pd.DataFrame(test_features)
+    test_labels = pd.DataFrame(test_labels)
+    # print(train_features.skew(axis=0).sort_values(ascending=False))
+    train_features = pd.DataFrame(stats.zscore(train_features, axis=1), columns=train_features.columns)
+    print(train_features.skew(axis=0).sort_values(ascending=False))
+    test_features = pd.DataFrame(stats.zscore(test_features, axis=1), columns=test_features.columns)
+    print(test_features.skew(axis=0).sort_values(ascending=False))
+    # train_features = train_features[(np.abs(stats.zscore(train_features)) < 1).all(axis=1)]
+
+    train_features.drop(columns=[29, 91], axis=1, inplace=True)
+    # train_features.drop(columns=[41], inplace=True)
+    # print(train_features.skew(axis=0).sort_values(ascending=False))
+    trainData = pd.concat([train_features, train_labels], axis=1)
+    trainData.dropna(inplace=True)
+    train_features = np.array(trainData.iloc[:,:-1])
+    train_labels = np.array(trainData.iloc[:,-1])
+
+    test_features.drop(columns=[29, 91], axis=1, inplace=True)
+    # test_features.drop(columns=[41], axis=1, inplace=True)
+    testData = pd.concat([test_features, test_labels], axis=1)
+    testData.dropna(inplace=True)
+    test_features = np.array(testData.iloc[:,:-1])
+    test_labels = np.array(testData.iloc[:,-1])
+    # train_features = normalize(train_features)
+    # test_features=normalize(test_features)
     neighbours = np.arange(1,25)
     train_accuracy =np.empty(len(neighbours))
     test_accuracy = np.empty(len(neighbours))
     for i,k in enumerate(neighbours):
-        # knn=KNeighborsClassifier(n_neighbors=k,algorithm="kd_tree",n_jobs=-1)
-        # knn.fit(train_features,train_labels.ravel())
-        # train_accuracy[i] = knn.score(train_features, train_labels.ravel())
-        # test_accuracy[i] = knn.score(test_features, test_labels.ravel())
-        clf = xgb(train_features, train_labels)
+        knn=KNeighborsClassifier(n_neighbors=k,algorithm="kd_tree",n_jobs=-1)
+        knn.fit(train_features,train_labels.ravel())
+        train_accuracy[i] = knn.score(train_features, train_labels.ravel())
+        test_accuracy[i] = knn.score(test_features, test_labels.ravel())
+        # clf = xgb(train_features, train_labels)
         
-
-
+    # trainAccuracy, testAccuracy, precision, recall, models, dt = dt(data, labels)
+    # neighbours = np.arange(1,11)
     plt.title('k-NN Varying number of neighbors')
-    plt.plot(neighbours, test_accuracy, label='Testing Accuracy')
-    plt.plot(neighbours, train_accuracy, label='Training accuracy')
+    plt.plot(neighbours, train_accuracy, label='Training Accuracy')
+    plt.plot(neighbours, test_accuracy, label='Testing accuracy')
     plt.legend()
     plt.xlabel('Number of neighbors')
     plt.ylabel('Accuracy')
     plt.show()
 
     idx = np.where(test_accuracy == max(test_accuracy))
+    # idx = testAccuracy.index(max(testAccuracy))
+    # idx = sorted(range(len(testAccuracy)), key=lambda i: testAccuracy[i], reverse=True)[:5]
+    # print(idx)
+    # print(testAccuracy[idx])
+    # print(trainAccuracy[idx])
     x = neighbours[idx]
-
+    # roots = [models[i] for i in idx]
+    # print(testAccuracy)
     knn=KNeighborsClassifier(n_neighbors=x[0],algorithm="kd_tree",n_jobs=-1)
     knn.fit(train_features,train_labels.ravel())
     pred = knn.predict(test_features)
-    # calMetrics(test_labels, pred)
+    calMetrics(test_labels, pred)
     # exit()
     # rf(data, labels)
     # clf = adaBoost(train_features, train_labels)
@@ -273,10 +347,23 @@ if __name__ == "__main__":
 
     # pred = predict(clf, train_features)
     # calMetrics(train_labels, pred)
-
-    test_features = normalize(readTestData())
+    # print(root)
+    test_features = readTestData()
+    test_features.drop(columns=['f30', 'f92'], inplace=True)
+    # test_features = pd.DataFrame(stats.zscore(test_features), index=test_features.index)
+    print(test_features.skew(axis=0).sort_values(ascending=False))
+    # test_features = pd.DataFrame(stats.zscore(test_features, axis=1), index=test_features.index)
+    # test_features.drop(test_features.columns[1], axis=1, inplace=True)
+    # test_features = pd.DataFrame(stats.zscore(test_features, axis=1))
+    # print(test_features.skew(axis=0))
+    # pred = []
+    # for _, row in test_features.iterrows():
+    #     predictedRow = [dt.predictRow(row, root) for root in roots]
+    #     pred.append(max(set(predictedRow), key=predictedRow.count))
     pred = knn.predict(np.array(test_features))
     print(pred)
+    # pred = knn.predict(np.array(test_features))
+    # print(pred)
     # print(train_features, test_features)
     # exit()
 

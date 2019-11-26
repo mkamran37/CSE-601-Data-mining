@@ -6,7 +6,7 @@ from collections import defaultdict
 
 class helpers:
     def get_fileName(self):
-        filename = input("enter file name (without extension): ")
+        filename = input("Enter file name (without extension): ")
         return filename
 
     def get_file_bayes(self, filename, kCrossValidation = 10,  fileType='trainData'):
@@ -253,7 +253,7 @@ class helpers:
 
         return pd.concat([data, labels], axis=1)
 
-    def findParameters(self, predicted, target, tp='1', tn='0'):
+    def findParameters(self, predicted, target, tp=1, tn=0):
         truePositives, trueNegatives, falsePositives, falseNegatives = 0,0,0,0
         for p, t in zip(predicted, target):
             if p == tp and t == tp:

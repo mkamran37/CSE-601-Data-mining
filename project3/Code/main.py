@@ -4,6 +4,7 @@ from naive_bayes import bayes
 from sklearn import preprocessing
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 class main:
     def knn(self, predictData = None, trainData = None):
@@ -90,9 +91,10 @@ class main:
 
         foldSize = int(data.shape[0] / kCrossValidation)
         for i in range(kCrossValidation):
-            print("Running iteration " + str(i+1) + " of k cross validation")
+            print("Running iteration " + str(i+1) + " of k cross validation .....")
             testData = data.loc[foldSize*i:foldSize*(i+1)-1]
             trainData = data.loc[:foldSize*i-1].append(data.loc[foldSize*(i+1):])
+            # root = dt.decision(trainData, depth=10, minLeafRows=5)
             root = dt.decision(trainData)
             target = testData.iloc[:,-1].values.tolist()
             predicted = dt.predictData(testData.iloc[:, :-1], root)
@@ -125,7 +127,7 @@ class main:
 
         foldSize = int(data.shape[0] / kCrossValidation)
         for i in range(kCrossValidation):
-            print("Running iteration " + str(i+1) + " of k cross validation")
+            print("Running iteration " + str(i+1) + " of k cross validation .....")
             testData = data.loc[foldSize*i:foldSize*(i+1)-1]
             trainData = data.loc[:foldSize*i-1].append(data.loc[foldSize*(i+1):])
             forest = rf.forest(trainData)
@@ -157,6 +159,9 @@ if __name__ == "__main__":
             predictData = h.get_file(name, fileType='predictData')
         accuracy, precision, recall, f_score = m.knn(predictData, trainData)
         h.calculateMetrics(accuracy, precision, recall, f_score)
+    elif algorithm == 2:
+        accuracy, precision, recall, f_score = m.decision_tree()
+        h.calculateMetrics(accuracy, precision, recall, f_score)
     elif algorithm == 3:
         print("Enter train File name")
         trainData = h.get_file_bayes(h.get_fileName(), kCrossValidation = 10)
@@ -168,3 +173,8 @@ if __name__ == "__main__":
             predictData = h.get_file_bayes(name, fileType='predictData')
         accuracy, precision, recall, f_score = m.bayes_naive(predictData, trainData)
         h.calculateMetrics(accuracy, precision, recall, f_score)
+    elif algorithm == 4:
+        accuracy, precision, recall, f_score = m.random_forest()
+        h.calculateMetrics(accuracy, precision, recall, f_score)
+    else:
+        print("\nWrong input")

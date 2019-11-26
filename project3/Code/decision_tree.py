@@ -1,19 +1,18 @@
 import numpy as np
 import pandas as pd
 from math import log
+import random
 
 class decisionTree:
 
-    def decision(self, trainData):
-        # trainData = data.loc[:percentSplit*data.shape[0]]
-        # testData = data.loc[percentSplit*data.shape[0]:]
-        root = self.createTree(trainData)
-        # target = testData.iloc[:,-1].values.tolist()
-        # predicted = self.predictData(testData.iloc[:, :-1], root)
-        # return target, predicted, root
+    def decision(self, trainData, maxFeatures=None, depth=float('inf'), minLeafRows=0, rf=False):
+        features = trainData.columns.values.tolist()
+        features.pop()
+        root = self.createTree(trainData, features, maxFeatures, depth, minLeafRows, rf)
+        # print(root)
         return root
 
-    def createTree(self, data, depth=float('inf'), minLeafRows=0):
+    def createTree(self, data, features, maxFeatures, depth, minLeafRows, rf):
         n = Node()
 
         if depth <= 0 or data.shape[0] <= minLeafRows:
@@ -21,34 +20,37 @@ class decisionTree:
             return n
 
         if data.iloc[:,-1].value_counts().shape[0] == 1:
-            n.feature = data.iloc[:, -1].iloc[0]
+            n.feature = data.iloc[:,-1].iloc[0]
             return n
 
-        if data.shape[1] == 2:
+        if len(features) == 0:
             n.feature = data.iloc[:,-1].value_counts().index[0]
             return n
 
-        bestFeature, condition = self.getBestFeature(data)
+        if rf == True: 
+            sampledData = pd.concat([data[random.sample(features, k=maxFeatures)], data.iloc[:,-1]], axis=1)
+            bestFeature, condition = self.getBestFeature(sampledData)
+        else:
+            bestFeature, condition = self.getBestFeature(pd.concat([data[features], data.iloc[:,-1]], axis=1))
+            features = [x for _,x in enumerate(features) if x != bestFeature]
         n.feature = bestFeature
         n.condition = condition
 
         leftChildData = data.loc[data[bestFeature] < condition]
-        leftChildData = leftChildData.drop(bestFeature, axis=1)
         if leftChildData.shape[0] == 0:
             temp = Node()
             temp.feature = data.iloc[:,-1].value_counts().index[0]
             n.left = temp
         else:
-            n.left = self.createTree(leftChildData, depth-1, minLeafRows)
+            n.left = self.createTree(leftChildData, features, maxFeatures, depth-1, minLeafRows, rf)
 
         rightChildData = data.loc[data[bestFeature] >= condition]
-        rightChildData = rightChildData.drop(bestFeature, axis=1)
         if rightChildData.shape[0] == 0:
             temp = Node()
             temp.feature = data.iloc[:,-1].value_counts().index[0]
             n.right = temp
         else:
-            n.right = self.createTree(rightChildData, depth-1, minLeafRows)
+            n.right = self.createTree(rightChildData, features, maxFeatures, depth-1, minLeafRows, rf)
 
         return n
 
@@ -58,7 +60,7 @@ class decisionTree:
         bestFeature = 0.0
         bestCondition = 0.0
         for colName, colData in data.iloc[:,:-1].iteritems():
-            percent = [0.25, 0.5, 0.75]
+            percent = [0.2, 0.5, 0.8]
             for p in percent:
                 condition = (colData.max() - colData.min()) * p
                 entropy_i = 0.0
