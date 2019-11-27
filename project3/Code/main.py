@@ -95,7 +95,7 @@ class main:
             testData = data.loc[foldSize*i:foldSize*(i+1)-1]
             trainData = data.loc[:foldSize*i-1].append(data.loc[foldSize*(i+1):])
             # root = dt.decision(trainData, depth=10, minLeafRows=5)
-            root = dt.decision(trainData)
+            root = dt.decision(trainData, depth=15, minLeafRows=5)
             target = testData.iloc[:,-1].values.tolist()
             predicted = dt.predictData(testData.iloc[:, :-1], root)
             models.append(root)
@@ -135,7 +135,6 @@ class main:
             predicted = rf.predictForest(testData.iloc[:, :-1], forest)
             models.append(forest)
             truePositives, trueNegatives, falsePositives, falseNegatives = h.findParameters(predicted, target)
-            print(truePositives, trueNegatives, falsePositives, falseNegatives)
             accuracy.append(h.findAccuracy(truePositives, trueNegatives, falsePositives, falseNegatives))
             tmpPrecision = h.findPrecision(truePositives, trueNegatives, falsePositives, falseNegatives)
             tmpRecall = h.findRecall(truePositives, trueNegatives, falsePositives, falseNegatives)
