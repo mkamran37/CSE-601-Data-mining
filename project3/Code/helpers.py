@@ -1,11 +1,12 @@
 import numpy as np
 from point import point
 import math
+import pandas as pd
 from collections import defaultdict
 
 class helpers:
     def get_fileName(self):
-        filename = input("enter file name (without extension): ")
+        filename = input("Enter file name (without extension): ")
         return filename
 
     def get_file_bayes(self, filename, kCrossValidation = 10,  fileType='trainData'):
@@ -225,3 +226,42 @@ class helpers:
         print("PRECISION = {}%".format(averagePrecision*100))
         print("RECALL = {}%".format(averageRecall*100))
         print("F MEASURE = {}%".format(averageFscore*100))
+
+    def readData(self, filePath):
+        '''
+            Read input data for decision tree and random forest classifier
+            input: filepath
+            output: Data Points- a pandas dataframe of input data
+                    Labels - a pandas dataframe of labels for each data point
+        '''
+        data = np.genfromtxt(filePath, dtype=None, delimiter="\t", encoding=None)
+        dataDf = pd.DataFrame(data)
+        labels = dataDf.iloc[:,-1]
+        return dataDf.iloc[:,:-1], dataDf.iloc[:,-1]
+
+    def oneHotEncoding(self, data, labels):
+        '''
+            One Hot Encode the input data file and then concat the labels to return a single dataframe
+            input:  data - pandas dataframe of input data 
+                    labels - pandas dataframe of labels associated with input data points
+            output: returns a dataframe with one hot encoding and joining the labels to the data points
+        '''
+        for colName, colData in data.iteritems():
+            if colData.dtype == np.object:
+                data = pd.concat([data, pd.get_dummies(colData, prefix=colName)], axis=1)
+                data.drop([colName], axis=1, inplace=True)
+
+        return pd.concat([data, labels], axis=1)
+
+    def findParameters(self, predicted, target, tp=1, tn=0):
+        truePositives, trueNegatives, falsePositives, falseNegatives = 0,0,0,0
+        for p, t in zip(predicted, target):
+            if p == tp and t == tp:
+                truePositives+=1
+            elif p == tp and t == tn:
+                falsePositives+=1
+            elif p == tn and t == tp:
+                falseNegatives+=1
+            else:
+                trueNegatives+=1
+        return truePositives, trueNegatives, falsePositives, falseNegatives
