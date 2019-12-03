@@ -184,7 +184,7 @@ class helpers:
             trainData.append(data)
         return trainData
 
-    def read_data(self, filepath, kCrossValidation):
+    def read_data(self, filepath, kCrossValidation = 10):
         '''
             :type   filepath
             :rtype: trainData - a list of Point objects with known labels used to train the model
@@ -303,10 +303,16 @@ class helpers:
         averagePrecision = sum(precision)/len(precision)
         averageRecall = sum(recall)/len(recall)
         averageFscore = sum(f_score)/len(f_score)
-        print("ACCURACY = {}%".format(averageAccuracy*100))
-        print("PRECISION = {}%".format(averagePrecision*100))
-        print("RECALL = {}%".format(averageRecall*100))
-        print("F MEASURE = {}%".format(averageFscore*100))
+        print("ACCURACY = {}".format(averageAccuracy))
+        print("PRECISION = {}".format(averagePrecision))
+        print("RECALL = {}".format(averageRecall))
+        print("F MEASURE = {}".format(averageFscore))
+
+    def calculateMetricsDemo(self, accuracy, precision, recall, f_score):
+        print("ACCURACY = {}".format(accuracy))
+        print("PRECISION = {}".format(precision))
+        print("RECALL = {}".format(recall))
+        print("F MEASURE = {}".format(f_score))
 
     def readData(self, filePath):
         '''

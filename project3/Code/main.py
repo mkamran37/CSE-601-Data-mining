@@ -139,8 +139,8 @@ class main:
         from random_forest import randomForest
         h = hp()
         fileName = h.get_fileName()
-        # filePath = "../Data/"+fileName+".txt"
-        filePath = "CSE-601/project3/Data/"+fileName+".txt"
+        filePath = "../Data/"+fileName+".txt"
+        # filePath = "CSE-601/project3/Data/"+fileName+".txt"
         data, labels = h.readData(filePath)
         data = h.oneHotEncoding(data, labels)
         rf = randomForest()
@@ -204,8 +204,7 @@ if __name__ == "__main__":
         predictData = h.get_file_demo(h.get_fileName(), fileType='predictData')
         accuracy, precision, recall, f_score = m.knnDemo(predictData, trainData)
         h.calculateMetricsDemo(accuracy, precision, recall, f_score)
-
-    if algorithm == 1:
+    elif algorithm == 1:
         print("Enter train File name")
         trainData = h.get_file(h.get_fileName(), kCrossValidation = 10)
         print("Enter test File name(if no test file, just press enter)")
@@ -216,10 +215,8 @@ if __name__ == "__main__":
             predictData = h.get_file(name, fileType='predictData')
         accuracy, precision, recall, f_score = m.knn(predictData, trainData)
         h.calculateMetrics(accuracy, precision, recall, f_score)
-    
     elif algorithm == 2:
         m.decision_tree()
-    
     elif algorithm == 3:
         print("Enter train File name")
         trainData = h.get_file_bayes(h.get_fileName(), kCrossValidation = 10)
@@ -231,16 +228,13 @@ if __name__ == "__main__":
             predictData = h.get_file_bayes(name, fileType='predictData')
         accuracy, precision, recall, f_score = m.bayes_naive(predictData, trainData)
         h.calculateMetrics(accuracy, precision, recall, f_score)
-    
     elif algorithm == 4:
         print("Enter train File name")
         trainData = h.get_file_bayes_demo(h.get_fileName())
         print("Enter test File name")
         predictData = h.get_file_bayes_demo(h.get_fileName(),fileType = 'predictData')
         m.bayes_naive_demo(predictData, trainData)
-   
     elif algorithm == 5:
         m.random_forest()
-    
     else:
         print("\nWrong input")
