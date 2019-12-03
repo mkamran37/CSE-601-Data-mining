@@ -216,12 +216,10 @@ if __name__ == "__main__":
             predictData = h.get_file(name, fileType='predictData')
         accuracy, precision, recall, f_score = m.knn(predictData, trainData)
         h.calculateMetrics(accuracy, precision, recall, f_score)
-<<<<<<< HEAD
     
-=======
     elif algorithm == 2:
         m.decision_tree()
->>>>>>> master
+    
     elif algorithm == 3:
         print("Enter train File name")
         trainData = h.get_file_bayes(h.get_fileName(), kCrossValidation = 10)
@@ -233,7 +231,6 @@ if __name__ == "__main__":
             predictData = h.get_file_bayes(name, fileType='predictData')
         accuracy, precision, recall, f_score = m.bayes_naive(predictData, trainData)
         h.calculateMetrics(accuracy, precision, recall, f_score)
-<<<<<<< HEAD
     
     elif algorithm == 4:
         print("Enter train File name")
@@ -241,9 +238,9 @@ if __name__ == "__main__":
         print("Enter test File name")
         predictData = h.get_file_bayes_demo(h.get_fileName(),fileType = 'predictData')
         m.bayes_naive_demo(predictData, trainData)
-=======
-    elif algorithm == 4:
+   
+    elif algorithm == 5:
         m.random_forest()
+    
     else:
         print("\nWrong input")
->>>>>>> master
