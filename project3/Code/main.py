@@ -88,13 +88,13 @@ class main:
         
         
 
-    def decision_tree(self, kCrossValidation = 10):
+    def decision_tree(self, kCrossValidation):
         print("\nRunning Decision Tree Classifier ....................\n")
         from decision_tree import decisionTree
         h = hp()
         fileName = h.get_fileName()
-        filePath = "../Data/"+fileName+".txt"
-        # filePath = "CSE-601/project3/Data/"+fileName+".txt"
+        # filePath = "../Data/"+fileName+".txt"
+        filePath = "CSE-601/project3/Data/"+fileName+".txt"
         data, labels = h.readData(filePath)
         data = h.oneHotEncoding(data, labels)
         dt = decisionTree()
@@ -124,7 +124,6 @@ class main:
                 testData = data.loc[foldSize*i:foldSize*(i+1)-1]
                 trainData = data.loc[:foldSize*i-1].append(data.loc[foldSize*(i+1):])
                 root = dt.decision(trainData)
-                # root = dt.decision(trainData, depth=10, minLeafRows=3)
                 target = testData.iloc[:,-1].values.tolist()
 
                 predicted = dt.predictData(testData.iloc[:, :-1], root)
@@ -142,8 +141,8 @@ class main:
 
         fileName = input("\nEnter test data file name without extension (if no test file, just press enter): ")
         if fileName != '':
-            # filePath = "../Data/"+fileName+".txt"
-            filePath = "CSE-601/project3/Data/"+fileName+".txt"
+            filePath = "../Data/"+fileName+".txt"
+            # filePath = "CSE-601/project3/Data/"+fileName+".txt"
             testData, testLabels = h.readData(filePath)
             testData = h.oneHotEncoding(testData, testLabels)
             predLabels = []
@@ -158,7 +157,7 @@ class main:
             print("\nMetrics on test data with bagging")
             h.calculateMetrics(accuracy, [precision], [recall], f_score)
 
-    def random_forest(self, kCrossValidation = 10):
+    def random_forest(self, kCrossValidation):
         print("\nRunning Random Forest Classifier ....................\n")
         from random_forest import randomForest
         h = hp()
@@ -204,8 +203,8 @@ class main:
 
         fileName = input("\nEnter test data file name without extension (if no test file, just press enter): ")
         if fileName != '':
-            # filePath = "../Data/"+fileName+".txt"
-            filePath = "CSE-601/project3/Data/"+fileName+".txt"
+            filePath = "../Data/"+fileName+".txt"
+            # filePath = "CSE-601/project3/Data/"+fileName+".txt"
             testData, testLabels = h.readData(filePath)
             testData = h.oneHotEncoding(testData, testLabels)
             predLabels = []
@@ -243,7 +242,7 @@ if __name__ == "__main__":
         h.calculateMetrics(accuracy, precision, recall, f_score)
     
     elif algorithm == 2:
-        m.decision_tree()
+        m.decision_tree(kCrossValidation=10)
     
     elif algorithm == 3:
         print("Enter train File name")
@@ -259,7 +258,7 @@ if __name__ == "__main__":
         m.bayes_naive_demo(predictData, trainData)
     
     elif algorithm == 5:
-        m.random_forest()
+        m.random_forest(kCrossValidation=10)
     
     else:
         print("\nWrong input")
