@@ -9,11 +9,13 @@ class decisionTree:
         features = trainData.columns.values.tolist()
         features.pop()
         root = self.createTree(trainData, features, maxFeatures, depth, minLeafRows, rf)
-        # print(root)
         return root
 
     def createTree(self, data, features, maxFeatures, depth, minLeafRows, rf):
         n = Node()
+
+        if data.shape[0] == 0:
+            return None
 
         if depth <= 0 or data.shape[0] <= minLeafRows:
             n.feature = data.iloc[:,-1].value_counts().index[0]
@@ -37,6 +39,8 @@ class decisionTree:
         n.condition = condition
 
         leftChildData = data.loc[data[bestFeature] < condition]
+        rightChildData = data.loc[data[bestFeature] >= condition]
+
         if leftChildData.shape[0] == 0:
             temp = Node()
             temp.feature = data.iloc[:,-1].value_counts().index[0]
@@ -44,7 +48,6 @@ class decisionTree:
         else:
             n.left = self.createTree(leftChildData, features, maxFeatures, depth-1, minLeafRows, rf)
 
-        rightChildData = data.loc[data[bestFeature] >= condition]
         if rightChildData.shape[0] == 0:
             temp = Node()
             temp.feature = data.iloc[:,-1].value_counts().index[0]

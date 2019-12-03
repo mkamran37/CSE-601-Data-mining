@@ -105,16 +105,11 @@ class main:
         f_score = []
         models = []
 
-        foldSize = int(data.shape[0] / kCrossValidation)
-        for i in range(kCrossValidation):
-            print("Running iteration " + str(i+1) + " of k cross validation .....")
-            testData = data.loc[foldSize*i:foldSize*(i+1)-1]
-            trainData = data.loc[:foldSize*i-1].append(data.loc[foldSize*(i+1):])
-            # root = dt.decision(trainData)
-            root = dt.decision(trainData, depth=10, minLeafRows=3)
-            target = testData.iloc[:,-1].values.tolist()
-            predicted = dt.predictData(testData.iloc[:, :-1], root)
-            models.append(root)
+        if kCrossValidation <= 1:
+            root = dt.decision(data)
+            print(root)
+            target = data.iloc[:,-1]
+            predicted = dt.predictData(data.iloc[:, :-1], root)
             truePositives, trueNegatives, falsePositives, falseNegatives = h.findParameters(predicted, target)
             accuracy.append(h.findAccuracy(truePositives, trueNegatives, falsePositives, falseNegatives))
             tmpPrecision = h.findPrecision(truePositives, trueNegatives, falsePositives, falseNegatives)
@@ -122,7 +117,26 @@ class main:
             precision.append(tmpPrecision)
             recall.append(tmpRecall)
             f_score.append(h.findFMeasure(tmpPrecision, tmpRecall))
-        
+        else:    
+            foldSize = int(data.shape[0] / kCrossValidation)
+            for i in range(kCrossValidation):
+                print("Running iteration " + str(i+1) + " of k cross validation .....")
+                testData = data.loc[foldSize*i:foldSize*(i+1)-1]
+                trainData = data.loc[:foldSize*i-1].append(data.loc[foldSize*(i+1):])
+                root = dt.decision(trainData)
+                # root = dt.decision(trainData, depth=10, minLeafRows=3)
+                target = testData.iloc[:,-1].values.tolist()
+
+                predicted = dt.predictData(testData.iloc[:, :-1], root)
+                models.append(root)
+                truePositives, trueNegatives, falsePositives, falseNegatives = h.findParameters(predicted, target)
+                accuracy.append(h.findAccuracy(truePositives, trueNegatives, falsePositives, falseNegatives))
+                tmpPrecision = h.findPrecision(truePositives, trueNegatives, falsePositives, falseNegatives)
+                tmpRecall = h.findRecall(truePositives, trueNegatives, falsePositives, falseNegatives)
+                precision.append(tmpPrecision)
+                recall.append(tmpRecall)
+                f_score.append(h.findFMeasure(tmpPrecision, tmpRecall))
+
         print("\nMetrics on train data with k-cross validation")
         h.calculateMetrics(accuracy, precision, recall, f_score)
 
@@ -136,7 +150,6 @@ class main:
             for _,row in testData.iloc[:,:-1].iterrows():
                 predictedRow = [dt.predictRow(row, root) for root in models]
                 predLabels.append(max(set(predictedRow), key=predictedRow.count))
-            print(predLabels)
             truePositives, trueNegatives, falsePositives, falseNegatives = h.findParameters(predLabels, testData.iloc[:,-1].values.tolist())
             accuracy = [h.findAccuracy(truePositives, trueNegatives, falsePositives, falseNegatives)]
             precision = h.findPrecision(truePositives, trueNegatives, falsePositives, falseNegatives)
@@ -156,6 +169,13 @@ class main:
         data = h.oneHotEncoding(data, labels)
         rf = randomForest()
 
+        try:
+            numTrees = int(input("\nEnter number of trees: "))
+            numFeatures = int(input("Enter number of features to consider: "))
+        except:
+            print("\nExecution Failed - Wrong Input")
+            exit()
+
         accuracy = []
         precision = []
         recall = []
@@ -167,7 +187,7 @@ class main:
             print("Running iteration " + str(i+1) + " of k cross validation .....")
             testData = data.loc[foldSize*i:foldSize*(i+1)-1]
             trainData = data.loc[:foldSize*i-1].append(data.loc[foldSize*(i+1):])
-            forest = rf.forest(trainData)
+            forest = rf.forest(trainData, numTrees=numTrees, numFeatures=numFeatures)
             target = testData.iloc[:,-1].values.tolist()
             predicted = rf.predictForest(testData.iloc[:, :-1], forest)
             models.append(forest)
