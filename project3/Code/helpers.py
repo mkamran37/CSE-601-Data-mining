@@ -303,7 +303,6 @@ class helpers:
         averagePrecision = sum(precision)/len(precision)
         averageRecall = sum(recall)/len(recall)
         averageFscore = sum(f_score)/len(f_score)
-<<<<<<< HEAD
         print("ACCURACY = {}".format(averageAccuracy))
         print("PRECISION = {}".format(averagePrecision))
         print("RECALL = {}".format(averageRecall))
@@ -314,11 +313,6 @@ class helpers:
         print("PRECISION = {}".format(precision))
         print("RECALL = {}".format(recall))
         print("F MEASURE = {}".format(f_score))
-=======
-        print("ACCURACY = {}%".format(averageAccuracy*100))
-        print("PRECISION = {}%".format(averagePrecision*100))
-        print("RECALL = {}%".format(averageRecall*100))
-        print("F MEASURE = {}%".format(averageFscore*100))
 
     def readData(self, filePath):
         '''
@@ -358,4 +352,3 @@ class helpers:
             else:
                 trueNegatives+=1
         return truePositives, trueNegatives, falsePositives, falseNegatives
->>>>>>> master
