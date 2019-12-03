@@ -9,7 +9,6 @@ class randomForest:
             numFeatures = int(np.sqrt(trainData.shape[1]))
 
         if numRows == None:
-            # numRows = int(trainData.shape[0] * 0.8)
             numRows = trainData.shape[0]
 
         forest = [self.createForest(trainData,  numFeatures, numRows, maxDepth, minLeafRows, randomSeed) for i in range(numTrees)]
