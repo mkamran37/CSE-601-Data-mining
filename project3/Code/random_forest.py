@@ -4,7 +4,7 @@ from decision_tree import decisionTree as dt
 
 class randomForest:
 
-    def forest(self, trainData, numTrees=5, numFeatures=None, numRows=None, maxDepth=10, minLeafRows=3, randomSeed=12):
+    def forest(self, trainData, numTrees=5, numFeatures=None, numRows=None, maxDepth=7, minLeafRows=5, randomSeed=12):
         if numFeatures == None:
             numFeatures = int(np.sqrt(trainData.shape[1]))
 
@@ -14,12 +14,11 @@ class randomForest:
 
         forest = [self.createForest(trainData,  numFeatures, numRows, maxDepth, minLeafRows, randomSeed) for i in range(numTrees)]
         return forest
-
         
     def createForest(self, trainData, numFeatures, numRows, maxDepth, minLeafRows, randomSeed):
 
-        # trainData = trainData.sample(numFeatures, axis=1, random_state=randomSeed, replace=False)
-        trainData = trainData.sample(numRows, axis=0, random_state=randomSeed, replace=False)
+        # Choosing number of training examples with replacement.
+        trainData = trainData.sample(numRows, axis=0, random_state=randomSeed, replace=True)
 
         return dt().decision(trainData, maxFeatures=numFeatures, depth=maxDepth, minLeafRows=minLeafRows, rf=True)
 
