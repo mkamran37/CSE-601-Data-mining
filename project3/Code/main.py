@@ -76,8 +76,17 @@ class main:
         classes = nb.segregateClasses(trainData)
         occurences, means, stdDev = nb.findDescriptorPosteriorProbabilites(classes, trainData)
         probabilities = nb.classify_demo(predictData, classPriorProbabilities, occurences, means, stdDev)
+        maxProb = float('-inf')
+        classKey = -1
         for key in probabilities:
             print("P(X|H{})*P(H{}) = {}".format(key,key,probabilities[key]))
+            if probabilities[key] > maxProb:
+                maxProb = probabilities[key]
+                classKey = key
+        print("This test data record belongs to: Class {}".format(classKey))
+
+        
+        
 
     def decision_tree(self, kCrossValidation):
         print("\nRunning Decision Tree Classifier ....................\n")
