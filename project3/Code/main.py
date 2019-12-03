@@ -233,7 +233,7 @@ if __name__ == "__main__":
         h.calculateMetrics(accuracy, precision, recall, f_score)
     
     elif algorithm == 2:
-        m.decision_tree(kCrossValidation=1)
+        m.decision_tree(kCrossValidation=10)
     
     elif algorithm == 3:
         print("Enter train File name")
