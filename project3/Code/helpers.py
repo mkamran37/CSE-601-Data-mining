@@ -11,10 +11,17 @@ class helpers:
 
     def get_file_bayes(self, filename, kCrossValidation = 10,  fileType='trainData'):
         if fileType == 'predictData':
-            trainData = self.read_predictData_bayes("../Data/"+filename+".txt")
+            data = self.read_predictData_bayes("../Data/"+filename+".txt")
         else:
-            trainData = self.read_data_bayes("../Data/"+filename+".txt", kCrossValidation)
-        return trainData
+            data = self.read_data_bayes("../Data/"+filename+".txt", kCrossValidation)
+        return data
+        
+    def get_file_bayes_demo(self, filename, fileType='trainData'):
+        if fileType == 'predictData':
+            data = self.read_predictData_bayesDemo("../Data/"+filename+".txt")
+        else:
+            data = self.read_data_bayes_demo("../Data/"+filename+".txt")
+        return data
 
     def get_file(self, filename, kCrossValidation = 10,  fileType='trainData'):
         if fileType == 'predictData':
@@ -23,6 +30,30 @@ class helpers:
             trainData = self.read_data("../Data/"+filename+".txt", kCrossValidation)
         return trainData
     
+    def get_file_demo(self, filename,  fileType='trainData'):
+        if fileType == 'predictData':
+            data = self.read_predictData_demo("../Data/"+filename+".txt")
+        else:
+            data = self.read_data_demo("../Data/"+filename+".txt")
+        return data
+
+    def read_predictData_demo(self, filepath):
+        file = np.genfromtxt(filepath, dtype='unicode', delimiter="\t")
+        tmp = list()
+        for i in range(file.shape[0]):
+            data = point()
+            temp = list()
+            for j in range(file.shape[1]):
+                if j == file.shape[1]-1:
+                    data.label = int(file[i][j])
+                    data.groundTruth = data.label
+                else:
+                    n = float(file[i][j])
+                    temp.append(n)
+            data.point = np.array(temp)
+            tmp.append(data)
+        return tmp
+
     def read_predictData(self, filepath):
         file = np.genfromtxt(filepath, dtype='unicode', delimiter="\t")
         start = 0.0
@@ -70,13 +101,41 @@ class helpers:
             tmp.append(data)
         return tmp
 
+    def read_predictData_bayesDemo(self,filepath):
+        file = np.genfromtxt(filepath, dtype='unicode', delimiter="\t")
+        tmp = list()
+        catData = list()
+        data = point()
+        for i in range(file.shape[0]):
+            catData.append(file[i])
+        data.categoricalData = np.array(catData)
+        tmp.append(data)
+        return tmp
+    
+    def read_data_bayes_demo(self, filepath):
+        file = np.genfromtxt(filepath, dtype='unicode', delimiter="\t")
+        trainData = list()
+        for i in range(file.shape[0]):
+            data = point()
+            catData = list()
+            for j in range(file.shape[1]):
+                if j == file.shape[1]-1:
+                    data.label = int(file[i][j])
+                    data.groundTruth = data.label
+                else:
+                    catData.append(file[i][j])
+            data.categoricalData = np.array(catData)
+            trainData.append(data)
+        return trainData
+
     def read_data_bayes(self, filepath, kCrossValidation):
         file = np.genfromtxt(filepath, dtype='unicode', delimiter="\t")
         trainData = list()
         k = 0
         counter = 0
-        # maxsize = math.ceil(file.shape[0]/kCrossValidation)+1
-        maxsize = math.floor(file.shape[0]/kCrossValidation)
+        maxsize = math.ceil(file.shape[0]/kCrossValidation)+1
+        # For d4 take ceil else take floor
+        # maxsize = math.floor(file.shape[0]/kCrossValidation)
         while k < kCrossValidation:
             extent = counter
             tmp = list()            
@@ -102,12 +161,34 @@ class helpers:
                 trainData.append(tmp)
             k+=1
         return trainData
-
-    def read_data(self, filepath, kCrossValidation):
+   
+    def read_data_demo(self, filepath):
         '''
-            input: filepath
-            output: trainData - a list of Point objects with known labels used to train the model
-                    predictData - a list of Point objects with unknown labels
+            :type   filepath
+            :rtype: trainData - a list of Point objects with known labels used to train the model
+            :rtype: predictData - a list of Point objects with unknown labels
+        '''
+        file = np.genfromtxt(filepath, dtype='unicode', delimiter="\t")
+        trainData = list()
+        for i in range(file.shape[0]):
+            data = point()
+            temp = list()
+            for j in range(file.shape[1]):
+                if j == file.shape[1]-1:
+                    data.label = int(file[i][j])
+                    data.groundTruth = data.label
+                else:
+                    n = float(file[i][j])
+                    temp.append(n)
+            data.point = np.array(temp)
+            trainData.append(data)
+        return trainData
+
+    def read_data(self, filepath, kCrossValidation = 10):
+        '''
+            :type   filepath
+            :rtype: trainData - a list of Point objects with known labels used to train the model
+            :rtype: predictData - a list of Point objects with unknown labels
         '''
         file = np.genfromtxt(filepath, dtype='unicode', delimiter="\t")
         trainData = list()
@@ -222,10 +303,16 @@ class helpers:
         averagePrecision = sum(precision)/len(precision)
         averageRecall = sum(recall)/len(recall)
         averageFscore = sum(f_score)/len(f_score)
-        print("ACCURACY = {}%".format(averageAccuracy*100))
-        print("PRECISION = {}%".format(averagePrecision*100))
-        print("RECALL = {}%".format(averageRecall*100))
-        print("F MEASURE = {}%".format(averageFscore*100))
+        print("ACCURACY = {}".format(averageAccuracy))
+        print("PRECISION = {}".format(averagePrecision))
+        print("RECALL = {}".format(averageRecall))
+        print("F MEASURE = {}".format(averageFscore))
+
+    def calculateMetricsDemo(self, accuracy, precision, recall, f_score):
+        print("ACCURACY = {}".format(accuracy))
+        print("PRECISION = {}".format(precision))
+        print("RECALL = {}".format(recall))
+        print("F MEASURE = {}".format(f_score))
 
     def readData(self, filePath):
         '''
