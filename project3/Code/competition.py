@@ -1,7 +1,6 @@
 from helpers import helpers as hp
 from knn import knn
 from naive_bayes import bayes
-from sklearn import preprocessing
 from competition_helpers import competition as cp
 import numpy as np
 from collections import defaultdict
@@ -14,9 +13,6 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import VotingClassifier
 from sklearn import preprocessing
 from sklearn.ensemble import AdaBoostClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix
-from sklearn.naive_bayes import BernoulliNB
 
 class main():
     def knn(self, predictData = None, trainData = None):

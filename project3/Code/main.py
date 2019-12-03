@@ -27,15 +27,11 @@ class main:
         recall = []
         f_score = []
         mean, stdDev = h.normalizeData(trainData)
-        pd = None
         nn = int(input("Enter the number of closest neighbors to consider: "))
-        if predictData is not None:
-            h.normalizeEvaluationSet(predictData, mean, stdDev)
-            pd = 0
+        h.normalizeEvaluationSet(predictData, mean, stdDev)
         for i in range(len(trainData)):
             tmp = None
-            if pd is None:
-                predictData = trainData[i]
+            predictData = trainData[i]
             tmp = [lt for j, lt in enumerate(trainData) if j != i]
             td = h.convertToList(tmp)
             k.classify(td, predictData,nn)
@@ -55,13 +51,9 @@ class main:
         precision = []
         recall = []
         f_score = []
-        pd = None
-        if predictData is not None:
-            pd = 0
         for i in range(len(trainData)):
             tmp = None
-            if pd is None:
-                predictData = trainData[i]
+            predictData = trainData[i]
             tmp = [lt for j, lt in enumerate(trainData) if j != i]
             td = h.convertToList(tmp)
             classPriorProbabilities = nb.findClassPriorProbability(td)
@@ -218,12 +210,6 @@ if __name__ == "__main__":
     elif algorithm == 1:
         print("Enter train File name")
         trainData = h.get_file(h.get_fileName(), kCrossValidation = 10)
-        print("Enter test File name(if no test file, just press enter)")
-        name = h.get_fileName()
-        if name == '':
-            predictData = None
-        else:
-            predictData = h.get_file(name, fileType='predictData')
         accuracy, precision, recall, f_score = m.knn(predictData, trainData)
         h.calculateMetrics(accuracy, precision, recall, f_score)
     
@@ -233,12 +219,6 @@ if __name__ == "__main__":
     elif algorithm == 3:
         print("Enter train File name")
         trainData = h.get_file_bayes(h.get_fileName(), kCrossValidation = 10)
-        print("Enter test File name(if no test file, just press enter)")
-        name = h.get_fileName()
-        if name == '':
-            predictData = None
-        else:
-            predictData = h.get_file_bayes(name, fileType='predictData')
         accuracy, precision, recall, f_score = m.bayes_naive(predictData, trainData)
         h.calculateMetrics(accuracy, precision, recall, f_score)
     

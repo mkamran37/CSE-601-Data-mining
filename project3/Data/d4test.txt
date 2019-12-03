@@ -1,1 +1,1 @@
-rain	hot	high	weak
+sunny	cool	high	weak
