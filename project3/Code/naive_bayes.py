@@ -46,6 +46,10 @@ class bayes:
         for pt in predictData:
             pt.label = self.bayesProbabilty(pt, classPriorProbabilities, occurences, mean, stdDeviation)
     
+    def classify_demo(self, predictData, classPriorProbabilities, occurences, mean, stdDeviation):
+        for pt in predictData:
+            return self.bayesProbabiltyDemo(pt, classPriorProbabilities, occurences, mean, stdDeviation)
+
     def bayesProbabilty(self, point, ph, occurences, mean, stdDeviation):
         maxProbability = float('-inf')
         label = -1
@@ -63,5 +67,16 @@ class bayes:
                 maxProbability = probability
                 label = key
         return label
+    
+    def bayesProbabiltyDemo(self, point, ph, occurences, mean, stdDeviation):
+        probabilities = defaultdict()
+        for key in ph:
+            phi = ph[key]
+            probability = 1.0
+            for i in point.categoricalData:
+                probability*=occurences[(i, key)]
+            probability*=phi
+            probabilities[key] = probability
+        return probabilities
 
 

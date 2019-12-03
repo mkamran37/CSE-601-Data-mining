@@ -89,15 +89,15 @@ class competition:
         return tmp
     
     def writeToCSV(self, predictData):
-        f = open('../GNBBernoulli2.0.csv','w')
-        for key in predictData:
-            f.write(str(key))
-            f.write(',')
-            f.write(str(int(predictData[key])))
-            f.write('\n')
-        # for point in predictData:
-        #     f.write(str(point.id))
+        f = open('../KNN.csv','w')
+        # for key in predictData:
+        #     f.write(str(key))
         #     f.write(',')
-        #     f.write(str(point.label))
+        #     f.write(str(int(predictData[key])))
         #     f.write('\n')
+        for point in predictData:
+            f.write(str(point.id))
+            f.write(',')
+            f.write(str(point.label))
+            f.write('\n')
         f.close()
